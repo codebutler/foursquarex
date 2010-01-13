@@ -9,7 +9,7 @@
       <sparkle:releaseNotesLink>
       </sparkle:releaseNotesLink>
       <pubDate>Mon, 11 Jan 2011 12:00:00 +0000</pubDate>
-      <enclosure url="http://cloud.github.com/downloads/codebutler/FoursquareX/FoursquareX-0.02.zip" sparkle:version="0.02" length="4528859" type="application/octet-stream" sparkle:dsaSignature="MC0CFD59QKSggwkjZPV3/FMCqDZI9/dQAhUAhRQuf0Xws13ucOuDDg7xuZpe+7c=" />
+      <enclosure url="http://cloud.github.com/downloads/codebutler/foursquarex/FoursquareX-0.02.zip" sparkle:version="0.02" length="4528859" type="application/octet-stream" sparkle:dsaSignature="MC0CFD59QKSggwkjZPV3/FMCqDZI9/dQAhUAhRQuf0Xws13ucOuDDg7xuZpe+7c=" />
     </item>
   </channel>
 </rss>
