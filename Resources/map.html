@@ -1,0 +1,250 @@
+<html>
+  <head>
+    <style type="text/css">
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      #map_canvas {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <script type="text/javascript" src="date.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
+    <script type="text/javascript">
+      String.prototype.format = function(){
+          var pattern = /\{\d+\}/g;
+          var args = arguments;
+          return this.replace(pattern, function(capture){ return args[capture.match(/\d+/)]; });
+      }
+    
+      function load () {
+        var latlng = new google.maps.LatLng(47.6, -122.3);
+        var myOptions = {
+          zoom: 2,
+          center: latlng,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+      }
+	  
+      function escapeSingleQuotes (str)
+      {
+        return String(str).replace(/'/g, "\\'");
+      }
+
+      var FoursquareMap = {
+        activeView: 'checkins',
+        checkinMarkers: [],
+        venueMarkers: [],
+        
+        updateCheckins: function (json) {
+          var checkins = JSON.parse(json);
+          var newCheckinMarkers = {};
+          var bounds = new google.maps.LatLngBounds();
+          
+          checkins.forEach(function (checkin) {
+            if (checkin.venue) {
+              var pos = new google.maps.LatLng(checkin.venue.geolat, checkin.venue.geolong);
+              var infoWindowHTML = [
+                '<b>{0}</b>'.format(checkin.display),
+                '<span style="font-size: x-small">{0}</span>'.format(checkin.created),
+                '',
+                FoursquareMap._venueLinks(checkin.venue)
+              ].join('<br/>');
+              var newMarkers = FoursquareMap._addMarker(pos, checkin, null, infoWindowHTML, function () {
+                MainWindowController.highlightCheckinRow(checkin.id);
+              });
+              newCheckinMarkers[checkin.id] = newMarkers[0];
+              newCheckinMarkers[checkin.id + '_placard'] = newMarkers[1];
+              newMarkers[0].checkin = checkin;
+              newMarkers[1].checkin = checkin;
+              bounds.extend(pos);
+            }
+          });
+          
+          for (var key in FoursquareMap.checkinMarkers) {
+            var marker = FoursquareMap.checkinMarkers[key];
+            marker.setMap(null);
+            if (marker.infoWindow)
+              marker.infoWindow.close();
+          }
+          
+          map.fitBounds(bounds);
+          
+          FoursquareMap.checkinMarkers = newCheckinMarkers;
+          FoursquareMap.switchView(FoursquareMap.activeView);
+          
+          return true;
+        },
+
+        updateVenues: function (json) {
+          var venues = JSON.parse(json);
+          var newVenueMarkers = {};
+          var bounds = new google.maps.LatLngBounds();
+
+          venues.forEach(function (venue) {
+            var pos = new google.maps.LatLng(venue.geolat, venue.geolong);
+            var infoWindowHTML = [
+              '<b>{0}</b>'.format(venue.name),
+              '<span style="font-size: x-small">{0}</span>'.format(venue.address),
+              '',
+              FoursquareMap._venueLinks(venue)
+            ].join('<br/>');
+            var newMarkers = FoursquareMap._addMarker(pos, null, venue, infoWindowHTML, function () {
+              MainWindowController.highlightVenueRow(venue.id);
+            });
+            newVenueMarkers[venue.id] = newMarkers[0];
+            bounds.extend(pos);
+          });
+
+          for (var key in FoursquareMap.venueMarkers) {
+            var marker = FoursquareMap.venueMarkers[key];
+            marker.setMap(null);
+            if (marker.infoWindow)
+              marker.infoWindow.close();
+          }
+
+          map.fitBounds(bounds);
+          FoursquareMap.venueMarkers = newVenueMarkers;
+          FoursquareMap.switchView(FoursquareMap.activeView);
+          
+          return true;
+        },
+        
+        selectCheckin: function (checkinId) {
+          var marker = FoursquareMap.checkinMarkers[checkinId];
+          if (marker) {
+            google.maps.event.trigger(marker, 'click');
+            return true;
+          } else {
+            FoursquareMap._unselectAllMarkers();
+            return false;
+          }
+        },
+        
+        selectVenue: function (venueId) {
+          var marker = FoursquareMap.venueMarkers[venueId];
+          if (marker) {
+            google.maps.event.trigger(marker, 'click');
+            return true;
+          } else {
+            FoursquareMap._unselectAllMarkers();
+            return false;
+          }
+        },
+        
+        switchView: function (view) {
+          FoursquareMap.activeView = view;
+
+          var showCheckins = (view == 'checkins');
+          var showVenues = !showCheckins;
+
+          var bounds = new google.maps.LatLngBounds();
+
+          [FoursquareMap.checkinMarkers, FoursquareMap.venueMarkers].forEach(function (markers, index) {
+            for (var key in markers) {
+              var marker = markers[key];
+
+              var visible = (index == 0) ? showCheckins : showVenues;
+              
+              if (visible && typeof(marker.checkin) != 'undefined')
+                visible = marker.checkin.isCurrent;
+              
+              marker.setVisible(visible);
+
+              if (visible)
+                bounds.extend(marker.getPosition());
+              else if (marker.infoWindow)
+                marker.infoWindow.close();
+            }
+          });
+          
+          map.fitBounds(bounds);
+          
+          return true;
+        },
+        
+        _addMarker: function (pos, checkin, venue, html, clickHandler) {
+          var title = (checkin != null) ? checkin.display : venue.name;
+
+          var placardMarker = null;
+          if (checkin) {
+            var fileName = checkin.isCurrent ? 'placard_fresh.png' : 'placard_old.png';
+            placardMarker = new google.maps.Marker({
+              map: map,
+              position: pos,
+              visible: false,
+              icon: new google.maps.MarkerImage(fileName, new google.maps.Size(56, 60), null, new google.maps.Point(28,60))
+            });
+          }
+
+          var marker = new google.maps.Marker({
+            map: map,
+            title: title,
+            position: pos,
+            visible: false,
+            icon: (checkin == null) ? null : new google.maps.MarkerImage(checkin.user.photoData, new google.maps.Size(36, 37), null, new google.maps.Point(18, 52))
+          });
+
+          var infoWindow = new google.maps.InfoWindow({
+            content: html
+          });
+
+          marker.infoWindow = infoWindow;
+
+          google.maps.event.addListener(marker, 'click', function() {
+            clickHandler();
+            FoursquareMap._unselectAllMarkers();
+            if (typeof(marker.checkin) != 'undefined' && !marker.checkin.isCurrent) {
+              placardMarker.setVisible(true);
+              marker.setVisible(true);
+            }
+            infoWindow.open(map, marker);
+          }); 
+
+          return [marker, placardMarker];
+        },
+        
+        _venueLinks: function (venue) {
+          var venueInfoUri = "MainWindowController.launchUrl('http://foursquare.com/venue/{0}'); return false".format(escapeSingleQuotes(venue.id));
+          var venueMapUri  = "MainWindowController.launchGoogleMap('{0}'); return false".format(escapeSingleQuotes(FoursquareMap._fullAddress(venue)));
+          var checkinUri   = "MainWindowController.showCheckinWindow('{0}','{1}'); return false".format(escapeSingleQuotes(venue.id), escapeSingleQuotes(venue.name));
+          return '<a href="#" onclick="{0}">Venue Info</a> <a href="#" onclick="{1}">Venue Map</a> <a href="#" onclick="{2}">Check in</a>'.format(venueInfoUri, venueMapUri, checkinUri);
+        },
+        
+        _displayAddress: function (venue) {
+          if (typeof(venue.address) != 'undefined')
+            if (typeof(venue.crossstreet) != 'undefined')
+              return '{0} {1}'.format(venue.address, venue.crossstreet);
+            else
+              return venue.address;
+          else
+            return '';
+        },
+        
+        _fullAddress: function (venue) {
+          return '{0}, {1}, {2} {3}'.format(venue.address, venue.city, venue.state, venue.zip);
+        },
+    
+        _unselectAllMarkers: function () {
+          [FoursquareMap.checkinMarkers, FoursquareMap.venueMarkers].forEach(function (markerDict) {
+            for (var curId in markerDict) {
+              var curMarker = markerDict[curId];
+              if (curMarker && curMarker.infoWindow) {
+                curMarker.infoWindow.close();
+              }
+              if (curMarker && typeof(curMarker.checkin) != 'undefined' && !curMarker.checkin.isCurrent) {
+                curMarker.setVisible(false);
+              }
+            }
+          });
+        }
+      };
+    </script>
+  </head>
+  <body onload="load();">
+    <div id="map_canvas"></div>
+  </body>
+</html>
