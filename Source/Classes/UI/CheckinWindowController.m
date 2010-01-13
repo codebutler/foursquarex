@@ -55,8 +55,10 @@
 	if ([shout isEqualToString:@""])
 		shout = nil;
 	
+	NSString *venueName = (venueId == nil) ? [venueField stringValue] : nil;
+	
 	[Foursquare checkinAtVenueId:venueId
-					   venueName:nil
+					   venueName:venueName
 						   shout:shout
 					 showFriends:showFriends
 					   sendTweet:showTwitter 
@@ -88,7 +90,7 @@
 - (IBAction)showWindow:(id)sender withVenue:(NSDictionary *)venueDict
 {
 	[self closeWindow:self];
-	
+		
 	[self setVenueId:[[venueDict objectForKey:@"id"] stringValue]
 		   venueName:[venueDict objectForKey:@"name"]];
 
@@ -103,7 +105,7 @@
 	[venueField setEnabled:NO];	
 	
 	[venueId release];
-	venueId = [venueId retain];	
+	venueId = [aVenueId retain];	
 }
 
 - (void)clearVenue

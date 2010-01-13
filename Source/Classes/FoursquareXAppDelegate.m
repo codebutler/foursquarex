@@ -404,7 +404,7 @@
 	[locationMenuItem setTitle:@"[Error fetching current checkin]"];
 	
 	
-	NSString *errorText = @"An error occured";	
+	NSString *errorText = @"An error occurred";	
 	if ([task isEqualToString:@"currentCheckin"]) {
 		errorText = @"Failed to get current venue";
 	} else if ([task isEqualToString:@"friendCheckins"]) {

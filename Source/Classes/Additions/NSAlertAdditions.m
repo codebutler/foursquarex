@@ -31,7 +31,7 @@
 		if ([response isKindOfClass:[NSDictionary class]] && [response objectForKey:@"error"]) {
 			infoText = [response objectForKey:@"error"];
 		}
-		alert = [NSAlert alertWithMessageText:@"Sorry, an error occured."
+		alert = [NSAlert alertWithMessageText:@"Sorry, an error occurred."
 								defaultButton:nil
 							  alternateButton:nil
 								  otherButton:nil
