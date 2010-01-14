@@ -75,8 +75,6 @@
 
 - (void)awakeFromNib
 {
-	NSLog(@"awake!");
-	
 	NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:@"Searching for nearby venues..."
 												   action:NULL
 											keyEquivalent:@""] autorelease];
@@ -529,20 +527,23 @@
 	
 	NSString *notificationName = nil;
 	NSString *clickContext = nil;
+	NSString *title = nil;
 	if (isFriend) {
 		clickContext = [NSString stringWithFormat:@"friend:%@",
 						[checkin objectForKey:@"id"]];
 		notificationName = @"Friend checks-in";
+		title = @"Foursquare Check-in";
 	} else {
 		clickContext = [NSString stringWithFormat:@"venue:%@", 
 						[[checkin objectForKey:@"venue"] objectForKey:@"id"]];
 		notificationName = @"Someone checks-in at same venue as you";
+		title = @"Foursquare user nearby!";
 	}
 	
 	NSString *photoUrl = [[checkin objectForKey:@"user"] objectForKey:@"photo"];
 	NSImage *avatarImage = [[[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:photoUrl]] autorelease];
 	
-	[GrowlApplicationBridge notifyWithTitle:@"Foursquare Check-in"
+	[GrowlApplicationBridge notifyWithTitle:title
 								description:description
 						   notificationName:notificationName
 								   iconData:[avatarImage TIFFRepresentation]

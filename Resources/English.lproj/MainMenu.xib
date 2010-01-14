@@ -23,7 +23,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="1449"/>
+			<integer value="573"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -85,7 +85,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="NSMenuItem" id="214788379">
 						<reference key="NSMenu" ref="502355286"/>
-						<string key="NSTitle">Show FoursquareX</string>
+						<string key="NSTitle">Show Map</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<object class="NSCustomResource" key="NSOnImage" id="363228611">
@@ -1757,7 +1757,7 @@
 				</object>
 				<string key="NSWindowContentMaxSize">{3.40282e+38, 3.40282e+38}</string>
 				<object class="NSView" key="NSWindowView" id="623135160">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1907,7 +1907,6 @@
 																		</object>
 																		<string key="NSFrameSize">{233, 355}</string>
 																		<reference key="NSSuperview" ref="926228054"/>
-																		<reference key="NSNextKeyView" ref="381038375"/>
 																		<reference key="NSDocView" ref="381038375"/>
 																		<reference key="NSBGColor" ref="643623447"/>
 																		<int key="NScvFlags">4</int>
@@ -1934,7 +1933,6 @@
 																</object>
 																<string key="NSFrame">{{0, 23}, {233, 355}}</string>
 																<reference key="NSSuperview" ref="244180702"/>
-																<reference key="NSNextKeyView" ref="142694426"/>
 																<int key="NSsFlags">560</int>
 																<reference key="NSVScroller" ref="869398033"/>
 																<reference key="NSHScroller" ref="870588384"/>
@@ -2271,7 +2269,6 @@
 											</object>
 											<string key="NSFrameSize">{477, 378}</string>
 											<reference key="NSSuperview" ref="992802294"/>
-											<reference key="NSNextKeyView"/>
 											<string key="FrameName"/>
 											<string key="GroupName"/>
 											<object class="WebPreferences" key="Preferences">
@@ -2384,7 +2381,6 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{711, 402}</string>
-					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
