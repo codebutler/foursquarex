@@ -32,6 +32,8 @@
 		0752864010FD2C64009032C7 /* AccountPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0752863F10FD2C64009032C7 /* AccountPreferences.xib */; };
 		0752864210FD2C7F009032C7 /* UpdatesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0752864110FD2C7F009032C7 /* UpdatesPreferences.xib */; };
 		075287C110FE4E8E009032C7 /* FoursquareUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 075287C010FE4E8E009032C7 /* FoursquareUpdater.m */; };
+		075289B510FEC428009032C7 /* foursquarex.icns in Resources */ = {isa = PBXBuildFile; fileRef = 075289B410FEC428009032C7 /* foursquarex.icns */; };
+		075289C810FECE37009032C7 /* megaphone_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 075289C710FECE37009032C7 /* megaphone_dark.png */; };
 		079FABE310CEE13100D4A730 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 079FABE210CEE13100D4A730 /* SystemConfiguration.framework */; };
 		07A54DBC10F7F065006BD42B /* placard_fresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 07A54DBB10F7F065006BD42B /* placard_fresh.png */; };
 		07A9AB4510E96D1B00CE8EC7 /* map.html in Resources */ = {isa = PBXBuildFile; fileRef = 07A9AB4110E96D1B00CE8EC7 /* map.html */; };
@@ -123,6 +125,8 @@
 		0752864110FD2C7F009032C7 /* UpdatesPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = UpdatesPreferences.xib; path = Resources/UpdatesPreferences.xib; sourceTree = "<group>"; };
 		075287BF10FE4E8E009032C7 /* FoursquareUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoursquareUpdater.h; sourceTree = "<group>"; };
 		075287C010FE4E8E009032C7 /* FoursquareUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoursquareUpdater.m; sourceTree = "<group>"; };
+		075289B410FEC428009032C7 /* foursquarex.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = foursquarex.icns; path = Resources/foursquarex.icns; sourceTree = "<group>"; };
+		075289C710FECE37009032C7 /* megaphone_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = megaphone_dark.png; path = Resources/megaphone_dark.png; sourceTree = "<group>"; };
 		079FABE210CEE13100D4A730 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		07A54DBB10F7F065006BD42B /* placard_fresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = placard_fresh.png; path = Resources/placard_fresh.png; sourceTree = "<group>"; };
 		07A9AB4110E96D1B00CE8EC7 /* map.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = map.html; path = Resources/map.html; sourceTree = "<group>"; };
@@ -333,12 +337,14 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				075289B410FEC428009032C7 /* foursquarex.icns */,
 				0752819210FC34E3009032C7 /* UpdateKey.pem */,
 				07BB4A7410D03F5000D1A536 /* MainMenu.xib */,
 				07A9ABE010E97CCD00CE8EC7 /* placard_old.png */,
 				07A54DBB10F7F065006BD42B /* placard_fresh.png */,
 				07A9AB4110E96D1B00CE8EC7 /* map.html */,
 				07A9AB4210E96D1B00CE8EC7 /* megaphone.png */,
+				075289C710FECE37009032C7 /* megaphone_dark.png */,
 				07A9AB4310E96D1B00CE8EC7 /* menu_icon.png */,
 				07A9AB4410E96D1B00CE8EC7 /* reload.tiff */,
 				07BB4A8010D03FCA00D1A536 /* InfoPlist.strings */,
@@ -417,6 +423,8 @@
 				0752863E10FD2C33009032C7 /* GeneralPreferences.xib in Resources */,
 				0752864010FD2C64009032C7 /* AccountPreferences.xib in Resources */,
 				0752864210FD2C7F009032C7 /* UpdatesPreferences.xib in Resources */,
+				075289B510FEC428009032C7 /* foursquarex.icns in Resources */,
+				075289C810FECE37009032C7 /* megaphone_dark.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

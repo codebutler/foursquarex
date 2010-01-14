@@ -9,6 +9,19 @@
         width: 100%;
         height: 100%;
       }
+      .infoWindow {
+        padding-right: 1em;
+      }
+      .infoWindow a {
+        color: darkblue;
+      }
+      .notalink {
+        color: black !important;
+        text-decoration: none;
+      }
+      .notalink:hover {
+        text-decoration: underline;
+      }
     </style>
     <script type="text/javascript" src="date.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
@@ -47,12 +60,32 @@
           checkins.forEach(function (checkin) {
             if (checkin.venue) {
               var pos = new google.maps.LatLng(checkin.venue.geolat, checkin.venue.geolong);
+
+              var displayParts = checkin.display.split('@');
+              var venueJs      = "MainWindowController.launchUrl('http://foursquare.com/venue/{0}'); return false".format(escapeSingleQuotes(checkin.venue.id));
+              var venueLink    = '<a class="notalink" href="#" onclick="{0}">{1}</a>'.format(venueJs, displayParts[1]);
+              var venueMapJs   = "MainWindowController.launchGoogleMap('{0}'); return false".format(escapeSingleQuotes(FoursquareMap._fullAddress(checkin.venue)));
+              var checkinJs    = "MainWindowController.showCheckinWindow('{0}','{1}'); return false".format(escapeSingleQuotes(checkin.venue.id), escapeSingleQuotes(checkin.venue.name));
+              var checkinLink  = '<a href="#" onclick="{0}">Check in</a>'.format(checkinJs);
+              var zoomJs       = 'map.setCenter(new google.maps.LatLng({0},{1})); map.setZoom(30)'.format(checkin.venue.geolat, checkin.venue.geolong);
+                        
+              var display = null;
+              if (checkin.shout) 
+                display = '<b>{0}</b> says &ldquo;{1}&rdquo;<br/>@ <b>{2}</b>'.format(displayParts[0], checkin.shout, venueLink);
+              else
+                display = '<b>{0} @ {1}</b>'.format(displayParts[0], venueLink);
+                
               var infoWindowHTML = [
-                '<b>{0}</b>'.format(checkin.display),
-                '<span style="font-size: x-small">{0}</span>'.format(checkin.created),
-                '',
-                FoursquareMap._venueLinks(checkin.venue)
-              ].join('<br/>');
+                '<div class="infoWindow">',
+                display,
+                '<br/><br/>',
+                '<a class="notalink" href="#" onclick="{0}">{1}</a> '.format(venueMapJs, checkin.venue.address),
+                '<a style="font-size: x-small; font-variant: small-caps; text-decoration: none" href="#" onclick="{0}">zoom</a>'.format(zoomJs),
+                '<br/><br/>',
+                checkinLink,
+                '</div>'
+              ].join('');
+                
               var newMarkers = FoursquareMap._addMarker(pos, checkin, null, infoWindowHTML, function () {
                 MainWindowController.highlightCheckinRow(checkin.id);
               });
@@ -86,12 +119,25 @@
 
           venues.forEach(function (venue) {
             var pos = new google.maps.LatLng(venue.geolat, venue.geolong);
+            
+            var venueJs    = "MainWindowController.launchUrl('http://foursquare.com/venue/{0}'); return false".format(escapeSingleQuotes(venue.id));
+            var venueLink  = '<a class="notalink" href="#" onclick="{0}">{1}</a>'.format(venueJs, venue.name);
+            var venueMapJs = "MainWindowController.launchGoogleMap('{0}'); return false".format(escapeSingleQuotes(FoursquareMap._fullAddress(venue)));
+            var checkinJs    = "MainWindowController.showCheckinWindow('{0}','{1}'); return false".format(escapeSingleQuotes(venue.id), escapeSingleQuotes(venue.name));
+            var checkinLink  = '<a href="#" onclick="{0}">Check in</a>'.format(checkinJs);
+            var zoomJs       = 'map.setCenter(new google.maps.LatLng({0},{1})); map.setZoom(30)'.format(venue.geolat, venue.geolong);
+
             var infoWindowHTML = [
-              '<b>{0}</b>'.format(venue.name),
-              '<span style="font-size: x-small">{0}</span>'.format(venue.address),
-              '',
-              FoursquareMap._venueLinks(venue)
-            ].join('<br/>');
+              '<div class="infoWindow">',
+              '<b>' + venueLink + '</b>',
+              '<br/><br/>',
+              '<a class="notalink" href="#" onclick="{0}">{1}</a> '.format(venueMapJs, venue.address),
+              '<a style="font-size: x-small; font-variant: small-caps; text-decoration: none" href="#" onclick="{0}">zoom</a>'.format(zoomJs),
+              '<br/><br/>',
+              checkinLink,
+              '</div>'
+            ].join('');
+
             var newMarkers = FoursquareMap._addMarker(pos, null, venue, infoWindowHTML, function () {
               MainWindowController.highlightVenueRow(venue.id);
             });
