@@ -5,6 +5,13 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
+      <title>Version 0.04</title>
+      <sparkle:releaseNotesLink>
+      </sparkle:releaseNotesLink>
+      <pubDate>Mon, 13 Jan 2011 23:21:00 +0000</pubDate>
+      <enclosure url="http://cloud.github.com/downloads/codebutler/foursquarex/FoursquareX-0.04.zip" sparkle:version="0.04" length="4540721" type="application/octet-stream" sparkle:dsaSignature="MC0CFCSfmzlhbZJepHwfOVB9NiFSPW0LAhUAjZ86f08N9ACjt28jlppT89pAI24=" />
+    </item>
+    <item>
       <title>Version 0.03</title>
       <sparkle:releaseNotesLink>
       </sparkle:releaseNotesLink>

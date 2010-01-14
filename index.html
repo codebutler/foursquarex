@@ -1,80 +1,90 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-	<title>codebutler/FoursquareX @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #176bb4;
-		  font-family: "Helvetica,Arial,FreeSans"; 
-  		color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #e8944b; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #e8944b; }
-    h3 { text-align: center; color: #e8944b; }
-    a { color: #e8944b; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
-</head>
-
-<body>
-  <a href="http://github.com/codebutler/FoursquareX"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-  
-  <div id="container">
-
-    <div class="download">
-      <a href="http://github.com/codebutler/FoursquareX/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/codebutler/FoursquareX/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
-      
-    <h1><a href="http://github.com/codebutler/FoursquareX">FoursquareX</a> 
-      <span class="small">by <a href="http://github.com/codebutler">codebutler</a></span></h1>
-
-    <div class="description">
-      A Foursquare (http://foursquare.com/) client for Mac OS X Snow Leopard (10.6)
-    </div>
-
-    <h2>Authors</h2>
-<p>Eric Butler (eric@codebutler.com)<br/><br/>      </p>
-<h2>Contact</h2>
-<p>Eric Butler (eric@extremeboredom.net)<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/codebutler/FoursquareX/zipball/master">zip</a> or
-      <a href="http://github.com/codebutler/FoursquareX/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/codebutler/FoursquareX</pre>
-    </p>
-      
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/codebutler/FoursquareX">codebutler/FoursquareX</a>
-    </div>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>FoursquareX</title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
     
-  </div>
+  	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+  	<link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.2.6.css" media="screen" />
+  	<script type="text/javascript" src="./fancybox/jquery.fancybox-1.2.6.pack.js"></script>
+  	<script type="text/javascript">
+  		$(document).ready(function() {
+  			$("a.zoom").fancybox({
+  				'zoomSpeedIn'		:	500,
+  				'zoomSpeedOut'		:	500
+  			});
+  		});
+  	</script>
+  </head>
 
-  
-</body>
+  <body>
+    <a href="http://github.com/codebutler/FoursquareX"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
+    <div id="container">
+      <h1>
+        <a href="http://github.com/codebutler/foursquarex">FoursquareX</a>
+      </h1>
+
+      <p class="tagline">
+        Give your phone a break with this <a href="http://foursquare.com/">foursquare</a> app for mac.
+      </p>
+
+      <div class="download">
+        <a href="http://cloud.github.com/downloads/codebutler/foursquarex/FoursquareX-0.04.zip"><img src="images/download.png" alt="Download"/></a>
+      </div>
+      
+      <div class="requirements">
+        for Mac OS X Snow Leopard (v10.6) only
+      </div>
+
+      <div class="features">
+        <div class="feature">
+          <a class="zoom" href="images/screenshot-quickcheckin.png"><img src="images/screenshot-quickcheckin-small.png" /></a>
+          <div>Check in quickly</div>
+          <span>Your location is automatically detected, making checking-in easy.</span>
+        </div>
+        <div class="feature">
+          <a class="zoom" href="images/screenshot-map.png"><img src="images/screenshot-map-small.png" /></a>
+          <div>See the big picture</div>
+          <span>Know where all your friends are at with a quick glance at the map.</span>
+        </div>
+          <div class="feature">
+            <a class="zoom" href="images/screenshot-venuesmap.png"><img src="images/screenshot-venuesmap-small.png" /></a>
+            <div>Discover new places</div>
+            <span>Learn what's hiding right around the corner.</span>
+          </div>
+      </div>
+      
+      <div class="features">
+        <div class="feature">
+          <a class="zoom" href="images/screenshot-checkin.png"><img src="images/screenshot-checkin-small.png"></a>
+          <div>Don't miss lunch</div>
+          <span>Get notified right away when your friends check in.</span>
+        </div>
+        <div class="feature">
+          <a class="zoom" href="images/screenshot-nearby.png"><img src="images/screenshot-nearby-small.png" /></a>
+          <div>Meet new friends</div>
+          <span>See who else checks in wherever you are.</span>
+        </div>
+        <div class="feature">
+          <a class="zoom" href="images/screenshot-reminder.png"><img src="images/screenshot-reminder-small.png" /></a>
+          <div>Keep active</div>
+          <span>Favorite venue nearby? Be reminded to check in.</span>
+        </div>
+      </div>  
+
+      <div id="footer">
+        <div id="copyright">
+          Created by <a href="http://codebutler.com/">Eric Butler</a> &ndash; 
+          &copy; All rights reserved &ndash; 
+          Released under the <a href="http://www.fsf.org/licensing/licenses/gpl.html">GPLv3 license</a>
+        </div>
+        <a href="mailto:eric+foursquarex@codebutler.com">mail</a> &ndash; 
+        <a href="http://twitter.com/firerabbit">twitter</a> &ndash; 
+        <a href="http://github.com/codebutler/foursquarex/issues\">bug tracker</a>
+      </div>
+      
+    </div>
+  </body>
 </html>
