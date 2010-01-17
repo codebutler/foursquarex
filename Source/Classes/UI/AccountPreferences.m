@@ -47,6 +47,8 @@
 
 - (IBAction)updateAccount:(id)sender
 {
+	[[self window] makeFirstResponder:nil];
+	
 	[sender setEnabled:NO];
 	[accountIndicator startAnimation:self];
 	
