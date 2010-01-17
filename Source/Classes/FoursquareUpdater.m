@@ -49,6 +49,8 @@
 		return;
 	}
 	
+	refreshing = YES;
+	
 	if ([delegate respondsToSelector:@selector(foursquareUpdaterStartedUpdating:)])
 		[delegate foursquareUpdaterStartedUpdating:self];
 	
@@ -69,7 +71,7 @@
 						 NSDictionary *checkin = [user objectForKey:@"checkin"];			
 						 NSDictionary *venue   = [checkin objectForKey:@"venue"];
 						 						 
-						 NSInteger *userId   = [user objectForKey:@"id"];
+						 NSNumber *userId = [user objectForKey:@"id"];
 						 
 						 NSString *venueName = [venue objectForKey:@"name"];
 						 NSNumber *venueId   = [venue objectForKey:@"id"];
@@ -104,7 +106,7 @@
 							  [self handleError:response forTask:@"venueCheckins"];
 						  }
 						  
-						  NSLog(@"GOT DETAIL FOR VENUE %@", response);
+						  NSLog(@"Got detail for venue: %@", response);
 						  
 						  NSDictionary *venue = [response objectForKey:@"venue"];
 						  
