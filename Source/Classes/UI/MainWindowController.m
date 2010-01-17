@@ -231,7 +231,7 @@
 		NSString *photoUrl = [userDict objectForKey:@"photo"];
 		NSImage *image = [[[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:photoUrl]] autorelease];
 		image = [image imageWithSize:NSMakeSize(36.0, 36.0)];
-		NSString *b64String = [NSString stringWithFormat:@"data:image/png;base64,%@", [[image TIFFRepresentation] base64Encoding]];
+		NSString *b64String = [[NSString stringWithFormat:@"data:image/png;base64,%@", [[image TIFFRepresentation] base64Encoding]] autorelease];
 		[userDict setObject:b64String forKey:@"photoData"];
 	}
 	
