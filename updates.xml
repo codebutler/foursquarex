@@ -17,26 +17,5 @@
       <pubDate>Sun, 17 Jan 2010 04:25:27 +0000</pubDate>
       <enclosure url="http://cloud.github.com/downloads/codebutler/foursquarex/FoursquareX-0.05.zip" sparkle:version="0.05" length="4531258" type="application/octet-stream" sparkle:dsaSignature="MCwCFCcINlSxYxZv+OqdgZ/5cbIKL+bMAhRpRM8KqWjoa6nf+2tOa1VqGSzOkA==" />
     </item>
-    <item>
-      <title>Version 0.04</title>
-      <sparkle:releaseNotesLink>
-      </sparkle:releaseNotesLink>
-      <pubDate>Mon, 13 Jan 2011 23:21:00 +0000</pubDate>
-      <enclosure url="http://cloud.github.com/downloads/codebutler/foursquarex/FoursquareX-0.04.zip" sparkle:version="0.04" length="4540721" type="application/octet-stream" sparkle:dsaSignature="MC0CFCSfmzlhbZJepHwfOVB9NiFSPW0LAhUAjZ86f08N9ACjt28jlppT89pAI24=" />
-    </item>
-    <item>
-      <title>Version 0.03</title>
-      <sparkle:releaseNotesLink>
-      </sparkle:releaseNotesLink>
-      <pubDate>Mon, 13 Jan 2011 23:21:00 +0000</pubDate>
-      <enclosure url="http://cloud.github.com/downloads/codebutler/foursquarex/FoursquareX-0.03.zip" sparkle:version="0.03" length="4540795" type="application/octet-stream" sparkle:dsaSignature="MC0CFQCBdoYxKDExnqJ49rl0Em+8YysHxwIUIMWFIENUMW0wsxQA6szNRFBQF98=" />
-    </item>
-    <item>
-      <title>Version 0.02</title>
-      <sparkle:releaseNotesLink>
-      </sparkle:releaseNotesLink>
-      <pubDate>Mon, 11 Jan 2011 12:00:00 +0000</pubDate>
-      <enclosure url="http://cloud.github.com/downloads/codebutler/foursquarex/FoursquareX-0.02.zip" sparkle:version="0.02" length="4528859" type="application/octet-stream" sparkle:dsaSignature="MC0CFD59QKSggwkjZPV3/FMCqDZI9/dQAhUAhRQuf0Xws13ucOuDDg7xuZpe+7c=" />
-    </item>
   </channel>
 </rss>
