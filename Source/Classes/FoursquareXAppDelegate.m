@@ -99,8 +99,10 @@
 	// FIXME: Validate email / password
 	BOOL accountConfigured = (email && password);
 	if (!accountConfigured) {
+		firstRun = YES;
 		[welcomeWindowController showWindow:self];
 	} else {	
+		firstRun = NO;
 		[Foursquare setBasicAuthWithUsername:email password:password];
 		[self finishLoading];
 	}
@@ -467,6 +469,10 @@
 
 	// But don't wait for it!
 	[timer fire];
+	
+	if (firstRun) {
+		[mainWindowController showWindow:self];
+	}
 }
 
 - (void)timerElapsed 
