@@ -31,6 +31,9 @@
 @implementation WelcomeWindowController
 
 - (IBAction)loginClicked:(id)sender {
+	// The text fields only save their value after losing focus.
+	[[self window] makeFirstResponder:nil];
+	
 	// Set the UI to busy
 	[emailField setEnabled:NO];
 	[passwordField setEnabled:NO];

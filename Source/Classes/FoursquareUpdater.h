@@ -41,7 +41,7 @@
 - (void)foursquareUpdaterFinishedUpdating:(FoursquareUpdater *)updater;
 - (void)foursquareUpdater:(FoursquareUpdater *)updater failedWithResponse:(id)response whileUpdating:(NSString *)task;
 - (void)foursquareUpdater:(FoursquareUpdater *)updater statusChanged:(NSString *)statusText;
-- (void)foursquareUpdater:(FoursquareUpdater *)updater gotOwnCheckin:(NSDictionary *)venueDict isValid:(BOOL)isValid;
+- (void)foursquareUpdater:(FoursquareUpdater *)updater gotOwnCheckin:(NSDictionary *)checkin andUserId:(NSNumber *)userId isValid:(BOOL)isValid;
 - (void)foursquareUpdater:(FoursquareUpdater *)updater gotFriendCheckins:(NSArray *)friendCheckins;
 - (void)foursquareUpdater:(FoursquareUpdater *)updater gotVenueDetails:(NSDictionary *)venueDict;
 - (void)foursquareUpdater:(FoursquareUpdater *)updater gotNearbyVenues:(NSDictionary *)venues

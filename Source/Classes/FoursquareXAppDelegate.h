@@ -52,6 +52,8 @@
 	
 	@private
 	
+	BOOL firstRun;
+	
 	NSMutableArray *quickCheckinMenuItems;
 	
 	NSStatusItem *statusItem;

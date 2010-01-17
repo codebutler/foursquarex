@@ -47,6 +47,9 @@
 
 - (IBAction)updateAccount:(id)sender
 {
+	NSWindow *window = [_preferencesView window];
+	[window makeFirstResponder:nil];
+	
 	[sender setEnabled:NO];
 	[accountIndicator startAnimation:self];
 	
@@ -74,7 +77,6 @@
 				[alert setInformativeText:errorText];
 			} 
 			
-			NSWindow *window = [_preferencesView window];
 			[alert beginSheetModalForWindow:window 
 							  modalDelegate:nil 
 							 didEndSelector:NULL

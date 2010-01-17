@@ -33,6 +33,7 @@
 }
 
 - (void)dealloc {
+	[avatar release];
 	[venueDict release];
 	[groupName release];
 	[children release];
