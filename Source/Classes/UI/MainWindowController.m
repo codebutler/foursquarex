@@ -259,11 +259,12 @@
 	NSDateComponents *comps = [calendar components:unitFlags fromDate:[NSDate date]];
 	NSDate *startOfToday = [calendar dateFromComponents:comps];
 	
-	comps = [calendar components:unitFlags fromDate:[[NSDate alloc] initWithTimeInterval:86400 sinceDate:startOfToday]];
+	NSDate *yesterdayDate = [[[NSDate alloc] initWithTimeInterval:86400 sinceDate:startOfToday] autorelease];
+	comps = [calendar components:unitFlags fromDate:yesterdayDate];
 	NSDate *startOfYesterday = [calendar dateFromComponents:comps];	
 	
 	for (NSDictionary *checkin in sortedCheckins) {
-		ListNode *checkinNode = [[ListNode alloc] initWithCheckinDict:checkin];
+		ListNode *checkinNode = [[[ListNode alloc] initWithCheckinDict:checkin] autorelease];
 		NSDate *created = [NSDate dateFromRFC2822:[checkin objectForKey:@"created"]];
 		
 		if ([created laterDate:threeHoursAgo] == created) {
