@@ -59,6 +59,9 @@
 		07E7978010E721070024FF20 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07E7977F10E721070024FF20 /* Carbon.framework */; };
 		07F934AB10CDEA3500E2631A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07F934AA10CDEA3500E2631A /* CoreLocation.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		F5600E0411027A6A00376CEC /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5600E0311027A6A00376CEC /* BWToolkitFramework.framework */; };
+		F5600E921103D19F00376CEC /* PFMoveApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F5600E901103D19F00376CEC /* PFMoveApplication.m */; };
+		F5600E971103D25800376CEC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5600E961103D25800376CEC /* Security.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -159,6 +162,10 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* FoursquareX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoursquareX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5600E0311027A6A00376CEC /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = Library/Frameworks/BWToolkitFramework.framework; sourceTree = SDKROOT; };
+		F5600E901103D19F00376CEC /* PFMoveApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PFMoveApplication.m; sourceTree = "<group>"; };
+		F5600E911103D19F00376CEC /* PFMoveApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFMoveApplication.h; sourceTree = "<group>"; };
+		F5600E961103D25800376CEC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +182,8 @@
 				072FA18C10DAFBA2008293D7 /* WebKit.framework in Frameworks */,
 				07E7978010E721070024FF20 /* Carbon.framework in Frameworks */,
 				071D385710E80D0B003ADA42 /* Sparkle.framework in Frameworks */,
+				F5600E0411027A6A00376CEC /* BWToolkitFramework.framework in Frameworks */,
+				F5600E971103D25800376CEC /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +263,8 @@
 				07BB4A3910D03F0200D1A536 /* FoursquareXAppDelegate.m */,
 				075287BF10FE4E8E009032C7 /* FoursquareUpdater.h */,
 				075287C010FE4E8E009032C7 /* FoursquareUpdater.m */,
+				F5600E901103D19F00376CEC /* PFMoveApplication.m */,
+				F5600E911103D19F00376CEC /* PFMoveApplication.h */,
 			);
 			name = Classes;
 			path = Source/Classes;
@@ -291,6 +302,7 @@
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				07F934AA10CDEA3500E2631A /* CoreLocation.framework */,
 				07E7977F10E721070024FF20 /* Carbon.framework */,
+				F5600E961103D25800376CEC /* Security.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -321,6 +333,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				F5600E0311027A6A00376CEC /* BWToolkitFramework.framework */,
 			);
 			name = FoursquareX;
 			sourceTree = "<group>";
@@ -459,6 +472,7 @@
 				0752861510FD2B32009032C7 /* UpdatesPreferences.m in Sources */,
 				0752861A10FD2B62009032C7 /* AppPreferences.m in Sources */,
 				075287C110FE4E8E009032C7 /* FoursquareUpdater.m in Sources */,
+				F5600E921103D19F00376CEC /* PFMoveApplication.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

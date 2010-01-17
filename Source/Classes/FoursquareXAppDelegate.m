@@ -90,6 +90,11 @@
 
 #pragma mark NSApplicationDelegate methods
 
+- (void)applicationWillFinishLaunching:(NSNotification *)notification
+{
+	PFMoveToApplicationsFolderIfNecessary();
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification 
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
