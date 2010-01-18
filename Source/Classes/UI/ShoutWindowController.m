@@ -39,6 +39,16 @@
 	[[[self window] standardWindowButton:NSWindowZoomButton] setEnabled:NO];
 }
 
+- (void) dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self 
+													name:NSControlTextDidChangeNotification 
+												  object:textField];
+	
+	[super dealloc];
+}
+
+
 - (void)textDidChange:(NSNotification *)aNotification 
 {
 	NSUInteger textLen = [[textField stringValue] length];

@@ -33,6 +33,14 @@
 	[[[self window] standardWindowButton:NSWindowZoomButton] setEnabled:NO];
 }
 
+- (void) dealloc
+{
+	[venueId release];
+	
+	[super dealloc];
+}
+
+
 
 - (IBAction)closeWindow:(id)sender
 {

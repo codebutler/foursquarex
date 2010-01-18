@@ -42,6 +42,16 @@
 	return self;
 }
 
+- (void) dealloc
+{
+	delegate = nil;
+	[locationManager release];
+	[lastKnownLocation release];
+	
+	[super dealloc];
+}
+
+
 - (IBAction)refreshEverything:(id)sender
 {
 	if (refreshing) {

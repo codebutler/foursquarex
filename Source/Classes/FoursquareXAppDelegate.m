@@ -69,7 +69,15 @@
 
 - (void)dealloc
 {
-	[statusItem dealloc];
+	[statusItem release];
+	[quickCheckinMenuItems release];
+	[systemConfigNotificationManager release];
+	[lastFriendUpdate release];
+	[lastVenueUpdate release];
+	[lastSuggestion release];
+	[myUserId release];
+	[currentCheckin release];
+	
 	[super dealloc];
 }
 
