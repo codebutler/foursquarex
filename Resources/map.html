@@ -58,7 +58,7 @@
           var bounds = new google.maps.LatLngBounds();
           
           checkins.forEach(function (checkin) {
-            if (checkin.venue) {
+            if (checkin.venue && checkin.venue.geolat && checkin.venue.geolong) {
               var pos = new google.maps.LatLng(checkin.venue.geolat, checkin.venue.geolong);
 
               var displayParts = checkin.display.split('@');
