@@ -6,13 +6,7 @@
     <language>en</language>
     <item>
       <title>Version 0.06</title>
-      <description><![CDATA[
-        <ul>
-          <li>Memory usage improvements.</li>
-          <li>Suggest automatically moving app to /Applications. Thanks Brandon Titus for the patch!</li>
-          <li>Other minor bug fixes.</li>
-        </ul>
-      ]]></description>
+      <sparkle:releaseNotesLink>http://codebutler.github.com/foursquarex/latest-changes.html</sparkle:releaseNotesLink>
       <pubDate>Sun, 17 Jan 2010 16:28:27 -0800</pubDate>
       <enclosure url="http://cloud.github.com/downloads/codebutler/foursquarex/FoursquareX-0.06.zip" sparkle:version="0.06" length="4474897" type="application/octet-stream" sparkle:dsaSignature="MCwCFH+m2YKxlFBkyfRqZrHO45MUpLbwAhR+Q0fTxjzByTcNb23dn8jCOZI8DQ==" />
     </item>
