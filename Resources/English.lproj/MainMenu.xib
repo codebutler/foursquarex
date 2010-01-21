@@ -1309,7 +1309,7 @@
 				<string key="NSWindowRect">{{140, 341}, {385, 117}}</string>
 				<int key="NSWTFlags">1685585920</int>
 				<string key="NSWindowTitle">Foursquare Shout</string>
-				<string key="NSWindowClass">NSWindow</string>
+				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{3.40282e+38, 3.40282e+38}</string>
 				<object class="NSView" key="NSWindowView" id="487463902">
