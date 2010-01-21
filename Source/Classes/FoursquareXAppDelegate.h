@@ -68,6 +68,9 @@
 	
 	NSNumber *myUserId;
 	NSDictionary *currentCheckin;
+	
+	BOOL hasTwitter;
+	BOOL hasFacebook;
 }
 
 - (IBAction)showMainWindow:(id)sender;
@@ -85,4 +88,6 @@
 
 @property (readonly) NSDictionary *currentCheckin;
 @property (readonly) CheckinWindowController *checkinWindowController;
+@property (readonly) BOOL hasTwitter;
+@property (readonly) BOOL hasFacebook;
 @end

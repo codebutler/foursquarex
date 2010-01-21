@@ -80,8 +80,6 @@
 						 NSDictionary *user    = [dict objectForKey:@"user"];
 						 NSDictionary *checkin = [user objectForKey:@"checkin"];			
 						 NSDictionary *venue   = [checkin objectForKey:@"venue"];
-						 						 
-						 NSNumber *userId = [user objectForKey:@"id"];
 						 
 						 NSString *venueName = [venue objectForKey:@"name"];
 						 NSNumber *venueId   = [venue objectForKey:@"id"];
@@ -93,8 +91,8 @@
 						 
 						 BOOL isValid = (venueId && [created laterDate:threeHoursAgo] == created);
 						 
-						 if ([delegate respondsToSelector:@selector(foursquareUpdater:gotOwnCheckin:andUserId:isValid:)])
-							 [delegate foursquareUpdater:self gotOwnCheckin:checkin andUserId:userId isValid:isValid];
+						 if ([delegate respondsToSelector:@selector(foursquareUpdater:gotOwnProfile:isValid:)])
+							 [delegate foursquareUpdater:self gotOwnProfile:user isValid:isValid];
 						 
 						 if (isValid) {
 							 // If we have a valid checkin, see if anyone else is at the venue.
@@ -116,9 +114,9 @@
 							  [self handleError:response forTask:@"venueCheckins"];
 						  }
 						  
-						  NSLog(@"Got detail for venue: %@", response);
-						  
 						  NSDictionary *venue = [response objectForKey:@"venue"];
+						  
+						  NSLog(@"Got detail for venue: %@", [venue objectForKey:@"id"]);
 						  
 						  if ([delegate respondsToSelector:@selector(foursquareUpdater:gotVenueDetails:)])
 							  [delegate foursquareUpdater:self gotVenueDetails:venue];

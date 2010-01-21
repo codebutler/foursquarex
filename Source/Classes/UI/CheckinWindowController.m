@@ -33,14 +33,12 @@
 	[[[self window] standardWindowButton:NSWindowZoomButton] setEnabled:NO];
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	[venueId release];
 	
 	[super dealloc];
 }
-
-
 
 - (IBAction)closeWindow:(id)sender
 {
@@ -58,6 +56,7 @@
 	
 	BOOL showFriends = [friendsCheck state] == NSOnState;
 	BOOL showTwitter = [twitterCheck state] == NSOnState;
+	BOOL tellFacebook = [facebookCheck state] == NSOnState;
 	
 	NSString *shout = [shoutField stringValue];
 	if ([shout isEqualToString:@""])
@@ -69,7 +68,8 @@
 					   venueName:venueName
 						   shout:shout
 					 showFriends:showFriends
-					   sendTweet:showTwitter 
+					   sendTweet:showTwitter
+					tellFacebook:tellFacebook 
 						latitude:nil
 					   longitude:nil
 						callback:^(BOOL success, id response) {
@@ -92,13 +92,30 @@
 {
 	[self closeWindow:self];
 	[self clearVenue];
+
+	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
+	[twitterCheck setEnabled:[appDelegate hasTwitter]];
+	[facebookCheck setEnabled:[appDelegate hasFacebook]];
+	if (![appDelegate hasTwitter])
+		[twitterCheck setState:NSOffState];
+	if (![appDelegate hasFacebook])
+		[facebookCheck setState:NSOffState];
+	
 	[super showWindow:sender];
 }
 
 - (IBAction)showWindow:(id)sender withVenue:(NSDictionary *)venueDict
 {
 	[self closeWindow:self];
-		
+	
+	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
+	[twitterCheck setEnabled:[appDelegate hasTwitter]];
+	[facebookCheck setEnabled:[appDelegate hasFacebook]];
+	if (![appDelegate hasTwitter])
+		[twitterCheck setState:NSOffState];
+	if (![appDelegate hasFacebook])
+		[facebookCheck setState:NSOffState];
+	
 	[self setVenueId:[[venueDict objectForKey:@"id"] stringValue]
 		   venueName:[venueDict objectForKey:@"name"]];
 

@@ -77,6 +77,7 @@
 				   shout:(NSString *)shout 
 			 showFriends:(BOOL)showFriends 
 			   sendTweet:(BOOL)sendTweet
+			tellFacebook:(BOOL)tellFacebook
 				latitude:(NSString *)geoLat
 			   longitude:(NSString *)geoLong
 				callback:(FoursquareCallback)callback 
@@ -97,6 +98,9 @@
 	
 	NSString *twitter = sendTweet ? @"1" : @"0";
 	[params setObject:twitter forKey:@"twitter"];
+	
+	NSString *facebook = tellFacebook ? @"1" : @"0";
+	[params setObject:facebook forKey:@"facebook"];
 	
 	if (geoLat)	
 		[params setObject:geoLat forKey:@"geolat"];

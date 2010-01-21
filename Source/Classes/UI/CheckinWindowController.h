@@ -22,6 +22,7 @@
 @interface CheckinWindowController : NSWindowController <NSOutlineViewDelegate> {
 	IBOutlet NSButton *friendsCheck;
 	IBOutlet NSButton *twitterCheck;
+	IBOutlet NSButton *facebookCheck;
 	IBOutlet NSTextField *venueField;
 	IBOutlet NSTextField *shoutField;
 	IBOutlet NSProgressIndicator *progressIndicator;

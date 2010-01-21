@@ -22,6 +22,11 @@
 #import "CustomTextFieldFormatter.h"
 #import "NSAlertAdditions.h"
 #import "Foursquare.h"
+#import "FoursquareXAppDelegate.h"
+
+@interface ShoutWindowController (PrivateAPI)
+- (void)enableDisableCheckboxes;
+@end
 
 @implementation ShoutWindowController
 
@@ -39,7 +44,7 @@
 	[[[self window] standardWindowButton:NSWindowZoomButton] setEnabled:NO];
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self 
 													name:NSControlTextDidChangeNotification 
@@ -48,6 +53,12 @@
 	[super dealloc];
 }
 
+- (void)showWindow:(id)sender
+{	
+	[self enableDisableCheckboxes];
+	
+	[super showWindow:self];
+}
 
 - (void)textDidChange:(NSNotification *)aNotification 
 {
@@ -61,23 +72,26 @@
 	[shoutButton setEnabled:NO];
 	[textField setEnabled:NO];
 	[twitterCheck setEnabled:NO];
+	[facebookCheck setEnabled:NO];
 	[indicator startAnimation:self];
 	
 	NSString *shout = [textField stringValue];
 	BOOL showTwitter = [twitterCheck state] == NSOnState;
+	BOOL tellFacebook = [facebookCheck state] == NSOnState;
 	
 	[Foursquare checkinAtVenueId:nil
 					   venueName:nil
 						   shout:shout
 					 showFriends:YES
 					   sendTweet:showTwitter
+					tellFacebook:tellFacebook
 						latitude:nil
 					   longitude:nil
 						callback:^(BOOL success, id response) {
 							[indicator stopAnimation:self];
 							[shoutButton setEnabled:YES];
 							[textField setEnabled:YES];
-							[twitterCheck setEnabled:YES];
+							[self enableDisableCheckboxes];
 							
 							if (success) {
 								[[self window] close];
@@ -92,5 +106,17 @@
 								[[self window] makeFirstResponder:textField];
 							}
 						}];
+}
+
+- (void)enableDisableCheckboxes
+{
+	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
+	[twitterCheck setEnabled:[appDelegate hasTwitter]];
+	[facebookCheck setEnabled:[appDelegate hasFacebook]];
+	
+	if (![appDelegate hasTwitter])
+		[twitterCheck setState:NSOffState];
+	if (![appDelegate hasFacebook])
+		[facebookCheck setState:NSOffState];
 }
 @end

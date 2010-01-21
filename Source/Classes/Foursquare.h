@@ -42,6 +42,7 @@ typedef void(^FoursquareCallback)(BOOL success, id result);
 				   shout:(NSString *)shout 
 			 showFriends:(BOOL)showFriends 
 			   sendTweet:(BOOL)sendTweet
+			tellFacebook:(BOOL)tellFacebook
 				latitude:(NSString *)geolat
 			   longitude:(NSString *)geolong
 				callback:(FoursquareCallback)callback;

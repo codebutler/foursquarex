@@ -25,6 +25,7 @@
 	IBOutlet NSProgressIndicator *indicator;
 	IBOutlet NSButton *shoutButton;
 	IBOutlet NSButton *twitterCheck;
+	IBOutlet NSButton *facebookCheck;
 }
 
 - (IBAction)shoutClicked:(id)sender;

@@ -63,6 +63,9 @@
         [systemConfigNotificationManager setObservedKeys:nil regExes:regExes];
 		
 		quickCheckinMenuItems = [[NSMutableArray alloc] init];
+		
+		hasTwitter = YES;
+		hasFacebook = YES;
 	}
 	return self;
 }
@@ -241,11 +244,12 @@
 	[mainWindowController updaterFinished];
 }
 
-- (void)foursquareUpdater:(FoursquareUpdater *)updater 
-			gotOwnCheckin:(NSDictionary *)checkin 
-				andUserId:(NSNumber *)userId 
+- (void)foursquareUpdater:(FoursquareUpdater *)updater
+			gotOwnProfile:(NSDictionary *)user
 				  isValid:(BOOL)isValid
 {	
+	NSDictionary *checkin = [user objectForKey:@"checkin"];
+	
 	// If we've moved to a new venue, update lastVenueUpdate to avoid
 	// a flood notifications for other people who checked in at the same 
 	// venue before you.
@@ -253,6 +257,11 @@
 		[lastVenueUpdate autorelease];
 		lastVenueUpdate = [[NSDate date] retain];
 	}
+	
+	hasTwitter  = ([user objectForKey:@"twitter"] != nil);
+	hasFacebook = ([user objectForKey:@"facebook"] != nil);
+	
+	NSNumber *userId = [user objectForKey:@"id"];
 	
 	[myUserId autorelease];
 	myUserId = [userId retain];
@@ -583,5 +592,7 @@
 
 @synthesize currentCheckin;
 @synthesize checkinWindowController;
+@synthesize hasTwitter;
+@synthesize hasFacebook;
 
 @end
