@@ -381,6 +381,13 @@
 	[tabView selectTabViewItemAtIndex:[viewSwitcher selectedSegment]];
 }
 
+- (IBAction)toggleShowAllCheckins:(id)sender
+{
+	BOOL showAll = !([sender state] == NSOnState);
+	[sender setState:showAll ? NSOnState : NSOffState];
+	[self callJSMapMethod:@"setShowAllCheckins" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:showAll]]];
+}
+
 #pragma mark NSOutlineView delegate methods
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item 

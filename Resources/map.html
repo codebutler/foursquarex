@@ -51,6 +51,7 @@
         activeView: 'checkins',
         checkinMarkers: [],
         venueMarkers: [],
+        showAllCheckins: false,
         
         updateCheckins: function (json) {
           var checkins = JSON.parse(json);
@@ -195,7 +196,7 @@
 
               var visible = (index == 0) ? showCheckins : showVenues;
               
-              if (visible && typeof(marker.checkin) != 'undefined')
+              if (visible && typeof(marker.checkin) != 'undefined' && !FoursquareMap.showAllCheckins)
                 visible = marker.checkin.isCurrent;
               
               marker.setVisible(visible);
@@ -212,6 +213,11 @@
           return true;
         },
         
+        setShowAllCheckins: function (showAll) {
+          FoursquareMap.showAllCheckins = showAll;
+          FoursquareMap.switchView(FoursquareMap.activeView);
+          return true;
+        },
         _addMarker: function (pos, checkin, venue, html, clickHandler) {
           var title = (checkin != null) ? checkin.display : venue.name;
 
@@ -281,7 +287,7 @@
               if (curMarker && curMarker.infoWindow) {
                 curMarker.infoWindow.close();
               }
-              if (curMarker && typeof(curMarker.checkin) != 'undefined' && !curMarker.checkin.isCurrent) {
+              if (curMarker && typeof(curMarker.checkin) != 'undefined' && !curMarker.checkin.isCurrent && !FoursquareMap.showAllCheckins) {
                 curMarker.setVisible(false);
               }
             }
