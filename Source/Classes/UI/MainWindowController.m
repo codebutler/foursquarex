@@ -110,6 +110,8 @@
 		return NO;
 	else if (aSelector == @selector(showCheckinWindowForVenueId:venueName:))
 		return NO;
+	else if (aSelector == @selector(mapIsReady))
+		return NO;
 	return YES;
 }
 
@@ -125,10 +127,27 @@
 		return @"launchUrl";
 	else if (sel == @selector(showCheckinWindowForVenueId:venueName:))
 		return @"showCheckinWindow";
+	else if (sel == @selector(mapIsReady))
+		return @"mapIsReady";
     return nil;
 }
 
 #pragma mark Methods for JS
+
+- (void)mapIsReady
+{
+	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
+	[appDelegate finishLoading];
+	NSUserDefaultsController *userDefaultsController = [NSUserDefaultsController sharedUserDefaultsController]; 
+	[userDefaultsController addObserver:self
+							 forKeyPath:@"values.showOldCheckins"
+								options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+								context:NULL];
+	[userDefaultsController addObserver:self
+							 forKeyPath:@"values.showOtherCities"
+								options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+								context:NULL];
+}
 
 - (void)highlightCheckinRow:(NSNumber *)checkinId
 {	
@@ -222,23 +241,30 @@
 	
 	// Resize all the avatars.
 	// FIXME: Need a local cache of this.
-	for (NSMutableDictionary *checkin in friendCheckins) {
+	NSMutableArray *newFriendCheckins = [NSMutableArray arrayWithCapacity:[friendCheckins count]];
+	for (NSDictionary *checkin in friendCheckins) {
+		NSMutableDictionary *newCheckin = [NSMutableDictionary dictionaryWithDictionary:checkin];
 		NSDate *created = [NSDate dateFromRFC2822:[checkin objectForKey:@"created"]];
 		BOOL isCurrent = (BOOL) ([created laterDate:threeHoursAgo] == created);
-		[checkin setObject:[NSNumber numberWithBool:isCurrent] forKey:@"isCurrent"];
+		[newCheckin setObject:[NSNumber numberWithBool:isCurrent] forKey:@"isCurrent"];
 		
-		NSMutableDictionary *userDict = [checkin objectForKey:@"user"];
+		NSMutableDictionary *userDict = [NSMutableDictionary dictionaryWithDictionary:[checkin objectForKey:@"user"]];
+ 		
 		NSString *photoUrl = [userDict objectForKey:@"photo"];
 		NSImage *image = [[[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:photoUrl]] autorelease];
 		image = [image imageWithSize:NSMakeSize(36.0, 36.0)];
 		NSString *b64String = [[NSString stringWithFormat:@"data:image/png;base64,%@", [[image TIFFRepresentation] base64Encoding]] autorelease];
 		[userDict setObject:b64String forKey:@"photoData"];
+		
+		[newCheckin setObject:userDict forKey:@"user"];
+
+		[newFriendCheckins addObject:newCheckin];		
 	}
 	
-	NSString *json = [friendCheckins JSONRepresentation];
+	NSString *json = [newFriendCheckins JSONRepresentation];
 	[self callJSMapMethod:@"updateCheckins" withArguments:[NSArray arrayWithObject:json]];
 	
-	NSArray *sortedCheckins = [friendCheckins sort:^(id obj1, id obj2) {
+	NSArray *sortedCheckins = [newFriendCheckins sort:^(id obj1, id obj2) {
 		NSDate *date1 = [NSDate dateFromRFC2822:[obj1 objectForKey:@"created"]];
 		NSDate *date2 = [NSDate dateFromRFC2822:[obj2 objectForKey:@"created"]];
 		return [date2 compare:date1];
@@ -327,6 +353,22 @@
 	[venuesOutlineView expandItem:nil expandChildren:YES];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath
+					  ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if ([keyPath isEqual:@"values.showOldCheckins"]) {
+		BOOL showAll = [[NSUserDefaults standardUserDefaults] boolForKey:@"showOldCheckins"];
+		[self callJSMapMethod:@"setShowAllCheckins" 
+				withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:showAll]]];
+    } else if ([keyPath isEqual:@"values.showOtherCities"]) {
+		BOOL showOtherCities =  [[NSUserDefaults standardUserDefaults] boolForKey:@"showOtherCities"];
+		// FIXME: !!!
+		NSLog(@"OTHER CITIES ??? %d", showOtherCities);
+	}
+}
+
 #pragma mark IBActions
 
 - (IBAction)searchActivated:(id)sender
@@ -379,13 +421,6 @@
 	[self callJSMapMethod:@"switchView" withArguments:[NSArray arrayWithObject:viewName]];
 
 	[tabView selectTabViewItemAtIndex:[viewSwitcher selectedSegment]];
-}
-
-- (IBAction)toggleShowAllCheckins:(id)sender
-{
-	BOOL showAll = !([sender state] == NSOnState);
-	[sender setState:showAll ? NSOnState : NSOffState];
-	[self callJSMapMethod:@"setShowAllCheckins" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:showAll]]];
 }
 
 #pragma mark NSOutlineView delegate methods

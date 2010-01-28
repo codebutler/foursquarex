@@ -120,7 +120,6 @@
 	} else {	
 		firstRun = NO;
 		[Foursquare setBasicAuthWithUsername:email password:password];
-		[self finishLoading];
 	}
 }
 
