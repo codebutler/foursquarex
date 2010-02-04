@@ -21,12 +21,9 @@
 // Copyright 2008 Second Gear LLC. All rights reserved.
 // http://bitbucket.org/secondgear/shared-file-list-example/
 
-// Hide-dock-icon code based on code from the SSHKeyChain project
-// Copyright (c) Bart Matthaei. All rights reserved.
-// http://sshkeychain.sourceforge.net/
-
 #import <utime.h>
 #import "GeneralPreferences.h"
+#import "DockIcon.h"
 
 @interface GeneralPreferences (PrivateAPI)
 - (void)enableLoginItemWithLoginItemsReference:(LSSharedFileListRef )theLoginItemsRefs ForPath:(CFURLRef)thePath;
@@ -36,25 +33,12 @@
 
 @implementation GeneralPreferences
 
-- (BOOL) isResizable {
+- (BOOL)isResizable {
 	return NO;
 }
 
-- (NSImage *) imageForPreferenceNamed:(NSString *) name {
+- (NSImage *)imageForPreferenceNamed:(NSString *) name {
 	return [NSImage imageNamed:@"NSPreferencesGeneral"];
-}
-
-- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-	NSNumber *error = (NSNumber *)contextInfo;
-	if (![error boolValue] && returnCode == 1) {
-		NSTask *task = [[NSTask alloc] init];
-		[task setLaunchPath:@"/usr/bin/open"];
-		[task setArguments:[NSArray arrayWithObject:[self appPath]]];
-		[task launch];
-		exit(0);
-	}
-	[error release];
 }
 
 - (BOOL)startAtLogin {
@@ -125,37 +109,23 @@
 }
 
 - (BOOL)hideDockIcon {
-	NSURL *url = [NSURL fileURLWithPath: [NSString stringWithFormat: @"%@/Contents/Info.plist", [self appPath]]];
-	
-	NSMutableDictionary *plist = [[[NSMutableDictionary alloc] initWithContentsOfFile:[url path]] autorelease];
-	return [[plist objectForKey:@"LSUIElement"] boolValue] == YES;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	return [[defaults objectForKey:@"hideDockIcon"] boolValue];
 }
 
 - (void)setHideDockIcon:(BOOL)shouldHideDockIcon {	
-	BOOL error = NO;
-	
-	NSURL *url = [NSURL fileURLWithPath: [NSString stringWithFormat: @"%@/Contents/Info.plist", [self appPath]]];
-	
-	NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:[url path]];
-	[plist setObject:[NSNumber numberWithBool:shouldHideDockIcon] forKey:@"LSUIElement"];
-	if (![plist writeToFile:[url path] atomically:YES]) {
-		error = YES;
-	}
-	[plist release];
-	
-	if (utime([[[NSBundle mainBundle] bundlePath] cStringUsingEncoding:NSUTF8StringEncoding], nil) == -1) {
-		error = YES;
-	}	
-	
 	NSAlert *alert = nil;
-	
-	if (!error) {
+	BOOL success = [DockIcon setHidden:shouldHideDockIcon restart:NO];
+	if (success) {
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		[defaults setObject:[NSNumber numberWithBool:shouldHideDockIcon] forKey:@"hideDockIcon"];
+		
 		alert = [NSAlert alertWithMessageText:@"Do you want to restart FoursquareX now?"
 								defaultButton:@"Yes"
 							  alternateButton:@"No"
 								  otherButton:nil
-					informativeTextWithFormat:@"Otherwise, this change will take effect the next time you launch FoursquareX."];
-	} else {	
+					informativeTextWithFormat:@"Otherwise, this change will take effect the next time you launch FoursquareX."];		
+	} else {
 		alert = [NSAlert alertWithMessageText:@"Failed to set option"
 								defaultButton:nil
 							  alternateButton:nil
@@ -168,9 +138,16 @@
 	[alert beginSheetModalForWindow:window
 					  modalDelegate:self
 					 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-						contextInfo:[[NSNumber numberWithBool:error] retain]];
+						contextInfo:[[NSNumber numberWithBool:success] retain]];
 }
 
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+	BOOL success = [((NSNumber *)contextInfo) boolValue];
+	if (success && returnCode == 1) {
+		[DockIcon restartApp];
+	}
+}
 
 - (NSString *)appPath {
 	return [[NSBundle mainBundle] bundlePath];

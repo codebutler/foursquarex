@@ -25,6 +25,7 @@
 #import "NSDate+RFC2822.h"
 #import "NSWindow-NoodleEffects.h"
 #import "NSArray-Blocks.h"
+#import "DockIcon.h"
 
 @interface FoursquareXAppDelegate (PrivateAPI)
 - (void)getCheckinsAtVenue:(NSNumber *)venueId;
@@ -104,6 +105,10 @@
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
 	PFMoveToApplicationsFolderIfNecessary();
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	BOOL shouldHideDockIcon = [[defaults objectForKey:@"hideDockIcon"] boolValue];
+	[DockIcon setHidden:shouldHideDockIcon restart:YES];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification 
