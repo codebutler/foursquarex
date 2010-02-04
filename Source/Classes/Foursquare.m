@@ -63,12 +63,20 @@
 	[self post:@"switchcity" withParams:params callback:callback];
 }
 
-+ (void)recentFriendCheckinsInCity:(NSNumber *)cityId 
-						  callback:(FoursquareCallback)callback
++ (void)recentFriendCheckinsNearLatitude:(NSNumber *)geoLat
+							   longitude:(NSNumber *)geoLong
+								callback:(FoursquareCallback)callback
 {	
-	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-							cityId, @"cityid", 
-							nil];
+	NSMutableDictionary *params = [NSMutableDictionary dictionary];
+	
+	if (geoLat)
+		[params setObject:[NSString stringWithFormat:@"%f", [geoLat doubleValue]]
+				   forKey:@"geolat"];
+	
+	if (geoLong)
+		[params setObject:[NSString stringWithFormat:@"%f", [geoLong doubleValue]]
+				   forKey:@"geolong"];
+	
 	[self get:@"checkins" withParams:params callback:callback];
 }
 

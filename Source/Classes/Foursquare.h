@@ -34,8 +34,9 @@ typedef void(^FoursquareCallback)(BOOL success, id result);
 + (void)switchToCity:(NSNumber *)cityId 
 			callback:(FoursquareCallback)callback;
 
-+ (void)recentFriendCheckinsInCity:(NSNumber *)cityId 
-						  callback:(FoursquareCallback)callback;
++ (void)recentFriendCheckinsNearLatitude:(NSNumber *)geoLat
+							   longitude:(NSNumber *)geoLong
+								callback:(FoursquareCallback)callback;
 
 + (void)checkinAtVenueId:(NSString *)venueId 
 			   venueName:(NSString *)venueName 

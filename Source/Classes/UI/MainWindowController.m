@@ -363,9 +363,8 @@
 		[self callJSMapMethod:@"setShowAllCheckins" 
 				withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:showAll]]];
     } else if ([keyPath isEqual:@"values.showOtherCities"]) {
-		BOOL showOtherCities =  [[NSUserDefaults standardUserDefaults] boolForKey:@"showOtherCities"];
-		// FIXME: !!!
-		NSLog(@"OTHER CITIES ??? %d", showOtherCities);
+		FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
+		[appDelegate refreshEverything:self];
 	}
 }
 

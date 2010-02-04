@@ -20,9 +20,12 @@
 #import "FoursquareUpdater.h"
 #import "Foursquare.h"
 #import "NSDate+RFC2822.h"
+#import "NSArray-Blocks.h"
 
 @interface FoursquareUpdater (PrivateAPI)
+- (void)updateLocation;
 - (void)getFriendCheckins;
+- (void)getNearbyVenues;
 - (void)getCheckinsAtVenue:(NSNumber *)venueId;
 - (void)handleError:(id)response forTask:(NSString *)task;
 - (void)finish;
@@ -98,8 +101,8 @@
 							 // If we have a valid checkin, see if anyone else is at the venue.
 							 [self getCheckinsAtVenue:venueId];
 						 } else {
-							 // Else, figure out where out friends are!
-							 [self getFriendCheckins];
+							 // Else, figure out where we are!
+							 [self updateLocation];
 						 }
 					 }];
 }
@@ -122,32 +125,84 @@
 							  [delegate foursquareUpdater:self gotVenueDetails:venue];
 						  
 						  // Onto the next step!
-						  [self getFriendCheckins];
+						  [self updateLocation];
 					  }];
 }
 
+- (void)updateLocation
+{
+	[self updateStatus:@"Finding your location..."];									  								
+	[locationManager stopUpdatingLocation];
+	[locationManager startUpdatingLocation];	
+}
+
+// Called when location is found
 - (void)getFriendCheckins
 {
 	[self updateStatus:@"Getting friend checkins..."];
 	
-	[Foursquare recentFriendCheckinsInCity:nil
-								  callback:^(BOOL success, id response) {
-									  if (!success) {
-										  [self handleError:response forTask:@"friendCheckins"];
-									  }
-								  
-									  NSLog(@"Got friend checkins");
-									  
-									  NSArray *checkins = [response objectForKey:@"checkins"];
-									  
-									  if ([delegate respondsToSelector:@selector(foursquareUpdater:gotFriendCheckins:)])
-										  [delegate foursquareUpdater:self gotFriendCheckins:checkins];
-									  
-									  // Next, where are we?
-									  [self updateStatus:@"Finding your location..."];									  								
-									  [locationManager stopUpdatingLocation];
-									  [locationManager startUpdatingLocation];
-								  }];
+	NSNumber *geoLat = [NSNumber numberWithDouble:lastKnownLocation.coordinate.latitude];
+	NSNumber *geoLng = [NSNumber numberWithDouble:lastKnownLocation.coordinate.longitude];
+	
+	[Foursquare recentFriendCheckinsNearLatitude:geoLat
+									   longitude:geoLng
+										callback:^(BOOL success, id response) {
+											if (!success) {
+												[self handleError:response forTask:@"friendCheckins"];
+											}
+											
+											NSLog(@"Got friend checkins");
+											
+											NSArray *checkins = [response objectForKey:@"checkins"];
+											
+											// Filter out friends in other cities, if desired.
+											NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+											BOOL showOtherCities = [[defaults objectForKey:@"showOtherCities"] boolValue];
+											if (!showOtherCities) {
+												checkins = [checkins findAll:^BOOL(id checkin, NSUInteger idx) {
+													NSNumber *distance = [checkin objectForKey:@"distance"];
+													return (BOOL) ([distance intValue] < 40000);
+												}];
+											}
+											
+											if ([delegate respondsToSelector:@selector(foursquareUpdater:gotFriendCheckins:)])
+												[delegate foursquareUpdater:self gotFriendCheckins:checkins];
+											
+											// Next, what's nearby?
+											[self getNearbyVenues];
+										}];
+}
+
+- (void)getNearbyVenues
+{	
+	if (oldLastKnownLocation && [lastKnownLocation distanceFromLocation:oldLastKnownLocation] < 10.0) {
+		// Location didn't change, no need to refresh venues.
+		NSLog(@"Location didn't change - not refreshing venues.");
+		[self finish];
+		return;
+	}
+	
+	[self updateStatus:@"Searching for venues..."];
+	[Foursquare venuesNearLatitude:lastKnownLocation.coordinate.latitude
+						 longitude:lastKnownLocation.coordinate.longitude
+						  matching:nil 
+							 limit:nil 
+						  callback:^(BOOL success, id result) {
+							  if (!success) {
+								  [self handleError:result forTask:@"nearbyVenues"];
+								  return;
+							  }
+							  
+							  NSDictionary *venuesDict = (NSDictionary *)result;
+							  
+							  if ([delegate respondsToSelector:@selector(foursquareUpdater:gotNearbyVenues:atLocation:oldLocation:)])
+								  [delegate foursquareUpdater:self 
+											  gotNearbyVenues:venuesDict
+												   atLocation:lastKnownLocation
+												  oldLocation:oldLastKnownLocation];
+							  
+							  [self finish];
+						  }];
 }
 
 #pragma mark CLLocationManagerDelegate methods
@@ -170,39 +225,13 @@
 	
 	[locationManager stopUpdatingLocation];
 	
-	if (lastKnownLocation && [newLocation distanceFromLocation:lastKnownLocation] < 10.0) {
-		// Location didn't change, no need to refresh venues.
-		NSLog(@"Location didn't change - not refreshing venues.");
-		[self finish];
-		return;
-	}
-	
-	CLLocation *oldLastKnownLocation = [[lastKnownLocation retain] autorelease];
+	[oldLastKnownLocation autorelease];
+	oldLastKnownLocation = [lastKnownLocation copy];
 	
 	[lastKnownLocation autorelease];
 	lastKnownLocation = [newLocation copy];
 	
-	[self updateStatus:@"Searching for venues..."];
-	[Foursquare venuesNearLatitude:newLocation.coordinate.latitude
-						 longitude:newLocation.coordinate.longitude
-						  matching:nil 
-							 limit:nil 
-						  callback:^(BOOL success, id result) {
-							  if (!success) {
-								  [self handleError:result forTask:@"nearbyVenues"];
-								  return;
-							  }
-							  
-							  NSDictionary *venuesDict = (NSDictionary *)result;
-							  
-							  if ([delegate respondsToSelector:@selector(foursquareUpdater:gotNearbyVenues:atLocation:oldLocation:)])
-								  [delegate foursquareUpdater:self 
-											  gotNearbyVenues:venuesDict
-												   atLocation:newLocation
-												  oldLocation:oldLastKnownLocation];
-								  
-								  [self finish];
-						  }];
+	[self getFriendCheckins];
 }
 
 - (void)locationManager:(CLLocationManager *)manager

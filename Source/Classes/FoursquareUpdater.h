@@ -27,6 +27,7 @@
 	BOOL refreshing;
 	
 	CLLocationManager *locationManager;
+	CLLocation *oldLastKnownLocation;
 	CLLocation *lastKnownLocation;
 }
 
