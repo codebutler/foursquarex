@@ -53,9 +53,8 @@
 {   
 	[[statusLabel cell] setBackgroundStyle:NSBackgroundStyleRaised];
 	
-	NSString *path = [[NSBundle mainBundle] pathForResource:@"map" ofType:@"html"];
-	NSString *htmlString = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
-	[[webView mainFrame] loadHTMLString:htmlString baseURL:[[NSBundle mainBundle] resourceURL]];
+	NSURL *url = [[NSBundle mainBundle] URLForResource:@"map" withExtension:@"html"];
+	[[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
 - (IBAction)showShoutWindow:(id)sender
@@ -205,11 +204,8 @@
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:urlString]];
 }
 
-
 - (void)showCheckinWindowForVenueId:(NSString *)venueId venueName:(NSString *)venueName
 {	
-	NSLog(@"ID: %@ Name: %@", venueId, venueName);
-	
 	CheckinWindowController *checkinWindowController = [((FoursquareXAppDelegate *)[NSApp delegate]) checkinWindowController];
 	[checkinWindowController setVenueId:venueId venueName:venueName];
 	[NSApp beginSheet:[checkinWindowController window]

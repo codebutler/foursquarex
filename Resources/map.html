@@ -43,7 +43,7 @@
         
         MainWindowController.mapIsReady();
       }
-	  
+    
       function escapeSingleQuotes (str)
       {
         return String(str).replace(/'/g, "\\'");
@@ -221,7 +221,13 @@
         _addMarker: function (pos, checkin, venue, html, clickHandler) {
           var title = (checkin != null) ? checkin.display : venue.name;
 
-					var photo = checkin.isCurrent ? checkin.user.photo.replace(/.png$/, '-fresh.png') : checkin.user.photo.replace(/.png$/, '-old.png');
+          var photo = null;
+          if (checkin != null) {
+            if (checkin.isCurrent)
+              photo = checkin.user.photo.replace(/.png$/, '-fresh.png');
+            else
+              photo = checkin.user.photo.replace(/.png$/, '-old.png');
+          }
 
           var marker = new google.maps.Marker({
             map: map,
@@ -287,7 +293,6 @@
     </script>
   </head>
   <body onload="load();">
-	foo
     <div id="map_canvas"></div>
   </body>
 </html>
