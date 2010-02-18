@@ -293,7 +293,7 @@
 	[mainWindowController updateFriends:checkins];
 	
 	// Show any growl notifications
-	for (NSDictionary *checkin in checkins) {
+	for (NSDictionary *checkin in checkins) {		
 		NSDate *created = [NSDate dateFromRFC2822:[checkin objectForKey:@"created"]];
 		NSNumber *friendId = [[checkin objectForKey:@"user"] objectForKey:@"id"];
 		if (![friendId isEqualTo:myUserId]) {
@@ -590,6 +590,11 @@
 	[NSApp activateIgnoringOtherApps:YES];
 	[checkinWindowController showWindow:self withVenue:venueDict];
 	[[checkinWindowController window] makeKeyAndOrderFront:self];
+}
+
+- (void)gotAvatar:(NSString *)path
+{
+	[mainWindowController gotAvatar:path];
 }
 
 #pragma mark Properties

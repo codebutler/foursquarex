@@ -159,12 +159,10 @@
 	if (checkinId != nil) {
 		for (ListNode *group in checkins) {
 			for (ListNode *node in [group children]) {
-				NSLog(@"COMPARE %@ .. %@", [node checkinId], checkinId);
 				if ([[node checkinId] isEqualToNumber:checkinId]) {
 					int row = [checkinsOutlineView rowForItem:node];
 					[checkinsOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];			
 					[checkinsOutlineView scrollRowToVisible:row];
-					NSLog(@"highlight checkin %@", checkinId);
 					return;
 				}
 			}
@@ -247,18 +245,16 @@
 		NSDate *created = [NSDate dateFromRFC2822:[checkin objectForKey:@"created"]];
 		BOOL isCurrent = (BOOL) ([created laterDate:threeHoursAgo] == created);
 		[newCheckin setObject:[NSNumber numberWithBool:isCurrent] forKey:@"isCurrent"];
+
+		NSString *photoUrl = [[checkin objectForKey:@"user"] objectForKey:@"photo"];
+		NSString *avatarPath = [[avatarManager fetchAvatarReturningPath:[NSURL URLWithString:photoUrl]] 
+								stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		
 		NSMutableDictionary *userDict = [NSMutableDictionary dictionaryWithDictionary:[checkin objectForKey:@"user"]];
- 		
-		NSString *photoUrl = [userDict objectForKey:@"photo"];
-		NSImage *image = [[[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:photoUrl]] autorelease];
-		image = [image imageWithSize:NSMakeSize(36.0, 36.0)];
-		NSString *b64String = [[NSString stringWithFormat:@"data:image/png;base64,%@", [[image TIFFRepresentation] base64Encoding]] autorelease];
-		[userDict setObject:b64String forKey:@"photoData"];
-		
+		[userDict setObject:[@"file://" stringByAppendingString:avatarPath] forKey:@"photo"];
 		[newCheckin setObject:userDict forKey:@"user"];
 
-		[newFriendCheckins addObject:newCheckin];		
+		[newFriendCheckins addObject:newCheckin];
 	}
 	
 	NSString *json = [newFriendCheckins JSONRepresentation];
@@ -500,6 +496,11 @@
 	} else {
 		return [[item children] objectAtIndex:index];
 	}
+}
+
+- (void)gotAvatar:(NSString *)path
+{
+	[checkinsOutlineView reloadData];
 }
 
 #pragma mark PrivateAPI

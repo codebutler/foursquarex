@@ -36,6 +36,8 @@
 		075289B510FEC428009032C7 /* foursquarex.icns in Resources */ = {isa = PBXBuildFile; fileRef = 075289B410FEC428009032C7 /* foursquarex.icns */; };
 		075289C810FECE37009032C7 /* megaphone_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 075289C710FECE37009032C7 /* megaphone_dark.png */; };
 		075C9ECC111A9B4C006DCF33 /* DockIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 075C9ECB111A9B4C006DCF33 /* DockIcon.m */; };
+		07946A37112A4D0300EACA00 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07946A36112A4D0300EACA00 /* Growl.framework */; };
+		07946A3F112A4D1000EACA00 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 07946A36112A4D0300EACA00 /* Growl.framework */; };
 		079FABE310CEE13100D4A730 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 079FABE210CEE13100D4A730 /* SystemConfiguration.framework */; };
 		07A54DBC10F7F065006BD42B /* placard_fresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 07A54DBB10F7F065006BD42B /* placard_fresh.png */; };
 		07A9AB4510E96D1B00CE8EC7 /* map.html in Resources */ = {isa = PBXBuildFile; fileRef = 07A9AB4110E96D1B00CE8EC7 /* map.html */; };
@@ -53,11 +55,10 @@
 		07BB4A7310D03F3800D1A536 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 07BB4A7110D03F3800D1A536 /* Growl Registration Ticket.growlRegDict */; };
 		07BB4A7610D03F5000D1A536 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07BB4A7410D03F5000D1A536 /* MainMenu.xib */; };
 		07BB4A8210D03FCA00D1A536 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07BB4A8010D03FCA00D1A536 /* InfoPlist.strings */; };
-		07BB4AD810D041F700D1A536 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07BB4A9610D040D600D1A536 /* Growl-WithInstaller.framework */; };
-		07BB4AD910D041FA00D1A536 /* Growl-WithInstaller.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 07BB4A9610D040D600D1A536 /* Growl-WithInstaller.framework */; };
 		07BB4B0310D05D0900D1A536 /* CheckinWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BB4B0210D05D0900D1A536 /* CheckinWindowController.m */; };
 		07BB4B1C10D05E4600D1A536 /* HTTPRiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07BB4B1A10D05E4600D1A536 /* HTTPRiot.framework */; };
 		07BB4B5D10D05E4E00D1A536 /* HTTPRiot.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 07BB4B1A10D05E4600D1A536 /* HTTPRiot.framework */; };
+		07CFBE93112CBDDA00060EE2 /* AvatarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CFBE92112CBDDA00060EE2 /* AvatarManager.m */; };
 		07E7978010E721070024FF20 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07E7977F10E721070024FF20 /* Carbon.framework */; };
 		07F934AB10CDEA3500E2631A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07F934AA10CDEA3500E2631A /* CoreLocation.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -71,10 +72,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				07946A3F112A4D1000EACA00 /* Growl.framework in Copy Frameworks */,
 				071D385610E80D0B003ADA42 /* BWToolkitFramework.framework in Copy Frameworks */,
 				07A9AB5F10E96D3D00CE8EC7 /* Sparkle.framework in Copy Frameworks */,
 				07BB4B5D10D05E4E00D1A536 /* HTTPRiot.framework in Copy Frameworks */,
-				07BB4AD910D041FA00D1A536 /* Growl-WithInstaller.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -134,6 +135,7 @@
 		075289C710FECE37009032C7 /* megaphone_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = megaphone_dark.png; path = Resources/megaphone_dark.png; sourceTree = "<group>"; };
 		075C9ECA111A9B4C006DCF33 /* DockIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DockIcon.h; sourceTree = "<group>"; };
 		075C9ECB111A9B4C006DCF33 /* DockIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DockIcon.m; sourceTree = "<group>"; };
+		07946A36112A4D0300EACA00 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		079FABE210CEE13100D4A730 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		07A54DBB10F7F065006BD42B /* placard_fresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = placard_fresh.png; path = Resources/placard_fresh.png; sourceTree = "<group>"; };
 		07A9AB4110E96D1B00CE8EC7 /* map.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = map.html; path = Resources/map.html; sourceTree = "<group>"; };
@@ -155,10 +157,11 @@
 		07BB4A7110D03F3800D1A536 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "Growl Registration Ticket.growlRegDict"; path = "Resources/Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		07BB4A7510D03F5000D1A536 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		07BB4A8110D03FCA00D1A536 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		07BB4A9610D040D600D1A536 /* Growl-WithInstaller.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Growl-WithInstaller.framework"; path = "Frameworks/Growl-WithInstaller.framework"; sourceTree = "<group>"; };
 		07BB4B0110D05D0900D1A536 /* CheckinWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckinWindowController.h; sourceTree = "<group>"; };
 		07BB4B0210D05D0900D1A536 /* CheckinWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckinWindowController.m; sourceTree = "<group>"; };
 		07BB4B1A10D05E4600D1A536 /* HTTPRiot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HTTPRiot.framework; path = Frameworks/HTTPRiot.framework; sourceTree = "<group>"; };
+		07CFBE91112CBDDA00060EE2 /* AvatarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvatarManager.h; sourceTree = "<group>"; };
+		07CFBE92112CBDDA00060EE2 /* AvatarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvatarManager.m; sourceTree = "<group>"; };
 		07E7977F10E721070024FF20 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		07F934AA10CDEA3500E2631A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -175,7 +178,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				07A9ABDA10E97C7500CE8EC7 /* BWToolkitFramework.framework in Frameworks */,
-				07BB4AD810D041F700D1A536 /* Growl-WithInstaller.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				07F934AB10CDEA3500E2631A /* CoreLocation.framework in Frameworks */,
 				079FABE310CEE13100D4A730 /* SystemConfiguration.framework in Frameworks */,
@@ -184,6 +186,7 @@
 				07E7978010E721070024FF20 /* Carbon.framework in Frameworks */,
 				071D385710E80D0B003ADA42 /* Sparkle.framework in Frameworks */,
 				F5600E971103D25800376CEC /* Security.framework in Frameworks */,
+				07946A37112A4D0300EACA00 /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +270,8 @@
 				075287C010FE4E8E009032C7 /* FoursquareUpdater.m */,
 				075C9ECA111A9B4C006DCF33 /* DockIcon.h */,
 				075C9ECB111A9B4C006DCF33 /* DockIcon.m */,
+				07CFBE91112CBDDA00060EE2 /* AvatarManager.h */,
+				07CFBE92112CBDDA00060EE2 /* AvatarManager.m */,
 			);
 			name = Classes;
 			path = Source/Classes;
@@ -295,11 +300,11 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				07946A36112A4D0300EACA00 /* Growl.framework */,
 				071D385410E80D0B003ADA42 /* BWToolkitFramework.framework */,
 				071D385510E80D0B003ADA42 /* Sparkle.framework */,
 				072FA18B10DAFBA2008293D7 /* WebKit.framework */,
 				07BB4B1A10D05E4600D1A536 /* HTTPRiot.framework */,
-				07BB4A9610D040D600D1A536 /* Growl-WithInstaller.framework */,
 				079FABE210CEE13100D4A730 /* SystemConfiguration.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				07F934AA10CDEA3500E2631A /* CoreLocation.framework */,
@@ -475,6 +480,7 @@
 				075287C110FE4E8E009032C7 /* FoursquareUpdater.m in Sources */,
 				072F111F1103D68B00EFF027 /* PFMoveApplication.m in Sources */,
 				075C9ECC111A9B4C006DCF33 /* DockIcon.m in Sources */,
+				07CFBE93112CBDDA00060EE2 /* AvatarManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -550,6 +556,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;

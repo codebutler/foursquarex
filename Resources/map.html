@@ -89,13 +89,11 @@
                 '</div>'
               ].join('');
                 
-              var newMarkers = FoursquareMap._addMarker(pos, checkin, null, infoWindowHTML, function () {
+              var newMarker = FoursquareMap._addMarker(pos, checkin, null, infoWindowHTML, function () {
                 MainWindowController.highlightCheckinRow(checkin.id);
               });
-              newCheckinMarkers[checkin.id] = newMarkers[0];
-              newCheckinMarkers[checkin.id + '_placard'] = newMarkers[1];
-              newMarkers[0].checkin = checkin;
-              newMarkers[1].checkin = checkin;
+              newCheckinMarkers[checkin.id] = newMarker;
+              newMarker.checkin = checkin;
               bounds.extend(pos);
             }
           });
@@ -141,10 +139,10 @@
               '</div>'
             ].join('');
 
-            var newMarkers = FoursquareMap._addMarker(pos, null, venue, infoWindowHTML, function () {
+            var newMarker = FoursquareMap._addMarker(pos, null, venue, infoWindowHTML, function () {
               MainWindowController.highlightVenueRow(venue.id);
             });
-            newVenueMarkers[venue.id] = newMarkers[0];
+            newVenueMarkers[venue.id] = newMarker;
             bounds.extend(pos);
           });
 
@@ -223,23 +221,14 @@
         _addMarker: function (pos, checkin, venue, html, clickHandler) {
           var title = (checkin != null) ? checkin.display : venue.name;
 
-          var placardMarker = null;
-          if (checkin) {
-            var fileName = checkin.isCurrent ? 'placard_fresh.png' : 'placard_old.png';
-            placardMarker = new google.maps.Marker({
-              map: map,
-              position: pos,
-              visible: false,
-              icon: new google.maps.MarkerImage(fileName, new google.maps.Size(56, 60), null, new google.maps.Point(28,60))
-            });
-          }
+					var photo = checkin.isCurrent ? checkin.user.photo.replace(/.png$/, '-fresh.png') : checkin.user.photo.replace(/.png$/, '-old.png');
 
           var marker = new google.maps.Marker({
             map: map,
             title: title,
             position: pos,
             visible: false,
-            icon: (checkin == null) ? null : new google.maps.MarkerImage(checkin.user.photoData, new google.maps.Size(36, 37), null, new google.maps.Point(18, 52))
+            icon: (checkin == null) ? null : new google.maps.MarkerImage(photo, new google.maps.Size(56, 60), null, new google.maps.Point(28,60))
           });
 
           var infoWindow = new google.maps.InfoWindow({
@@ -252,13 +241,12 @@
             clickHandler();
             FoursquareMap._unselectAllMarkers();
             if (typeof(marker.checkin) != 'undefined' && !marker.checkin.isCurrent) {
-              placardMarker.setVisible(true);
               marker.setVisible(true);
             }
             infoWindow.open(map, marker);
           }); 
 
-          return [marker, placardMarker];
+          return marker;
         },
         
         _venueLinks: function (venue) {
@@ -299,6 +287,7 @@
     </script>
   </head>
   <body onload="load();">
+	foo
     <div id="map_canvas"></div>
   </body>
 </html>

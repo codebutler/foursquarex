@@ -21,6 +21,8 @@
 #import <WebKit/WebKit.h>
 #import <WebKit/WebView.h>
 
+#import "AvatarManager.h"
+
 @interface MainWindowController : NSWindowController {
 	IBOutlet WebView *webView;
 	IBOutlet NSProgressIndicator *indicator;
@@ -32,6 +34,8 @@
 	IBOutlet NSButton *shoutButton;
 	IBOutlet NSSearchField *searchField;
 	IBOutlet NSButton *refreshButton;
+	
+	IBOutlet AvatarManager *avatarManager;
 	
 	NSArray *checkins;
 	NSArray *venues;
@@ -51,4 +55,6 @@
 - (void)updaterFinished;
 - (void)updaterStatusTextChanged:(NSString *)statusText;
 - (void)updaterFailedWithErrorText:(NSString *)errorText;
+
+- (void)gotAvatar:(NSString *)path;
 @end

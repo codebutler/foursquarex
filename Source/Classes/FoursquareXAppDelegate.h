@@ -22,7 +22,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 #import <HTTPRiot/HTTPRiot.h> 
-#import <Growl-WithInstaller/Growl.h>
+#import <Growl/Growl.h>
 
 #import "IXSCNotificationManager.h"
 #import "NSArray-Blocks.h"
@@ -32,6 +32,7 @@
 #import "ShoutWindowController.h"
 #import "CheckinWindowController.h"
 
+#import "AvatarManager.h"
 #import "FoursquareUpdater.h"
 
 #import "NSPreferences.h"
@@ -44,6 +45,7 @@
 	IBOutlet CheckinWindowController *checkinWindowController;
 	
 	IBOutlet FoursquareUpdater *updater;
+	IBOutlet AvatarManager *avatarManager;
 	
 	IBOutlet NSMenu *statusItemMenu;
 	IBOutlet NSMenuItem *locationMenuItem;
@@ -83,6 +85,8 @@
 - (IBAction)refreshEverything:(id)sender;
 
 - (void)finishLoading;
+
+- (void)gotAvatar:(NSString *)path;
 
 - (CLLocation *)lastKnownLocation;
 
