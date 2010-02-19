@@ -44,6 +44,8 @@
 - (IBAction)showShoutWindow:(id)sender;
 - (IBAction)switchView:(id)sender;
 - (IBAction)searchActivated:(id)sender;
+- (IBAction)selectFriends:(id)sender;
+- (IBAction)selectVenues:(id)sender;
 
 - (void)gotVenues:(NSDictionary *)venuesDict;
 - (void)updateFriends:(NSArray *)friendCheckins;

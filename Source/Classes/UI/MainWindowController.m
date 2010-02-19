@@ -382,6 +382,8 @@
 		return;
 	}
 	
+	[self selectVenues:self];
+	
 	NSLog(@"Looking for nearby venues");
 	[indicator startAnimation:self];
 	[statusLabel setStringValue:@"Searching for venues..."];
@@ -414,6 +416,24 @@
 	[tabView selectTabViewItemAtIndex:[viewSwitcher selectedSegment]];
 }
 
+- (void)selectFriends:(id)sender
+{
+	[viewSwitcher setSelectedSegment:0];
+	[self switchView:self];
+
+	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
+	[appDelegate showMainWindow:self];
+}
+ 
+ - (void)selectVenues:(id)sender
+{
+	[viewSwitcher setSelectedSegment:1];
+	[self switchView:self];
+	
+	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
+	[appDelegate showMainWindow:self];
+}
+ 
 #pragma mark NSOutlineView delegate methods
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item 
