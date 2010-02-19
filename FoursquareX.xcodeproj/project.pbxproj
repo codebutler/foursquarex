@@ -61,6 +61,7 @@
 		07CFBE93112CBDDA00060EE2 /* AvatarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CFBE92112CBDDA00060EE2 /* AvatarManager.m */; };
 		07E7978010E721070024FF20 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07E7977F10E721070024FF20 /* Carbon.framework */; };
 		07F934AB10CDEA3500E2631A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07F934AA10CDEA3500E2631A /* CoreLocation.framework */; };
+		07FE4C8B112E10DB007AA380 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 07FE4C8A112E10DB007AA380 /* Credits.html */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		F5600E971103D25800376CEC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5600E961103D25800376CEC /* Security.framework */; };
 /* End PBXBuildFile section */
@@ -164,6 +165,7 @@
 		07CFBE92112CBDDA00060EE2 /* AvatarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvatarManager.m; sourceTree = "<group>"; };
 		07E7977F10E721070024FF20 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		07F934AA10CDEA3500E2631A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		07FE4C8A112E10DB007AA380 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -372,6 +374,7 @@
 				0752863D10FD2C33009032C7 /* GeneralPreferences.xib */,
 				0752863F10FD2C64009032C7 /* AccountPreferences.xib */,
 				0752864110FD2C7F009032C7 /* UpdatesPreferences.xib */,
+				07FE4C8A112E10DB007AA380 /* Credits.html */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 				0752864210FD2C7F009032C7 /* UpdatesPreferences.xib in Resources */,
 				075289B510FEC428009032C7 /* foursquarex.icns in Resources */,
 				075289C810FECE37009032C7 /* megaphone_dark.png in Resources */,
+				07FE4C8B112E10DB007AA380 /* Credits.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,7 +560,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_GC = required;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;

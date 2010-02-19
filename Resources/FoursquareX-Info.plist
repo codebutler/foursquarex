@@ -21,11 +21,11 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.06.2</string>
+	<string>0.06.3</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>CFBundleVersion</key>
-	<string>0.06.2</string>
+	<string>0.06.3</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
@@ -41,6 +41,8 @@
 	<key>SUPublicDSAKeyFile</key>
 	<string>UpdateKey.pem</string>
 	<key>SUAllowsAutomaticUpdates</key>
-	<false/>
+	<true/>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2010 Eric Butler</string>
 </dict>
 </plist>
