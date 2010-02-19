@@ -5,21 +5,20 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
+      <title>Version 0.07</title>
+      <sparkle:releaseNotesLink>http://codebutler.github.com/foursquarex/release-notes/0.7.html</sparkle:releaseNotesLink>
+      <pubDate>Thu, 18 Feb 2010 17:01:00 -0800</pubDate>
+      <enclosure url="http://github.com/downloads/codebutler/foursquarex/FoursquareX-0.07.zip" sparkle:version="0.07" length="1283478" type="application/octet-stream" sparkle:dsaSignature="MC0CFAu6SjfSntk+CiA/W2jj0USKui5bAhUAjKE52c1zm38HR3ooSEragMVYDFo=" />
+    </item>
+    <item>
       <title>Version 0.06</title>
-      <sparkle:releaseNotesLink>http://codebutler.github.com/foursquarex/latest-changes.html</sparkle:releaseNotesLink>
+      <sparkle:releaseNotesLink>http://codebutler.github.com/foursquarex/release-notes/0.6.html</sparkle:releaseNotesLink>
       <pubDate>Sun, 17 Jan 2010 16:28:27 -0800</pubDate>
-      <enclosure url="http://cloud.github.com/downloads/codebutler/foursquarex/FoursquareX-0.06.zip" sparkle:version="0.06" length="4474897" type="application/octet-stream" sparkle:dsaSignature="MCwCFH+m2YKxlFBkyfRqZrHO45MUpLbwAhR+Q0fTxjzByTcNb23dn8jCOZI8DQ==" />
+      <enclosure url="http://github.com/downloads/codebutler/foursquarex/FoursquareX-0.06.zip" sparkle:version="0.06" length="4474897" type="application/octet-stream" sparkle:dsaSignature="MCwCFH+m2YKxlFBkyfRqZrHO45MUpLbwAhR+Q0fTxjzByTcNb23dn8jCOZI8DQ==" />
     </item>
     <item>
       <title>Version 0.05</title>
-      <description><![CDATA[
-        <ul>
-          <li>Show dock icon by default so login window isn't lost behind other windows. You can hide the dock icon in Preferences.</li>
-          <li>Fixed a few memory leaks.</li>
-          <li>Fixed problem where some users got an 'unauthorized' message when trying to log in for the first time.</li>
-          <li>Other small bug fixes.</li>
-        </ul>
-      ]]></description>
+      <sparkle:releaseNotesLink>http://codebutler.github.com/foursquarex/release-notes/0.5.html</sparkle:releaseNotesLink>
       <pubDate>Sun, 17 Jan 2010 04:25:27 +0000</pubDate>
       <enclosure url="http://cloud.github.com/downloads/codebutler/foursquarex/FoursquareX-0.05.zip" sparkle:version="0.05" length="4531258" type="application/octet-stream" sparkle:dsaSignature="MCwCFCcINlSxYxZv+OqdgZ/5cbIKL+bMAhRpRM8KqWjoa6nf+2tOa1VqGSzOkA==" />
     </item>
