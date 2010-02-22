@@ -34,14 +34,20 @@
 				  
 - (void)threadMain:(id)data
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	NSThread *thread = [NSThread currentThread];
 	NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+	
 	[runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
+	
+	[pool release];
+	
 	while (![thread isCancelled])
 	{
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		NSAutoreleasePool *loopPool = [[NSAutoreleasePool alloc] init];
 		[runLoop run];
-		[pool release];
+		[loopPool release];
 	}
 }
 
