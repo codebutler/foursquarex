@@ -445,8 +445,12 @@
 		[mainWindowController gotVenues:nil];
 	}
 	
-	if ([response isKindOfClass:[NSError class]]) 
-		errorText = [NSString stringWithFormat:@"%@: %@", errorText, [response localizedDescription]];
+	if ([response isKindOfClass:[NSError class]])
+		if ([[response domain] isEqualToString:@"kCLErrorDomain"]) {
+			NSLog(@"%@: %@", errorText, [response localizedDescription]);
+			errorText = @"Unable to find your location, please try again later.";
+		} else
+			errorText = [NSString stringWithFormat:@"%@: %@", errorText, [response localizedDescription]];
 	else if ([response isKindOfClass:[NSDictionary class]] && [response objectForKey:@"error"])
 		errorText = [NSString stringWithFormat:@"%@: %@", errorText, [response objectForKey:@"error"]];
 	else
