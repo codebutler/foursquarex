@@ -45,6 +45,7 @@
 - (id)initWithWindow:(NSWindow *)window
 {
 	if (self = [super initWithWindow:window]) {
+		supressSelectionChanges = NO;
 	}
 	return self;
 }
@@ -160,7 +161,7 @@
 			for (ListNode *node in [group children]) {
 				if ([[node checkinId] isEqualToNumber:checkinId]) {
 					int row = [checkinsOutlineView rowForItem:node];
-					[checkinsOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];			
+					[checkinsOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
 					[checkinsOutlineView scrollRowToVisible:row];
 					return;
 				}
@@ -256,6 +257,9 @@
 	NSString *json = [newFriendCheckins JSONRepresentation];
 	[self callJSMapMethod:@"updateCheckins" withArguments:[NSArray arrayWithObject:json]];
 	
+	if (![[self window] isVisible])
+		[self callJSMapMethod:@"zoomToAll" withArguments:nil];
+	
 	NSArray *sortedCheckins = [newFriendCheckins sort:^(id obj1, id obj2) {
 		NSDate *date1 = [NSDate dateFromRFC2822:[obj1 objectForKey:@"created"]];
 		NSDate *date2 = [NSDate dateFromRFC2822:[obj2 objectForKey:@"created"]];
@@ -309,11 +313,31 @@
 		[[currentGroupNode children] addObject:checkinNode];
 	}
 	
+	// Remember selection
+	id selectedItem = [checkinsOutlineView itemAtRow:[checkinsOutlineView selectedRow]];
+	
+	supressSelectionChanges = YES;
+	
 	[checkins autorelease];
 	checkins = [groups retain];
 	
 	[checkinsOutlineView reloadData];
 	[checkinsOutlineView expandItem:nil expandChildren:YES];
+	
+	supressSelectionChanges = NO;
+	
+	// Re-select selection
+	if ([viewSwitcher selectedSegment] == 0 && selectedItem) {
+		for (ListNode *group in checkins) {
+			for (ListNode *checkinNode in [group children]) {
+				if ([[checkinNode checkinId] isEqualToNumber:[selectedItem checkinId]]) {
+					int row = [checkinsOutlineView rowForItem:checkinNode];
+					[checkinsOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+					return;
+				}
+			}
+		}
+	}
 }
 
 - (void)gotVenues:(NSDictionary *)venuesDict
@@ -334,6 +358,9 @@
 		
 		NSString *json = [allVenues JSONRepresentation];
 		[self callJSMapMethod:@"updateVenues" withArguments:[NSArray arrayWithObject:json]];
+		
+		if (![[self window] isVisible])
+			[self callJSMapMethod:@"zoomToAll" withArguments:nil];
 		
 		[venues autorelease];
 		venues = [newVenues retain];				  
@@ -398,6 +425,9 @@
 								  [indicator stopAnimation:self];								  
 								  
 								  [self gotVenues:result];
+								  
+								  [self selectVenues:self];
+								  
 							  } else {
 								  NSLog(@"Error searching for venues: %@", result);
 								  [statusLabel setStringValue:@"Error searching for venues."];
@@ -411,6 +441,8 @@
 - (IBAction)switchView:(id)sender
 {
 	NSString *viewName = [viewSwitcher selectedSegment] == 0 ? @"checkins" : @"venues";
+	[checkinsOutlineView deselectAll:self];
+	[venuesOutlineView deselectAll:self];
 	[self callJSMapMethod:@"switchView" withArguments:[NSArray arrayWithObject:viewName]];
 
 	[tabView selectTabViewItemAtIndex:[viewSwitcher selectedSegment]];
@@ -418,6 +450,9 @@
 
 - (void)selectFriends:(id)sender
 {
+	if ([viewSwitcher selectedSegment] == 0)
+		return;
+	
 	[viewSwitcher setSelectedSegment:0];
 	[self switchView:self];
 
@@ -427,6 +462,9 @@
  
  - (void)selectVenues:(id)sender
 {
+	if ([viewSwitcher selectedSegment] == 1)
+		return;
+	
 	[viewSwitcher setSelectedSegment:1];
 	[self switchView:self];
 	
@@ -453,6 +491,9 @@
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
+	if (supressSelectionChanges)
+		return;
+	
 	if ([notification object] == checkinsOutlineView) {
 		NSUInteger row = [[checkinsOutlineView selectedRowIndexes] firstIndex];
 		ListNode *node = [checkinsOutlineView itemAtRow:row];
@@ -523,6 +564,9 @@
 
 - (void)callJSMapMethod:(NSString *)methodName withArguments:(NSArray *)args
 {	
+	if (!args)
+		args = [NSArray array];
+	
 	id mapObject = [[webView windowScriptObject] valueForKey:@"FoursquareMap"];
 	
 	id ret = [mapObject callWebScriptMethod:methodName withArguments:args];

@@ -39,6 +39,8 @@
 	
 	NSArray *checkins;
 	NSArray *venues;
+	
+	BOOL supressSelectionChanges;
 }
 
 - (IBAction)showShoutWindow:(id)sender;

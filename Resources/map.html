@@ -37,7 +37,8 @@
         var myOptions = {
           zoom: 2,
           center: latlng,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU }
         };
         map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
         
@@ -49,166 +50,138 @@
         return String(str).replace(/'/g, "\\'");
       }
 
+      function escapeHTML(s) {
+        return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      }
+
       var FoursquareMap = {
+        firstLoadComplete: false,
         activeView: 'checkins',
-        checkinMarkers: [],
-        venueMarkers: [],
+        markerLayers: { 'checkins': {}, 'venues': {} },
         showAllCheckins: false,
-        
+      
         updateCheckins: function (json) {
           var checkins = JSON.parse(json);
-          var newCheckinMarkers = {};
-          var bounds = new google.maps.LatLngBounds();
-          
-          checkins.forEach(function (checkin) {
+          FoursquareMap._updateMarkerLayer('checkins', checkins, function (checkin) {
             if (checkin.venue && checkin.venue.geolat && checkin.venue.geolong) {
               var pos = new google.maps.LatLng(checkin.venue.geolat, checkin.venue.geolong);
 
+              var escapedId      = escapeSingleQuotes(checkin.venue.id);
+              var escapedName    = escapeSingleQuotes(checkin.venue.name);
+              var escapedAddress = escapeSingleQuotes(FoursquareMap._fullAddress(checkin.venue));
+              
               var displayParts = checkin.display.split('@');
-              var venueJs      = "MainWindowController.launchUrl('http://foursquare.com/venue/{0}'); return false".format(escapeSingleQuotes(checkin.venue.id));
-              var venueLink    = '<a class="notalink" href="#" onclick="{0}">{1}</a>'.format(venueJs, displayParts[1]);
-              var venueMapJs   = "MainWindowController.launchGoogleMap('{0}'); return false".format(escapeSingleQuotes(FoursquareMap._fullAddress(checkin.venue)));
-              var checkinJs    = "MainWindowController.showCheckinWindow('{0}','{1}'); return false".format(escapeSingleQuotes(checkin.venue.id), escapeSingleQuotes(checkin.venue.name));
+              var venueJs      = "MainWindowController.launchUrl('http://foursquare.com/venue/{0}'); return false".format(escapedId);
+              var venueLink    = '<a class="notalink" href="#" onclick="{0}">{1}</a>'.format(venueJs, escapeHTML(displayParts[1]));
+              var venueMapJs   = "MainWindowController.launchGoogleMap('{0}'); return false".format(escapedAddress);
+              var checkinJs    = "MainWindowController.showCheckinWindow('{0}','{1}'); return false".format(escapedId, escapedName);
               var checkinLink  = '<a href="#" onclick="{0}">Check in</a>'.format(checkinJs);
               var zoomJs       = 'map.setCenter(new google.maps.LatLng({0},{1})); map.setZoom(30)'.format(checkin.venue.geolat, checkin.venue.geolong);
                         
               var display = null;
               if (checkin.shout) 
-                display = '<b>{0}</b> says &ldquo;{1}&rdquo;<br/>@ <b>{2}</b>'.format(displayParts[0], checkin.shout, venueLink);
+                display = '<b>{0}</b> says &ldquo;{1}&rdquo;<br/>@ <b>{2}</b>'.format(escapeHTML(displayParts[0]), escapeHTML(checkin.shout), venueLink);
               else
-                display = '<b>{0} @ {1}</b>'.format(displayParts[0], venueLink);
+                display = '<b>{0} @ {1}</b>'.format(escapeHTML(displayParts[0]), venueLink);
                 
               var infoWindowHTML = [
                 '<div class="infoWindow">',
                 display,
                 '<br/><br/>',
-                '<a class="notalink" href="#" onclick="{0}">{1}</a> '.format(venueMapJs, checkin.venue.address),
+                '<a class="notalink" href="#" onclick="{0}">{1}</a> '.format(venueMapJs, escapeHTML(checkin.venue.address)),
                 '<a style="font-size: x-small; font-variant: small-caps; text-decoration: none" href="#" onclick="{0}">zoom</a>'.format(zoomJs),
                 '<br/><br/>',
                 checkinLink,
                 '</div>'
               ].join('');
                 
-              var newMarker = FoursquareMap._addMarker(pos, checkin, null, infoWindowHTML, function () {
+              FoursquareMap._addMarker('checkins', pos, checkin, infoWindowHTML, function () {
                 MainWindowController.highlightCheckinRow(checkin.id);
               });
-              newCheckinMarkers[checkin.id] = newMarker;
-              newMarker.checkin = checkin;
-              bounds.extend(pos);
             }
           });
-          
-          for (var key in FoursquareMap.checkinMarkers) {
-            var marker = FoursquareMap.checkinMarkers[key];
-            marker.setMap(null);
-            if (marker.infoWindow)
-              marker.infoWindow.close();
-          }
-          
-          map.fitBounds(bounds);
-          
-          FoursquareMap.checkinMarkers = newCheckinMarkers;
-          FoursquareMap.switchView(FoursquareMap.activeView);
-          
           return true;
         },
 
         updateVenues: function (json) {
           var venues = JSON.parse(json);
-          var newVenueMarkers = {};
-          var bounds = new google.maps.LatLngBounds();
-
-          venues.forEach(function (venue) {
+          FoursquareMap._updateMarkerLayer('venues', venues, function (venue) {
             var pos = new google.maps.LatLng(venue.geolat, venue.geolong);
             
-            var venueJs    = "MainWindowController.launchUrl('http://foursquare.com/venue/{0}'); return false".format(escapeSingleQuotes(venue.id));
-            var venueLink  = '<a class="notalink" href="#" onclick="{0}">{1}</a>'.format(venueJs, venue.name);
-            var venueMapJs = "MainWindowController.launchGoogleMap('{0}'); return false".format(escapeSingleQuotes(FoursquareMap._fullAddress(venue)));
-            var checkinJs    = "MainWindowController.showCheckinWindow('{0}','{1}'); return false".format(escapeSingleQuotes(venue.id), escapeSingleQuotes(venue.name));
+            var escapedVenueId   = escapeSingleQuotes(venue.id);
+            var escapedVenueName = escapeSingleQuotes(venue.name);
+            var escapedAddress   = escapeSingleQuotes(FoursquareMap._fullAddress(venue));
+            
+            var venueJs      = "MainWindowController.launchUrl('http://foursquare.com/venue/{0}'); return false".format(escapedVenueId);
+            var venueLink    = '<a class="notalink" href="#" onclick="{0}">{1}</a>'.format(venueJs, escapeHTML(venue.name));
+            var venueMapJs   = "MainWindowController.launchGoogleMap('{0}'); return false".format(escapedAddress);
+            var checkinJs    = "MainWindowController.showCheckinWindow('{0}','{1}'); return false".format(escapedVenueId, escapedVenueName);
             var checkinLink  = '<a href="#" onclick="{0}">Check in</a>'.format(checkinJs);
             var zoomJs       = 'map.setCenter(new google.maps.LatLng({0},{1})); map.setZoom(30)'.format(venue.geolat, venue.geolong);
 
             var infoWindowHTML = [
               '<div class="infoWindow">',
-              '<b>' + venueLink + '</b>',
+              '<b>{0}</b>'.format(venueLink),
               '<br/><br/>',
-              '<a class="notalink" href="#" onclick="{0}">{1}</a> '.format(venueMapJs, venue.address),
+              '<a class="notalink" href="#" onclick="{0}">{1}</a> '.format(venueMapJs, escapeHTML(venue.address)),
               '<a style="font-size: x-small; font-variant: small-caps; text-decoration: none" href="#" onclick="{0}">zoom</a>'.format(zoomJs),
               '<br/><br/>',
               checkinLink,
               '</div>'
             ].join('');
 
-            var newMarker = FoursquareMap._addMarker(pos, null, venue, infoWindowHTML, function () {
+            FoursquareMap._addMarker('venues', pos, venue, infoWindowHTML, function () {
               MainWindowController.highlightVenueRow(venue.id);
-            });
-            newVenueMarkers[venue.id] = newMarker;
-            bounds.extend(pos);
-          });
-
-          for (var key in FoursquareMap.venueMarkers) {
-            var marker = FoursquareMap.venueMarkers[key];
-            marker.setMap(null);
-            if (marker.infoWindow)
-              marker.infoWindow.close();
-          }
-
-          map.fitBounds(bounds);
-          FoursquareMap.venueMarkers = newVenueMarkers;
-          FoursquareMap.switchView(FoursquareMap.activeView);
-          
+            });           
+          });          
           return true;
         },
         
         selectCheckin: function (checkinId) {
-          var marker = FoursquareMap.checkinMarkers[checkinId];
-          if (marker) {
-            google.maps.event.trigger(marker, 'click');
-            return true;
-          } else {
-            FoursquareMap._unselectAllMarkers();
-            return false;
+          if (checkinId) {
+            var marker = FoursquareMap.markerLayers['checkins'][checkinId];
+            if (marker) {
+              google.maps.event.trigger(marker, 'click');
+              return true;
+            }
           }
+          FoursquareMap._unselectAllMarkers();
+          return true;
         },
         
         selectVenue: function (venueId) {
-          var marker = FoursquareMap.venueMarkers[venueId];
-          if (marker) {
-            google.maps.event.trigger(marker, 'click');
-            return true;
-          } else {
-            FoursquareMap._unselectAllMarkers();
-            return false;
+          if (venueId) {
+            var marker = FoursquareMap.markerLayers['venues'][venueId];
+            if (marker) {
+              google.maps.event.trigger(marker, 'click');
+              return true;
+            }
           }
+          FoursquareMap._unselectAllMarkers();
+          return true;
         },
         
         switchView: function (view) {
           FoursquareMap.activeView = view;
 
-          var showCheckins = (view == 'checkins');
-          var showVenues = !showCheckins;
-
-          var bounds = new google.maps.LatLngBounds();
-
-          [FoursquareMap.checkinMarkers, FoursquareMap.venueMarkers].forEach(function (markers, index) {
-            for (var key in markers) {
-              var marker = markers[key];
-
-              var visible = (index == 0) ? showCheckins : showVenues;
+          for (var layerName in FoursquareMap.markerLayers) {
+            var visible = (view == layerName);
+            var markers = FoursquareMap.markerLayers[layerName];
+            for (var markerKey in markers) {
+              var marker = markers[markerKey];
               
+              // Special logic for selected checkin markers.
               if (visible && typeof(marker.checkin) != 'undefined' && !FoursquareMap.showAllCheckins)
-                visible = marker.checkin.isCurrent;
-              
-              marker.setVisible(visible);
-
-              if (visible)
-                bounds.extend(marker.getPosition());
-              else if (marker.infoWindow)
+                marker.setVisible(marker.checkin.isCurrent);
+              else
+                marker.setVisible(visible);
+                
+              if (!visible && marker.infoWindow)
                 marker.infoWindow.close();
             }
-          });
+          }
           
-          map.fitBounds(bounds);
+          FoursquareMap.zoomToAll();
           
           return true;
         },
@@ -218,24 +191,80 @@
           FoursquareMap.switchView(FoursquareMap.activeView);
           return true;
         },
-        _addMarker: function (pos, checkin, venue, html, clickHandler) {
-          var title = (checkin != null) ? checkin.display : venue.name;
 
+        zoomToAll: function () {
+          var bounds = new google.maps.LatLngBounds();
+          var markers = FoursquareMap.markerLayers[FoursquareMap.activeView];
+          for (var markerId in markers) {
+            var marker = markers[markerId];
+            if (marker.visible)
+              bounds.extend(marker.getPosition());
+          }
+          map.fitBounds(bounds);
+          return true;
+        },
+
+        _updateMarkerLayer: function (layerName, newObjects, addMarkerFunc) {
+          var markers = FoursquareMap.markerLayers[layerName];
+          
+          /* Remove any obsoleted markers */
+          for (var key in markers) {
+            var marker = markers[key];
+            var curObj = null;
+            for (var idx in newObjects) {
+              var obj = newObjects[idx];
+              if (obj.id == marker.obj.id) {
+                curObj = obj;
+                break;
+              }
+            }
+            if (!curObj) {
+              if (marker.infoWindow) 
+                marker.infoWindow.close();  
+              marker.setMap(null);
+              delete FoursquareMap.markerLayers[layerName][key];
+            }
+          }
+          
+          newObjects.forEach(function (obj) {
+            /* Skip existing markers */
+            if (!markers[obj.id])
+              addMarkerFunc(obj)
+          });
+          
+          if (FoursquareMap.activeView == layerName && !FoursquareMap.firstLoadComplete) {
+            FoursquareMap.firstLoadComplete = true;
+            FoursquareMap.zoomToAll();
+          }
+        },
+
+        _addMarker: function (layer, pos, obj, html, clickHandler) {  
+          var title = null;
           var photo = null;
-          if (checkin != null) {
-            if (checkin.isCurrent)
-              photo = checkin.user.photo.replace(/.png$/, '-fresh.png');
-            else
-              photo = checkin.user.photo.replace(/.png$/, '-old.png');
+          var visible = (FoursquareMap.activeView == layer);
+          
+          if (layer == 'checkins') {
+            var checkin = obj;
+            title = checkin.display;
+            photo = checkin.user.photo.replace(/.png$/, ((checkin.isCurrent) ? '-fresh.png' : '-old.png'));
+            visible = (visible && (checkin.isCurrent || FoursquareMap.showAllCheckins));
+          } else if (layer == 'venues') {
+            var venue = obj;
+            title = venue.name;
           }
 
           var marker = new google.maps.Marker({
             map: map,
             title: title,
             position: pos,
-            visible: false,
+            visible: visible,
             icon: (checkin == null) ? null : new google.maps.MarkerImage(photo, new google.maps.Size(56, 60), null, new google.maps.Point(28,60))
           });
+          
+          marker.obj = obj;
+          
+          if (layer == 'checkins')
+            marker.checkin = obj;
 
           var infoWindow = new google.maps.InfoWindow({
             content: html
@@ -245,12 +274,12 @@
 
           google.maps.event.addListener(marker, 'click', function() {
             clickHandler();
-            FoursquareMap._unselectAllMarkers();
-            if (typeof(marker.checkin) != 'undefined' && !marker.checkin.isCurrent) {
-              marker.setVisible(true);
-            }
+            FoursquareMap._unselectAllMarkers(marker);
+            marker.setVisible(true);
             infoWindow.open(map, marker);
           }); 
+
+          FoursquareMap.markerLayers[layer][obj.id] = marker;
 
           return marker;
         },
@@ -275,20 +304,26 @@
         _fullAddress: function (venue) {
           return '{0}, {1}, {2} {3}'.format(venue.address, venue.city, venue.state, venue.zip);
         },
-    
+
         _unselectAllMarkers: function () {
-          [FoursquareMap.checkinMarkers, FoursquareMap.venueMarkers].forEach(function (markerDict) {
+          FoursquareMap._unselectAllMarkers(null);
+        },
+        
+        _unselectAllMarkers: function (markerToExclude) {
+          for (var layerName in FoursquareMap.markerLayers) {
+            var markerDict = FoursquareMap.markerLayers[layerName];
             for (var curId in markerDict) {
               var curMarker = markerDict[curId];
-              if (curMarker && curMarker.infoWindow) {
-                curMarker.infoWindow.close();
-              }
-              if (curMarker && typeof(curMarker.checkin) != 'undefined' && !curMarker.checkin.isCurrent && !FoursquareMap.showAllCheckins) {
-                curMarker.setVisible(false);
+              if (curMarker != markerToExclude) {
+                if (curMarker.infoWindow)
+                  curMarker.infoWindow.close();
+                if (typeof(curMarker.checkin) != 'undefined' && !curMarker.checkin.isCurrent && !FoursquareMap.showAllCheckins)
+                  curMarker.setVisible(false);
               }
             }
-          });
+          }
         }
+
       };
     </script>
   </head>
