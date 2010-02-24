@@ -115,6 +115,7 @@
 					  callback:^(BOOL success, id response) {
 						  if (!success) {
 							  [self handleError:response forTask:@"venueCheckins"];
+							  return;
 						  }
 						  
 						  NSDictionary *venue = [response objectForKey:@"venue"];
@@ -149,6 +150,7 @@
 										callback:^(BOOL success, id response) {
 											if (!success) {
 												[self handleError:response forTask:@"friendCheckins"];
+												return;
 											}
 											
 											NSLog(@"Got friend checkins");
