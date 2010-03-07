@@ -108,6 +108,10 @@
 	return avatar;
 }
 
+- (NSNumber *)hereNow {
+	return [[venueDict objectForKey:@"stats"] objectForKey:@"herenow"];
+}
+
 - (NSNumber *)checkinId {
 	return [checkinDict objectForKey:@"id"];
 }

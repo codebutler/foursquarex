@@ -50,6 +50,8 @@
 - (NSNumber *)checkinId;
 - (NSNumber *)venueId;
 
+- (NSNumber *)hereNow;
+
 - (NSMutableArray *)children;
 
 @end
