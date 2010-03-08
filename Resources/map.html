@@ -253,12 +253,32 @@
             title = venue.name;
           }
 
+          var icon = null;
+          var shadow = null;
+          if (checkin == null) {
+            if (parseInt(venue.stats.herenow) > 0) {
+              icon = new google.maps.MarkerImage(
+                'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png',
+                new google.maps.Size(32, 32),
+                new google.maps.Point(0, 0),
+                new google.maps.Point(16, 12));
+              shadow = new google.maps.MarkerImage(
+                'http://maps.gstatic.com/intl/en_us/mapfiles/ms/micons/msmarker.shadow.png',
+                new google.maps.Size(59, 32),
+                new google.maps.Point(0, 0),
+                new google.maps.Point(16, 12));
+            }
+          } else {
+            icon = new google.maps.MarkerImage(photo, new google.maps.Size(56, 60), null, new google.maps.Point(28,60));
+          }
+
           var marker = new google.maps.Marker({
             map: map,
             title: title,
             position: pos,
             visible: visible,
-            icon: (checkin == null) ? null : new google.maps.MarkerImage(photo, new google.maps.Size(56, 60), null, new google.maps.Point(28,60))
+            icon: icon,
+            shadow: shadow
           });
           
           marker.obj = obj;

@@ -177,13 +177,6 @@
 
 - (void)getNearbyVenues
 {	
-	if (oldLastKnownLocation && [lastKnownLocation distanceFromLocation:oldLastKnownLocation] < 10.0) {
-		// Location didn't change, no need to refresh venues.
-		NSLog(@"Location didn't change - not refreshing venues.");
-		[self finish];
-		return;
-	}
-	
 	[self updateStatus:@"Searching for venues..."];
 	[Foursquare venuesNearLatitude:lastKnownLocation.coordinate.latitude
 						 longitude:lastKnownLocation.coordinate.longitude
