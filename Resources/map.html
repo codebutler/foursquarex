@@ -257,16 +257,18 @@
           var shadow = null;
           if (checkin == null) {
             if (parseInt(venue.stats.herenow) > 0) {
+
               icon = new google.maps.MarkerImage(
-                'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png',
+                'http://maps.gstatic.com/intl/en_us/mapfiles/ms/micons/green-dot.png',
                 new google.maps.Size(32, 32),
                 new google.maps.Point(0, 0),
-                new google.maps.Point(16, 12));
+                new google.maps.Point(16, 32));
               shadow = new google.maps.MarkerImage(
-                'http://maps.gstatic.com/intl/en_us/mapfiles/ms/micons/msmarker.shadow.png',
-                new google.maps.Size(59, 32),
+                'http://maps.gstatic.com/intl/en_us/mapfiles/shadow50.png',
+                new google.maps.Size(37, 34),
                 new google.maps.Point(0, 0),
-                new google.maps.Point(16, 12));
+                new google.maps.Point(10, 34));
+
             }
           } else {
             icon = new google.maps.MarkerImage(photo, new google.maps.Size(56, 60), null, new google.maps.Point(28,60));

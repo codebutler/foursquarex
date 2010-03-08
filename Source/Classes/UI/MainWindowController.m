@@ -426,7 +426,10 @@
 								  
 								  [self gotVenues:result];
 								  
-								  [self selectVenues:self];
+								  if ([viewSwitcher selectedSegment] == 0)
+									  [self selectVenues:self];
+								  else
+									  [self callJSMapMethod:@"zoomToAll" withArguments:nil];
 								  
 							  } else {
 								  NSLog(@"Error searching for venues: %@", result);
