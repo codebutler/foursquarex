@@ -453,11 +453,10 @@
 
 - (void)selectFriends:(id)sender
 {
-	if ([viewSwitcher selectedSegment] == 0)
-		return;
-	
-	[viewSwitcher setSelectedSegment:0];
-	[self switchView:self];
+	if ([viewSwitcher selectedSegment] != 0) {
+		[viewSwitcher setSelectedSegment:0];
+		[self switchView:self];
+	}
 
 	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
 	[appDelegate showMainWindow:self];
@@ -465,11 +464,10 @@
  
  - (void)selectVenues:(id)sender
 {
-	if ([viewSwitcher selectedSegment] == 1)
-		return;
-	
-	[viewSwitcher setSelectedSegment:1];
-	[self switchView:self];
+	if ([viewSwitcher selectedSegment] != 1) {
+		[viewSwitcher setSelectedSegment:1];
+		[self switchView:self];
+	}
 	
 	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
 	[appDelegate showMainWindow:self];
