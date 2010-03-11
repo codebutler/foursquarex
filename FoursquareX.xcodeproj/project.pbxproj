@@ -63,6 +63,7 @@
 		07F934AB10CDEA3500E2631A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07F934AA10CDEA3500E2631A /* CoreLocation.framework */; };
 		07FE4C8B112E10DB007AA380 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 07FE4C8A112E10DB007AA380 /* Credits.html */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		C3639CB61148652F001324C3 /* menu_icon_alt.png in Resources */ = {isa = PBXBuildFile; fileRef = C3639CB51148652F001324C3 /* menu_icon_alt.png */; };
 		F5600E971103D25800376CEC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5600E961103D25800376CEC /* Security.framework */; };
 /* End PBXBuildFile section */
 
@@ -171,6 +172,7 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* FoursquareX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoursquareX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3639CB51148652F001324C3 /* menu_icon_alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_icon_alt.png; sourceTree = "<group>"; };
 		F5600E961103D25800376CEC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -367,6 +369,7 @@
 				07A9AB4210E96D1B00CE8EC7 /* megaphone.png */,
 				075289C710FECE37009032C7 /* megaphone_dark.png */,
 				07A9AB4310E96D1B00CE8EC7 /* menu_icon.png */,
+				C3639CB51148652F001324C3 /* menu_icon_alt.png */,
 				07A9AB4410E96D1B00CE8EC7 /* reload.tiff */,
 				07BB4A8010D03FCA00D1A536 /* InfoPlist.strings */,
 				07BB4A7010D03F3800D1A536 /* FoursquareX-Info.plist */,
@@ -448,6 +451,7 @@
 				075289B510FEC428009032C7 /* foursquarex.icns in Resources */,
 				075289C810FECE37009032C7 /* megaphone_dark.png in Resources */,
 				07FE4C8B112E10DB007AA380 /* Credits.html in Resources */,
+				C3639CB61148652F001324C3 /* menu_icon_alt.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -477,11 +477,13 @@
 	
 	// Show icon	
 	NSImage *image =[[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"menu_icon" ofType:@"png"]] autorelease];
+	NSImage *altImage =[[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"menu_icon_alt" ofType:@"png"]] autorelease];
 	NSStatusBar *statusBar = [NSStatusBar systemStatusBar];
 	statusItem = [[statusBar statusItemWithLength:-2] retain];
 	[statusItem setMenu:statusItemMenu];
 	[statusItem setHighlightMode:YES];
 	[statusItem setImage:image];
+	[statusItem setAlternateImage:altImage];
 	
 	// Listen for WiFi events
 	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
