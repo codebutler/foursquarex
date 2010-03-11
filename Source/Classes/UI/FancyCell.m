@@ -62,7 +62,7 @@
 										   paragraphStyle, NSParagraphStyleAttributeName,
 										   nil];	
 	int badgeWidth = ([item isVenue]) ? [self drawBadgeInRect:cellFrame] : 0;
-	
+		
 	if ([item timeText]) {
 		NSString *timeText = [item timeText];
 		NSMutableParagraphStyle *rightStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
@@ -91,9 +91,23 @@
 		if ([item isGroup]) x += 16;
 		CGFloat width = cellFrame.size.width - x - badgeWidth - 6;
 		NSRect rect = NSMakeRect(x, cellFrame.origin.y, width, cellFrame.size.height);
-		[[item primaryText] drawWithRect:rect
-								 options:NSStringDrawingUsesLineFragmentOrigin
-							  attributes:primaryTextAttributes];		
+		if ([item isGroup]) {
+			NSMutableDictionary *groupTextAttributes = [primaryTextAttributes mutableCopy];
+			[groupTextAttributes setValue:secondaryColor forKey:NSForegroundColorAttributeName];
+			NSShadow *textShadow = [NSShadow alloc];
+			[textShadow setShadowOffset:NSMakeSize(0,-1)];
+			[textShadow setShadowBlurRadius:1.0];
+			[textShadow setShadowColor:[NSColor colorWithDeviceWhite:1 alpha:1.0]];			
+			[groupTextAttributes setValue:textShadow forKey:NSShadowAttributeName];
+			[[item primaryText] drawWithRect:rect
+									 options:NSStringDrawingUsesLineFragmentOrigin
+								  attributes:groupTextAttributes];				
+			
+		} else {
+			[[item primaryText] drawWithRect:rect
+									 options:NSStringDrawingUsesLineFragmentOrigin
+								  attributes:primaryTextAttributes];				
+		}
 	}
 
 	if ([item secondaryText]) {
@@ -226,5 +240,7 @@ static int BADGE_TEXT_SMALL = 20;
 	
 	return badgeWidth;
 }
+
+
 
 @end
