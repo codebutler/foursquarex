@@ -137,7 +137,9 @@
 - (void)mapIsReady
 {
 	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
-	[appDelegate finishLoading];
+	if ([appDelegate isAccountConfigured])
+		[appDelegate finishLoading];
+	
 	NSUserDefaultsController *userDefaultsController = [NSUserDefaultsController sharedUserDefaultsController]; 
 	[userDefaultsController addObserver:self
 							 forKeyPath:@"values.showOldCheckins"
@@ -382,8 +384,10 @@
 		[self callJSMapMethod:@"setShowAllCheckins" 
 				withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:showAll]]];
     } else if ([keyPath isEqual:@"values.showOtherCities"]) {
+		// FIXME: Don't want this happening right at launch at all!!
 		FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
-		[appDelegate refreshEverything:self];
+		if ([appDelegate isAccountConfigured])
+			[appDelegate refreshEverything:self];
 	}
 }
 
