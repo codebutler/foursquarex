@@ -39,6 +39,8 @@
 		07946A37112A4D0300EACA00 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07946A36112A4D0300EACA00 /* Growl.framework */; };
 		07946A3F112A4D1000EACA00 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 07946A36112A4D0300EACA00 /* Growl.framework */; };
 		079FABE310CEE13100D4A730 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 079FABE210CEE13100D4A730 /* SystemConfiguration.framework */; };
+		07A00A6E11AF916A002D45C3 /* GoogleToolboxForMac.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 07A00A6D11AF916A002D45C3 /* GoogleToolboxForMac.framework */; };
+		07A00AED11AF9293002D45C3 /* GoogleToolboxForMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A00A6D11AF916A002D45C3 /* GoogleToolboxForMac.framework */; };
 		07A54DBC10F7F065006BD42B /* placard_fresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 07A54DBB10F7F065006BD42B /* placard_fresh.png */; };
 		07A9AB4510E96D1B00CE8EC7 /* map.html in Resources */ = {isa = PBXBuildFile; fileRef = 07A9AB4110E96D1B00CE8EC7 /* map.html */; };
 		07A9AB4610E96D1B00CE8EC7 /* megaphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 07A9AB4210E96D1B00CE8EC7 /* megaphone.png */; };
@@ -74,6 +76,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				07A00A6E11AF916A002D45C3 /* GoogleToolboxForMac.framework in Copy Frameworks */,
 				07946A3F112A4D1000EACA00 /* Growl.framework in Copy Frameworks */,
 				071D385610E80D0B003ADA42 /* BWToolkitFramework.framework in Copy Frameworks */,
 				07A9AB5F10E96D3D00CE8EC7 /* Sparkle.framework in Copy Frameworks */,
@@ -139,6 +142,7 @@
 		075C9ECB111A9B4C006DCF33 /* DockIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DockIcon.m; sourceTree = "<group>"; };
 		07946A36112A4D0300EACA00 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		079FABE210CEE13100D4A730 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		07A00A6D11AF916A002D45C3 /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleToolboxForMac.framework; path = Frameworks/GoogleToolboxForMac.framework; sourceTree = "<group>"; };
 		07A54DBB10F7F065006BD42B /* placard_fresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = placard_fresh.png; path = Resources/placard_fresh.png; sourceTree = "<group>"; };
 		07A9AB4110E96D1B00CE8EC7 /* map.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = map.html; path = Resources/map.html; sourceTree = "<group>"; };
 		07A9AB4210E96D1B00CE8EC7 /* megaphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = megaphone.png; path = Resources/megaphone.png; sourceTree = "<group>"; };
@@ -181,6 +185,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07A00AED11AF9293002D45C3 /* GoogleToolboxForMac.framework in Frameworks */,
 				07A9ABDA10E97C7500CE8EC7 /* BWToolkitFramework.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				07F934AB10CDEA3500E2631A /* CoreLocation.framework in Frameworks */,
@@ -304,6 +309,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				07A00A6D11AF916A002D45C3 /* GoogleToolboxForMac.framework */,
 				07946A36112A4D0300EACA00 /* Growl.framework */,
 				071D385410E80D0B003ADA42 /* BWToolkitFramework.framework */,
 				071D385510E80D0B003ADA42 /* Sparkle.framework */,
