@@ -137,8 +137,7 @@
 - (void)mapIsReady
 {
 	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
-	if ([appDelegate isAccountConfigured])
-		[appDelegate finishLoading];
+	[appDelegate setMapReady];
 	
 	NSUserDefaultsController *userDefaultsController = [NSUserDefaultsController sharedUserDefaultsController]; 
 	[userDefaultsController addObserver:self
@@ -384,9 +383,8 @@
 		[self callJSMapMethod:@"setShowAllCheckins" 
 				withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:showAll]]];
     } else if ([keyPath isEqual:@"values.showOtherCities"]) {
-		// FIXME: Don't want this happening right at launch at all!!
 		FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
-		if ([appDelegate isAccountConfigured])
+		if ([appDelegate isLoadFinished])
 			[appDelegate refreshEverything:self];
 	}
 }
@@ -395,7 +393,7 @@
 
 - (IBAction)searchActivated:(id)sender
 {
-	 NSString *query = [searchField stringValue];
+	NSString *query = [searchField stringValue];
 	
 	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
 	CLLocation *lastKnownLocation = [appDelegate lastKnownLocation];

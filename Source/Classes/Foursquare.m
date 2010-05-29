@@ -18,6 +18,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #import "Foursquare.h"
+#import "OAuthHelper.h"
+#import "NSURLAdditions.h"
 
 @interface Foursquare (PrivateAPI)
 + (void)        get:(NSString *)methodName
@@ -27,6 +29,15 @@
 + (void)       post:(NSString *)methodName
 		 withParams:(NSDictionary *)params
 		   callback:(FoursquareCallback)callback;
+
++ (void)    request:(NSString *)methodName 
+	     withParams:(NSDictionary *)params 
+	     httpMethod:(NSString *)httpMethod
+		   callback:(FoursquareCallback)callback;
+
+// Declared in HRRestModel
++ (void)setAttributeValue:(id)attr forKey:(NSString *)key;
++ (NSMutableDictionary *)classAttributes;
 @end
 
 @implementation Foursquare
@@ -36,6 +47,21 @@
 	[self setFormat:HRDataFormatJSON];
 	[self setDelegate:self];
 	[self setBaseURL:[NSURL URLWithString:@"http://api.foursquare.com/v1"]];
+}
+
++ (void)getOAuthAccessTokenForUsername:(NSString *)username password:(NSString *)password callback:(id)callback
+{
+	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+							username, @"fs_username", 
+							password, @"fs_password",
+							nil];
+	[self post:@"authexchange" withParams:params callback:callback];	
+}
+
++ (void)setOAuthAccessToken:(NSString *)token secret:(NSString *)secret
+{
+    [self setAttributeValue:[[token copy] autorelease]  forKey:@"oauth_access_token"];
+    [self setAttributeValue:[[secret copy] autorelease] forKey:@"oauth_access_secret"];
 }
 
 + (void)listCities:(FoursquareCallback)callback
@@ -356,28 +382,52 @@
          withParams:(NSDictionary *)params 
 		   callback:(FoursquareCallback)callback
 {
-	
-	callback = [callback copy];
-	
-	NSString *path = [NSString stringWithFormat:@"/%@.json", methodName];
-
-	NSDictionary *options = nil;
-	if (params != nil) {
-		options = [NSDictionary dictionaryWithObject:params 
-											  forKey:kHRClassAttributesParamsKey];
-	}
-	[self getPath:path withOptions:options object:callback];
+	[self request:methodName withParams:params httpMethod:@"GET" callback:callback];
 }
 
 + (void)       post:(NSString *)methodName
 		 withParams:(NSDictionary *)params
 		   callback:(FoursquareCallback)callback 
 {
-	
+	[self request:methodName withParams:params httpMethod:@"POST" callback:callback];
+}
+
++ (void)    request:(NSString *)methodName 
+	     withParams:(NSDictionary *)params 
+	     httpMethod:(NSString *)httpMethod
+		   callback:(FoursquareCallback)callback
+{
 	callback = [callback copy];
 	
-	NSString *path = [NSString stringWithFormat:@"/%@.json", methodName];
-	NSDictionary *options = [NSDictionary dictionaryWithObject:params forKey:kHRClassAttributesParamsKey];
+	NSMutableDictionary *options = [NSMutableDictionary dictionary];
 	
-	[self postPath:path withOptions:options object:callback];
-}@end
+	NSString *path = nil;
+	// HACK: This method is apparently XML-only, for some reason.
+	if ([methodName isEqualToString:@"authexchange"]) {
+		path = [NSString stringWithFormat:@"/%@", methodName];
+		[options setValue:[NSNumber numberWithInt:HRDataFormatXML] forKey:kHRClassAttributesFormatKey];
+	} else {
+		path = [NSString stringWithFormat:@"/%@.json", methodName];
+	}
+	
+	NSString *token  = [[self classAttributes] objectForKey:@"oauth_access_token"];
+	NSString *secret = [[self classAttributes] objectForKey:@"oauth_access_secret"];
+	
+	NSString *url = [[[self baseURL] URLBySmartlyAppendingPathComponent:path] absoluteString];
+		
+	NSDictionary *finalParams = [OAuthHelper signRequest:url
+												  method:httpMethod 
+												  params:params
+											 consumerKey:OAUTH_KEY
+										  consumerSecret:OAUTH_SECRET
+											 accessToken:token
+											accessSecret:secret];
+	
+	[options setObject:finalParams forKey:kHRClassAttributesParamsKey];
+
+	if ([httpMethod isEqualToString:@"GET"])
+		[self getPath:path withOptions:options object:callback];
+	else
+		[self postPath:path withOptions:options object:callback];
+}
+@end

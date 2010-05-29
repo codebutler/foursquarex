@@ -21,6 +21,7 @@
 #import "Foursquare.h"
 #import "FoursquareXAppDelegate.h"
 #import "NSAlertAdditions.h"
+#import <GoogleToolboxForMac/GTMNSDictionary+URLArguments.h>
 
 @interface WelcomeWindowController(PrivateAPI)
 - (void)alertDidEnd:(NSAlert *)alert 
@@ -30,7 +31,24 @@
 
 @implementation WelcomeWindowController
 
-- (IBAction)loginClicked:(id)sender {
+- (void)awakeFromNib
+{
+	// Automatically migrate username/pass to OAuth when upgrading.
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *email    = [defaults stringForKey:@"email"];
+	NSString *password = [defaults stringForKey:@"password"];
+	if ([email length] > 0 && [password length] > 0) {
+		NSLog(@"Migrating preferences to OAuth...");
+		
+		[emailField setStringValue:email];
+		[passwordField setStringValue:password];
+		
+		[self loginClicked:self];
+	}
+}
+
+- (IBAction)loginClicked:(id)sender 
+{
 	// The text fields only save their value after losing focus.
 	[[self window] makeFirstResponder:nil];
 	
@@ -40,31 +58,33 @@
 	[loginButton setEnabled:NO];
 	[indicator startAnimation:self];
 	
-	// Try out the credentials
-	
-	[Foursquare setBasicAuthWithUsername:[emailField stringValue] 
-								password:[passwordField stringValue]];
-	
-	[Foursquare test:^(BOOL success, id result) {
+	// Perform authorization exchange to get access token.
+	NSString *username = [emailField stringValue];
+	NSString *password = [passwordField stringValue];
+	[Foursquare getOAuthAccessTokenForUsername:username password:password callback:^(BOOL success, id result) {
 		[indicator stopAnimation:self];
 		
-		if (success) {
-			NSString *response = [result objectForKey:@"response"];
-			if ([response isEqualToString:@"ok"]) {
-				
-				// The login worked! Save settings and finish loading app.
-				
-				[self close];
-				
-				NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-				[defaults setObject:[emailField stringValue] forKey:@"email"];
-				[defaults setObject:[passwordField stringValue] forKey:@"password"];
-				
-				FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
-				[appDelegate finishLoading];
-								
-				return;
-			}	
+		if (success) {		
+			NSDictionary *dict = [result objectForKey:@"credentials"];
+			
+			NSString *token  = [dict objectForKey:@"oauth_token"];
+			NSString *secret = [dict objectForKey:@"oauth_token_secret"];
+			
+			NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+			[defaults setObject:token  forKey:@"access_token"];
+			[defaults setObject:secret forKey:@"access_secret"];
+			
+			[defaults removeObjectForKey:@"email"];
+			[defaults removeObjectForKey:@"password"];
+						
+			[Foursquare setOAuthAccessToken:token secret:secret];
+			
+			[self close];
+						
+			FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
+			[appDelegate finishLoading];
+
+			return;
 		}
 		
 		// Failed!
@@ -73,19 +93,21 @@
 						  modalDelegate:self 
 						 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) 
 							contextInfo:nil];
-
 	}];
+	
 }
 
 - (void)alertDidEnd:(NSAlert *)alert 
 		 returnCode:(NSInteger)returnCode
-		contextInfo:(void *)contextInfo {
+		contextInfo:(void *)contextInfo 
+{
 	[emailField setEnabled:YES];
 	[passwordField setEnabled:YES];
 	[loginButton setEnabled:YES];
 }
 
-- (IBAction)quitClicked:(id)sender {
+- (IBAction)quitClicked:(id)sender 
+{
 	[indicator stopAnimation:self];
 	[NSApp terminate:self];
 }

@@ -1,5 +1,5 @@
 // 
-// AccountPreferences.h
+// OAuthHelper.m
 // FoursquareX
 //
 // Copyright (C) 2010 Eric Butler <eric@codebutler.com>
@@ -18,17 +18,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <Cocoa/Cocoa.h>
-#import "NSPreferences.h"
 
-@interface AccountPreferences : NSPreferencesModule {
-	IBOutlet NSWindow *sheetWindow;
-	IBOutlet NSTextField *emailField;
-	IBOutlet NSTextField *passwordField;
-	IBOutlet NSProgressIndicator *accountIndicator;
+@interface OAuthHelper : NSObject {
 }
 
-- (IBAction)showSheet:(id)sender;
-- (IBAction)hideSheet:(id)sender;
-- (IBAction)updateAccount:(id)sender;
++ (NSDictionary *)signRequest:(NSString *)url 
+					   method:(NSString *)method 
+					   params:(NSDictionary *)params 
+				  consumerKey:(NSString *)consumerKey
+			   consumerSecret:(NSString *)consumerSecret
+				  accessToken:(NSString *)accessToken
+				 accessSecret:(NSString *)accessSecret;
 
 @end

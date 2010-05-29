@@ -100,6 +100,22 @@
 	return [updater lastKnownLocation];
 }
 
+- (BOOL)isAccountConfigured {	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *token  = [defaults stringForKey:@"access_token"];
+	NSString *secret = [defaults stringForKey:@"access_secret"];
+	return ([token length] > 0 && [secret length] > 0);
+}
+
+- (void)setMapReady {
+	mapReady = YES;
+	[self finishLoading];
+}
+
+- (BOOL)isLoadFinished {
+	return loadFinished;
+}
+
 #pragma mark NSApplicationDelegate methods
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
@@ -113,18 +129,13 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification 
 {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *email = [defaults stringForKey:@"email"];
-	NSString *password = [defaults stringForKey:@"password"];
-	
-	// FIXME: Validate email / password
-	BOOL accountConfigured = (email && password);
-	if (!accountConfigured) {
+	appReady = YES;
+	if (![self isAccountConfigured]) {
 		firstRun = YES;
 		[welcomeWindowController showWindow:self];
 	} else {	
 		firstRun = NO;
-		[Foursquare setBasicAuthWithUsername:email password:password];
+		[self finishLoading];
 	}
 }
 
@@ -147,6 +158,11 @@
 
 - (IBAction)refreshEverything:(id)sender
 {
+	if (!loadFinished) {
+		NSLog(@"Load not yet finished!");
+		return;
+	}
+	
 	[updater refreshEverything:sender];
 }
 
@@ -468,12 +484,21 @@
 
 - (void)finishLoading
 {
+	// Wait for everything to be ready
+	if (!appReady || !mapReady || ![self isAccountConfigured])
+		return;
+	
 	if (loadFinished)
 		return;
 	
 	loadFinished = YES;
 	
 	NSLog(@"Finishing the load...");
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *token  = [defaults stringForKey:@"access_token"];
+	NSString *secret = [defaults stringForKey:@"access_secret"];
+	[Foursquare setOAuthAccessToken:token secret:secret];
 	
 	// Show icon	
 	NSImage *image =[[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"menu_icon" ofType:@"png"]] autorelease];

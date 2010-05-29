@@ -40,29 +40,55 @@
 
 - (void)willBeDisplayed 
 {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[emailField setStringValue:[defaults objectForKey:@"email"]];
-	[passwordField setStringValue:[defaults objectForKey:@"password"]];
+}
+
+- (IBAction)showSheet:(id)sender
+{
+	[emailField setStringValue:@""];
+	[passwordField setStringValue:@""];
+	
+	[NSApp beginSheet:sheetWindow
+	   modalForWindow:[_preferencesView window]
+		modalDelegate:nil
+	   didEndSelector:NULL
+		  contextInfo:nil];
+}
+
+- (IBAction)hideSheet:(id)sender
+{
+	[sheetWindow orderOut:self];
+	[NSApp endSheet:sheetWindow];
 }
 
 - (IBAction)updateAccount:(id)sender
 {
-	NSWindow *window = [_preferencesView window];
-	[window makeFirstResponder:nil];
+	[sheetWindow makeFirstResponder:nil];
 	
 	[sender setEnabled:NO];
 	[accountIndicator startAnimation:self];
 	
-	[FoursquareTester setBasicAuthWithUsername:[emailField stringValue]
-									  password:[passwordField stringValue]];
-	[FoursquareTester test:^(BOOL success, id response) {
+	[FoursquareTester getOAuthAccessTokenForUsername:[emailField stringValue]
+											password:[passwordField stringValue]
+											callback:^(BOOL success, id response) 
+	{
+		[accountIndicator stopAnimation:self];
+		
 		if (success) {
-			 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-			 [defaults setObject:[emailField stringValue] forKey:@"email"];
-			 [defaults setObject:[passwordField stringValue] forKey:@"password"];
-			 [Foursquare setBasicAuthWithUsername:[emailField stringValue] password:[passwordField stringValue]];
-			 FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
-			 [appDelegate refreshEverything:self];
+			NSDictionary *dict = [response objectForKey:@"credentials"];
+			
+			NSString *token  = [dict objectForKey:@"oauth_token"];
+			NSString *secret = [dict objectForKey:@"oauth_token_secret"];
+			
+			NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+			[defaults setObject:token  forKey:@"access_token"];
+			[defaults setObject:secret forKey:@"access_secret"];
+			
+			[Foursquare setOAuthAccessToken:token secret:secret];			
+			
+			[self hideSheet:self];
+			
+			FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
+			[appDelegate refreshEverything:self];
 		} else {
 			NSAlert *alert = [[NSAlert alloc] init];
 			[alert addButtonWithTitle:@"OK"];
@@ -77,12 +103,12 @@
 				[alert setInformativeText:errorText];
 			} 
 			
-			[alert beginSheetModalForWindow:window 
+			[alert beginSheetModalForWindow:sheetWindow
 							  modalDelegate:nil 
 							 didEndSelector:NULL
 								contextInfo:nil];
 		}
-		[accountIndicator stopAnimation:self];
+		
 		[sender setEnabled:YES];
 	}];
 }

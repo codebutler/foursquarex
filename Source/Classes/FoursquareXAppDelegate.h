@@ -56,13 +56,17 @@
 	
 	BOOL firstRun;
 	
+	BOOL appReady;
+	BOOL mapReady;
+	
+	BOOL loadFinished;
+	
 	NSMutableArray *quickCheckinMenuItems;
 	
 	NSStatusItem *statusItem;
 	
 	IXSCNotificationManager *systemConfigNotificationManager;
 	NSTimer *timer;
-	BOOL loadFinished;
 	NSDate *lastFriendUpdate;
 	NSDate *lastVenueUpdate;
 	
@@ -84,10 +88,13 @@
 - (IBAction)showAddVenue:(id)sender;
 - (IBAction)refreshEverything:(id)sender;
 
+- (void)setMapReady;
 - (void)finishLoading;
+- (BOOL)isLoadFinished;
 
 - (void)gotAvatar:(NSString *)path;
 
+- (BOOL)isAccountConfigured;
 - (CLLocation *)lastKnownLocation;
 
 @property (readonly) NSDictionary *currentCheckin;

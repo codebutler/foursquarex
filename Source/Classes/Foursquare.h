@@ -20,10 +20,20 @@
 #import <Cocoa/Cocoa.h>
 #import <HTTPRiot/HTTPRiot.h>
 
+//#define OAUTH_REQUEST_TOKEN_URL @"http://foursquare.com/oauth/request_token"
+//#define OAUTH_ACCESS_TOKEN_URL  @"http://foursquare.com/oauth/access_token"
+//#define OAUTH_AUTHORIZE_URL     @"http://foursquare.com/oauth/authorize"
+
+#define OAUTH_KEY    @"I32ZKHLLPIWIXDFJCOTC3F1CHLL2VRUCV4GYEFAPFVJBSOD3"
+#define OAUTH_SECRET @"CT5W2PBYH4N35DZFFPPDUYVGHAJOOBUGUKBEUX5K2VNDHKN4"
+
 typedef void(^FoursquareCallback)(BOOL success, id result);
 
 @interface Foursquare : HRRestModel {
 }
+
++ (void)getOAuthAccessTokenForUsername:(NSString *)username password:(NSString *)password callback:(id)callback;
++ (void)setOAuthAccessToken:(NSString *)token secret:(NSString *)secret;
 
 + (void)listCities:(FoursquareCallback)callback;
 
