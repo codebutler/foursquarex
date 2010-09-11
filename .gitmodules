@@ -1,0 +1,3 @@
+[submodule "httpriot"]
+	path = httpriot
+	url = git://github.com/codebutler/httpriot.git

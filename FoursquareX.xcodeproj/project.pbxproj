@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0704F63B123C0AC5008343B3 /* menu_icon_alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 0704F63A123C0AC5008343B3 /* menu_icon_alt.png */; };
+		0704F841123C0FD5008343B3 /* HTTPRiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0704F83E123C0FB6008343B3 /* HTTPRiot.framework */; };
 		071D385610E80D0B003ADA42 /* BWToolkitFramework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 071D385410E80D0B003ADA42 /* BWToolkitFramework.framework */; };
 		071D385710E80D0B003ADA42 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 071D385510E80D0B003ADA42 /* Sparkle.framework */; };
 		072F111F1103D68B00EFF027 /* PFMoveApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 072F111E1103D68B00EFF027 /* PFMoveApplication.m */; };
@@ -36,6 +38,8 @@
 		075289B510FEC428009032C7 /* foursquarex.icns in Resources */ = {isa = PBXBuildFile; fileRef = 075289B410FEC428009032C7 /* foursquarex.icns */; };
 		075289C810FECE37009032C7 /* megaphone_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 075289C710FECE37009032C7 /* megaphone_dark.png */; };
 		075C9ECC111A9B4C006DCF33 /* DockIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 075C9ECB111A9B4C006DCF33 /* DockIcon.m */; };
+		076D99A9123C134000AA96ED /* HTTPRiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0704F83E123C0FB6008343B3 /* HTTPRiot.framework */; };
+		076D99AF123C136F00AA96ED /* HTTPRiot.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 0704F83E123C0FB6008343B3 /* HTTPRiot.framework */; };
 		07946A37112A4D0300EACA00 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07946A36112A4D0300EACA00 /* Growl.framework */; };
 		07946A3F112A4D1000EACA00 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 07946A36112A4D0300EACA00 /* Growl.framework */; };
 		079FABE310CEE13100D4A730 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 079FABE210CEE13100D4A730 /* SystemConfiguration.framework */; };
@@ -60,17 +64,52 @@
 		07BB4A7610D03F5000D1A536 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07BB4A7410D03F5000D1A536 /* MainMenu.xib */; };
 		07BB4A8210D03FCA00D1A536 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07BB4A8010D03FCA00D1A536 /* InfoPlist.strings */; };
 		07BB4B0310D05D0900D1A536 /* CheckinWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BB4B0210D05D0900D1A536 /* CheckinWindowController.m */; };
-		07BB4B1C10D05E4600D1A536 /* HTTPRiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07BB4B1A10D05E4600D1A536 /* HTTPRiot.framework */; };
-		07BB4B5D10D05E4E00D1A536 /* HTTPRiot.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 07BB4B1A10D05E4600D1A536 /* HTTPRiot.framework */; };
 		07CFBE93112CBDDA00060EE2 /* AvatarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CFBE92112CBDDA00060EE2 /* AvatarManager.m */; };
 		07DF5AA611B0C99300659FFA /* NSURLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DF5AA511B0C99300659FFA /* NSURLAdditions.m */; };
 		07E7978010E721070024FF20 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07E7977F10E721070024FF20 /* Carbon.framework */; };
 		07F934AB10CDEA3500E2631A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07F934AA10CDEA3500E2631A /* CoreLocation.framework */; };
 		07FE4C8B112E10DB007AA380 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 07FE4C8A112E10DB007AA380 /* Credits.html */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		C3639CB61148652F001324C3 /* menu_icon_alt.png in Resources */ = {isa = PBXBuildFile; fileRef = C3639CB51148652F001324C3 /* menu_icon_alt.png */; };
 		F5600E971103D25800376CEC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5600E961103D25800376CEC /* Security.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0704F837123C0FB6008343B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0704F670123C0C47008343B3 /* HTTPRiot.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D0298A650F3FFBBD00EC8C01;
+			remoteInfo = libhttpriot;
+		};
+		0704F839123C0FB6008343B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0704F670123C0C47008343B3 /* HTTPRiot.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D038BDCE0FF298330041F570;
+			remoteInfo = iPhoneSampleApp;
+		};
+		0704F83B123C0FB6008343B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0704F670123C0C47008343B3 /* HTTPRiot.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D0788AE80FABAB3600C3207D;
+			remoteInfo = iPhoneUnitTestsRunner;
+		};
+		0704F83D123C0FB6008343B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0704F670123C0C47008343B3 /* HTTPRiot.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = HTTPRiot;
+		};
+		0704F83F123C0FC4008343B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0704F670123C0C47008343B3 /* HTTPRiot.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = HTTPRiot;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		0762382510CCC2D200C6C41E /* Copy Frameworks */ = {
@@ -79,18 +118,29 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				076D99AF123C136F00AA96ED /* HTTPRiot.framework in Copy Frameworks */,
 				07A00A6E11AF916A002D45C3 /* GoogleToolboxForMac.framework in Copy Frameworks */,
 				07946A3F112A4D1000EACA00 /* Growl.framework in Copy Frameworks */,
 				071D385610E80D0B003ADA42 /* BWToolkitFramework.framework in Copy Frameworks */,
 				07A9AB5F10E96D3D00CE8EC7 /* Sparkle.framework in Copy Frameworks */,
-				07BB4B5D10D05E4E00D1A536 /* HTTPRiot.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		076D99BB123C13BE00AA96ED /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0704F63A123C0AC5008343B3 /* menu_icon_alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menu_icon_alt.png; path = Resources/menu_icon_alt.png; sourceTree = "<group>"; };
+		0704F670123C0C47008343B3 /* HTTPRiot.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HTTPRiot.xcodeproj; path = httpriot/HTTPRiot.xcodeproj; sourceTree = SOURCE_ROOT; };
 		071D385410E80D0B003ADA42 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = Frameworks/BWToolkitFramework.framework; sourceTree = "<group>"; };
 		071D385510E80D0B003ADA42 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		072F111D1103D68B00EFF027 /* PFMoveApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PFMoveApplication.h; path = "3rd Party/PFMoveApplication.h"; sourceTree = "<group>"; };
@@ -172,7 +222,6 @@
 		07BB4A8110D03FCA00D1A536 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		07BB4B0110D05D0900D1A536 /* CheckinWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckinWindowController.h; sourceTree = "<group>"; };
 		07BB4B0210D05D0900D1A536 /* CheckinWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckinWindowController.m; sourceTree = "<group>"; };
-		07BB4B1A10D05E4600D1A536 /* HTTPRiot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HTTPRiot.framework; path = Frameworks/HTTPRiot.framework; sourceTree = "<group>"; };
 		07CFBE91112CBDDA00060EE2 /* AvatarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvatarManager.h; sourceTree = "<group>"; };
 		07CFBE92112CBDDA00060EE2 /* AvatarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvatarManager.m; sourceTree = "<group>"; };
 		07DF5AA411B0C99300659FFA /* NSURLAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSURLAdditions.h; sourceTree = "<group>"; };
@@ -185,7 +234,6 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* FoursquareX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoursquareX.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C3639CB51148652F001324C3 /* menu_icon_alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_icon_alt.png; sourceTree = "<group>"; };
 		F5600E961103D25800376CEC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -194,23 +242,35 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0704F841123C0FD5008343B3 /* HTTPRiot.framework in Frameworks */,
 				07A00AED11AF9293002D45C3 /* GoogleToolboxForMac.framework in Frameworks */,
 				07A9ABDA10E97C7500CE8EC7 /* BWToolkitFramework.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				07F934AB10CDEA3500E2631A /* CoreLocation.framework in Frameworks */,
 				079FABE310CEE13100D4A730 /* SystemConfiguration.framework in Frameworks */,
-				07BB4B1C10D05E4600D1A536 /* HTTPRiot.framework in Frameworks */,
 				072FA18C10DAFBA2008293D7 /* WebKit.framework in Frameworks */,
 				07E7978010E721070024FF20 /* Carbon.framework in Frameworks */,
 				071D385710E80D0B003ADA42 /* Sparkle.framework in Frameworks */,
 				F5600E971103D25800376CEC /* Security.framework in Frameworks */,
 				07946A37112A4D0300EACA00 /* Growl.framework in Frameworks */,
+				076D99A9123C134000AA96ED /* HTTPRiot.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0704F830123C0FB6008343B3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0704F838123C0FB6008343B3 /* libhttpriot.a */,
+				0704F83A123C0FB6008343B3 /* iPhoneSampleApp.app */,
+				0704F83C123C0FB6008343B3 /* iPhoneUnitTestsRunner.app */,
+				0704F83E123C0FB6008343B3 /* HTTPRiot.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		072FA04210DADA94008293D7 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
@@ -329,7 +389,6 @@
 				071D385410E80D0B003ADA42 /* BWToolkitFramework.framework */,
 				071D385510E80D0B003ADA42 /* Sparkle.framework */,
 				072FA18B10DAFBA2008293D7 /* WebKit.framework */,
-				07BB4B1A10D05E4600D1A536 /* HTTPRiot.framework */,
 				079FABE210CEE13100D4A730 /* SystemConfiguration.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				07F934AA10CDEA3500E2631A /* CoreLocation.framework */,
@@ -360,6 +419,7 @@
 		29B97314FDCFA39411CA2CEA /* FoursquareX */ = {
 			isa = PBXGroup;
 			children = (
+				0704F670123C0C47008343B3 /* HTTPRiot.xcodeproj */,
 				07BB4A0B10D03F0200D1A536 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -381,6 +441,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0704F63A123C0AC5008343B3 /* menu_icon_alt.png */,
 				075289B410FEC428009032C7 /* foursquarex.icns */,
 				0752819210FC34E3009032C7 /* UpdateKey.pem */,
 				07BB4A7410D03F5000D1A536 /* MainMenu.xib */,
@@ -390,7 +451,6 @@
 				07A9AB4210E96D1B00CE8EC7 /* megaphone.png */,
 				075289C710FECE37009032C7 /* megaphone_dark.png */,
 				07A9AB4310E96D1B00CE8EC7 /* menu_icon.png */,
-				C3639CB51148652F001324C3 /* menu_icon_alt.png */,
 				07A9AB4410E96D1B00CE8EC7 /* reload.tiff */,
 				07BB4A8010D03FCA00D1A536 /* InfoPlist.strings */,
 				07BB4A7010D03F3800D1A536 /* FoursquareX-Info.plist */,
@@ -423,10 +483,12 @@
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				0762382510CCC2D200C6C41E /* Copy Frameworks */,
+				076D99BB123C13BE00AA96ED /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0704F840123C0FC4008343B3 /* PBXTargetDependency */,
 			);
 			name = FoursquareX;
 			productInstallPath = "$(HOME)/Applications";
@@ -444,12 +506,49 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* FoursquareX */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 0704F830123C0FB6008343B3 /* Products */;
+					ProjectRef = 0704F670123C0C47008343B3 /* HTTPRiot.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* FoursquareX */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		0704F838123C0FB6008343B3 /* libhttpriot.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libhttpriot.a;
+			remoteRef = 0704F837123C0FB6008343B3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0704F83A123C0FB6008343B3 /* iPhoneSampleApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = iPhoneSampleApp.app;
+			remoteRef = 0704F839123C0FB6008343B3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0704F83C123C0FB6008343B3 /* iPhoneUnitTestsRunner.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = iPhoneUnitTestsRunner.app;
+			remoteRef = 0704F83B123C0FB6008343B3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0704F83E123C0FB6008343B3 /* HTTPRiot.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = HTTPRiot.framework;
+			remoteRef = 0704F83D123C0FB6008343B3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D1107290486CEB800E47090 /* Resources */ = {
@@ -472,7 +571,7 @@
 				075289B510FEC428009032C7 /* foursquarex.icns in Resources */,
 				075289C810FECE37009032C7 /* megaphone_dark.png in Resources */,
 				07FE4C8B112E10DB007AA380 /* Credits.html in Resources */,
-				C3639CB61148652F001324C3 /* menu_icon_alt.png in Resources */,
+				0704F63B123C0AC5008343B3 /* menu_icon_alt.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +617,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		0704F840123C0FC4008343B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = HTTPRiot;
+			targetProxy = 0704F83F123C0FC4008343B3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		07BB4A7410D03F5000D1A536 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
@@ -544,11 +651,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
+					"$(CONFIGURATION_BUILD_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 					"$(SRCROOT)/Frameworks",
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../../Sources/httpriot/build/Debug\"",
-					"\"$(SRCROOT)/../../Sources/BGHUDAppKit/build/Debug\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -556,6 +662,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/Other Sources/FoursquareX_Prefix.pch";
+				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = FoursquareX;
