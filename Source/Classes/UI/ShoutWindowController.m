@@ -87,17 +87,17 @@
 					tellFacebook:tellFacebook
 						latitude:nil
 					   longitude:nil
-						callback:^(BOOL success, id response) {
+						callback:^(id result, NSError *error) {
 							[indicator stopAnimation:self];
 							[shoutButton setEnabled:YES];
 							[textField setEnabled:YES];
 							[self enableDisableCheckboxes];
 							
-							if (success) {
+							if (!error) {
 								[[self window] close];
 								[textField setStringValue:@""];
 							} else {
-								NSAlert *alert = [NSAlert alertWithResponse:response];
+								NSAlert *alert = [NSAlert alertWithError:error result:result];
 								[alert beginSheetModalForWindow:[self window] 
 												  modalDelegate:nil
 												 didEndSelector:nil 

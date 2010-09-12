@@ -40,7 +40,7 @@
 @interface NSObject (FoursquareUpdaterDelegate)
 - (void)foursquareUpdaterStartedUpdating:(FoursquareUpdater *)updater;
 - (void)foursquareUpdaterFinishedUpdating:(FoursquareUpdater *)updater;
-- (void)foursquareUpdater:(FoursquareUpdater *)updater failedWithResponse:(id)response whileUpdating:(NSString *)task;
+- (void)foursquareUpdater:(FoursquareUpdater *)updater failedWithError:(NSError *)error result:(id)result whileUpdating:(NSString *)task;
 - (void)foursquareUpdater:(FoursquareUpdater *)updater statusChanged:(NSString *)statusText;
 - (void)foursquareUpdater:(FoursquareUpdater *)updater gotOwnProfile:(NSDictionary *)profile isValid:(BOOL)isValid;
 - (void)foursquareUpdater:(FoursquareUpdater *)updater gotFriendCheckins:(NSArray *)friendCheckins;

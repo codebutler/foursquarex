@@ -46,7 +46,7 @@
 {
 	[self setFormat:HRDataFormatJSON];
 	[self setDelegate:self];
-	[self setBaseURL:[NSURL URLWithString:@"http://api.foursquare.com/v1"]];
+	[self setBaseURL:[NSURL URLWithString:@"https://api.foursquare.com/v1"]];
 }
 
 + (void)getOAuthAccessTokenForUsername:(NSString *)username password:(NSString *)password callback:(id)callback
@@ -339,17 +339,18 @@
 				object:(id)object 
 {
 	FoursquareCallback callback = (FoursquareCallback)object;
-    callback(NO, error);
+	callback(nil, error);
 	[callback release];
 }
 
 + (void)restConnection:(NSURLConnection *)connection 
 	   didReceiveError:(NSError *)error 
+			  resource:(id)resource
 			  response:(NSHTTPURLResponse *)response 
-				object:(id)object 
+				object:(id)object
 {
 	FoursquareCallback callback = (FoursquareCallback)object;
-    callback(NO, error);
+	callback(resource, error);
 	[callback release];
 }
 
@@ -359,7 +360,7 @@
 				object:(id)object
 {
 	FoursquareCallback callback = (FoursquareCallback)object;
-    callback(NO, error);
+	callback(string, error);
 	[callback release];
 }
 
@@ -368,11 +369,8 @@
 			  response:(NSHTTPURLResponse *)response
 				object:(id)object
 {
-	NSUInteger code = [response statusCode];
-	BOOL success = (code >= 200 && code <= 299);
-	
 	FoursquareCallback callback = (FoursquareCallback)object;
-    callback(success, resource);
+	callback(resource, nil);
 	[callback release];
 }
 
@@ -402,10 +400,10 @@
 	NSMutableDictionary *options = [NSMutableDictionary dictionary];
 	
 	NSString *path = nil;
-	// HACK: This method is apparently XML-only, for some reason.
+	// HACK: This method is apparently XML-only and sometimes returns plaintext errors.
 	if ([methodName isEqualToString:@"authexchange"]) {
 		path = [NSString stringWithFormat:@"/%@", methodName];
-		[options setValue:[NSNumber numberWithInt:HRDataFormatXML] forKey:kHRClassAttributesFormatKey];
+		[options setValue:[NSNumber numberWithInt:HRDataFormatUnknown] forKey:kHRClassAttributesFormatKey];
 	} else {
 		path = [NSString stringWithFormat:@"/%@.json", methodName];
 	}

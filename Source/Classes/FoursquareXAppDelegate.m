@@ -26,6 +26,13 @@
 #import "NSWindow-NoodleEffects.h"
 #import "NSArray-Blocks.h"
 #import "DockIcon.h"
+#import "NSAlertAdditions.h"
+
+@interface FoursquareTester : Foursquare
+@end
+
+@implementation FoursquareTester
+@end
 
 @interface FoursquareXAppDelegate (PrivateAPI)
 - (void)getCheckinsAtVenue:(NSNumber *)venueId;
@@ -115,6 +122,63 @@
 - (BOOL)isLoadFinished {
 	return loadFinished;
 }
+
+- (void)changeUsername:(NSString *)username 
+			  password:(NSString *)password
+	 alertParentWindow:(NSWindow *)alertParentWindow
+		 alertDelegate:(id)alertDelegate
+			  callback:(AuthCallback)callback
+{
+	callback = [callback copy];
+	[FoursquareTester getOAuthAccessTokenForUsername:username
+											password:password
+											callback:^(id result, NSError *error)
+	 {
+		 if (!error) {
+			 // Parse result XML
+			 NSData *data = [result dataUsingEncoding:NSUTF8StringEncoding];
+			 
+			 NSError *parseError = nil;
+			 NSXMLDocument *doc = [[[NSXMLDocument alloc] initWithData:data options:NSXMLDocumentTidyXML error:&parseError] autorelease];
+			 if (parseError) {
+				 error = parseError;
+			 } else {
+				 NSDictionary *rootDict = [doc toDictionary];
+				 NSDictionary *dict = [rootDict objectForKey:@"credentials"];
+				 
+				 NSString *token  = [dict objectForKey:@"oauth_token"];
+				 NSString *secret = [dict objectForKey:@"oauth_token_secret"];
+				 
+				 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+				 [defaults setObject:token  forKey:@"access_token"];
+				 [defaults setObject:secret forKey:@"access_secret"];
+				 
+				 [defaults removeObjectForKey:@"email"];
+				 [defaults removeObjectForKey:@"password"];
+				 
+				 [Foursquare setOAuthAccessToken:token secret:secret];
+				 
+				 callback(YES);
+				 [callback release];
+				 
+				 return;
+			 }
+		 }
+		 
+		 callback(NO);
+		 [callback release];
+		 
+		 NSString *firstCapChar = [[result substringToIndex:1] capitalizedString];
+		 result = [[result lowercaseString] stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:firstCapChar];
+		 
+		 NSAlert *alert = [NSAlert alertWithError:error result:result];
+		 [alert beginSheetModalForWindow:alertParentWindow
+						   modalDelegate:alertDelegate
+						  didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) 
+							 contextInfo:nil];
+	 }];
+}
+	 
 
 #pragma mark NSApplicationDelegate methods
 
@@ -208,17 +272,17 @@
 
 - (IBAction)showAddFriends:(id)sender
 {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://foursquare.com/import/"]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://foursquare.com/import/"]];
 }
 
 - (IBAction)showManageFriends:(id)sender
 {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://foursquare.com/manage_friends"]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://foursquare.com/manage_friends"]];
 }
 
 - (IBAction)showAddVenue:(id)sender
 {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://foursquare.com/add_venue"]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://foursquare.com/add_venue"]];
 }
 
 #pragma mark GrowlApplicationBridgeDelegate methods 
@@ -426,7 +490,8 @@
 }
 
 - (void)foursquareUpdater:(FoursquareUpdater *)updater 
-	   failedWithResponse:(id)response
+		  failedWithError:(NSError *)error
+				   result:(id)result
 			whileUpdating:(NSString *)task
 {
 	// Always clear out the menu on error so it doesn't get stuck saying "Searching..."
@@ -445,7 +510,6 @@
 	
 	[locationMenuItem setTitle:@"[Error fetching current checkin]"];
 	
-	
 	NSString *errorText = @"An error occurred";	
 	if ([task isEqualToString:@"currentCheckin"]) {
 		errorText = @"Failed to get current venue";
@@ -461,16 +525,18 @@
 		[mainWindowController gotVenues:nil];
 	}
 	
-	if ([response isKindOfClass:[NSError class]])
-		if ([[response domain] isEqualToString:@"kCLErrorDomain"]) {
-			NSLog(@"%@: %@", errorText, [response localizedDescription]);
+	if (error) {
+		if ([[error domain] isEqualToString:@"kCLErrorDomain"]) {
+			NSLog(@"%@: %@", errorText, [error localizedDescription]);
 			errorText = @"Unable to find your location, please try again later.";
 		} else
-			errorText = [NSString stringWithFormat:@"%@: %@", errorText, [response localizedDescription]];
-	else if ([response isKindOfClass:[NSDictionary class]] && [response objectForKey:@"error"])
-		errorText = [NSString stringWithFormat:@"%@: %@", errorText, [response objectForKey:@"error"]];
-	else
-		errorText = [NSString stringWithFormat:@"%@.", errorText];
+			errorText = [NSString stringWithFormat:@"%@: %@", errorText, [error localizedDescription]];
+	} else {
+		if ([result isKindOfClass:[NSDictionary class]] && [result objectForKey:@"error"])
+			errorText = [NSString stringWithFormat:@"%@: %@", errorText, [result objectForKey:@"error"]];
+		else
+			errorText = [NSString stringWithFormat:@"%@.", errorText];
+	}
 	
 	NSLog(@"%@", errorText);
 	

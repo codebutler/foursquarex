@@ -38,6 +38,8 @@
 #import "NSPreferences.h"
 #import "AppPreferences.h"
 
+typedef void(^AuthCallback)(BOOL success);
+
 @interface FoursquareXAppDelegate : NSObject <NSApplicationDelegate, GrowlApplicationBridgeDelegate, CLLocationManagerDelegate> {
 	IBOutlet MainWindowController *mainWindowController;
     IBOutlet WelcomeWindowController *welcomeWindowController;
@@ -87,6 +89,12 @@
 - (IBAction)showManageFriends:(id)sender;
 - (IBAction)showAddVenue:(id)sender;
 - (IBAction)refreshEverything:(id)sender;
+
+- (void)changeUsername:(NSString *)username 
+			  password:(NSString *)password
+	 alertParentWindow:(NSWindow *)alertParentWindow
+		 alertDelegate:(id)alertDelegate
+			  callback:(AuthCallback)callback;
 
 - (void)setMapReady;
 - (void)finishLoading;

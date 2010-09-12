@@ -21,22 +21,20 @@
 
 
 @implementation NSAlert (NSAlertAdditions)
-+ (NSAlert *)alertWithResponse:(id)response
++ (NSAlert *)alertWithError:(NSError *)error result:(id)result
 {
-	NSAlert *alert = nil;
-	if ([response isKindOfClass:[NSError class]]) {
-		alert = [NSAlert alertWithError:response];
-	} else {
-		NSString *infoText = nil;
-		if ([response isKindOfClass:[NSDictionary class]] && [response objectForKey:@"error"]) {
-			infoText = [response objectForKey:@"error"];
-		}
-		alert = [NSAlert alertWithMessageText:@"Sorry, an error occurred."
-								defaultButton:nil
-							  alternateButton:nil
-								  otherButton:nil
-					informativeTextWithFormat:infoText];
+	NSString *infoText = nil;
+	if ([result isKindOfClass:[NSString class]]) {
+		infoText = result;
+	} else if ([result isKindOfClass:[NSDictionary class]] && [result objectForKey:@"error"]) {
+		infoText = [result objectForKey:@"error"];
 	}
+	
+	NSAlert *alert = [NSAlert alertWithError:error];
+	
+	if (infoText)
+ 		[alert setInformativeText:infoText];
+
 	return alert;
 }
 @end

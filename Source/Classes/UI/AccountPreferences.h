@@ -25,6 +25,7 @@
 	IBOutlet NSTextField *emailField;
 	IBOutlet NSTextField *passwordField;
 	IBOutlet NSProgressIndicator *accountIndicator;
+	IBOutlet NSButton *changeButton;
 }
 
 - (IBAction)showSheet:(id)sender;

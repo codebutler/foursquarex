@@ -27,7 +27,7 @@
 - (void)getFriendCheckins;
 - (void)getNearbyVenues;
 - (void)getCheckinsAtVenue:(NSNumber *)venueId;
-- (void)handleError:(id)response forTask:(NSString *)task;
+- (void)handleError:(NSError *)error withResult:(id)result forTask:(NSString *)task;
 - (void)finish;
 - (void)updateStatus:(NSString *)statusText;
 @end
@@ -72,13 +72,13 @@
 	[Foursquare detailForUser:nil 
 				   showBadges:NO
 					showMayor:NO
-					 callback:^(BOOL success, id response) {
-						 if (!success) {
-							 [self handleError:response forTask:@"currentCheckin"];
+					 callback:^(id result, NSError *error) {
+						 if (error) {
+							 [self handleError:error withResult:result forTask:@"currentCheckin"];
 							 return;
 						 }
 						
-						 NSDictionary *dict = (NSDictionary *)response;
+						 NSDictionary *dict = (NSDictionary *)result;
 						 
 						 NSDictionary *user    = [dict objectForKey:@"user"];
 						 NSDictionary *checkin = [user objectForKey:@"checkin"];			
@@ -112,13 +112,13 @@
 	[self updateStatus:[NSString stringWithFormat:@"Get checkins at venue: %@", venueId]];
 	
 	[Foursquare detailForVenue:venueId
-					  callback:^(BOOL success, id response) {
-						  if (!success) {
-							  [self handleError:response forTask:@"venueCheckins"];
+					  callback:^(id result, NSError *error) {
+						  if (error) {
+							  [self handleError:error withResult:result forTask:@"venueCheckins"];
 							  return;
 						  }
 						  
-						  NSDictionary *venue = [response objectForKey:@"venue"];
+						  NSDictionary *venue = [result objectForKey:@"venue"];
 						  
 						  NSLog(@"Got detail for venue: %@", [venue objectForKey:@"id"]);
 						  
@@ -147,15 +147,15 @@
 	
 	[Foursquare recentFriendCheckinsNearLatitude:geoLat
 									   longitude:geoLng
-										callback:^(BOOL success, id response) {
-											if (!success) {
-												[self handleError:response forTask:@"friendCheckins"];
+										callback:^(id result, NSError *error) {
+											if (error) {
+												[self handleError:error withResult:result forTask:@"friendCheckins"];
 												return;
 											}
 											
 											NSLog(@"Got friend checkins");
 											
-											NSArray *checkins = [response objectForKey:@"checkins"];
+											NSArray *checkins = [result objectForKey:@"checkins"];
 											
 											// Filter out friends in other cities, if desired.
 											NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -182,9 +182,9 @@
 						 longitude:lastKnownLocation.coordinate.longitude
 						  matching:nil 
 							 limit:nil 
-						  callback:^(BOOL success, id result) {
-							  if (!success) {
-								  [self handleError:result forTask:@"nearbyVenues"];
+						  callback:^(id result, NSError *error) {
+							  if (error) {
+								  [self handleError:error withResult:result forTask:@"nearbyVenues"];
 								  return;
 							  }
 							  
@@ -233,15 +233,15 @@
 	   didFailWithError:(NSError *)error 
 {
 	[locationManager stopUpdatingLocation];
-	[self handleError:error forTask:@"location"];
+	[self handleError:error  withResult:nil forTask:@"location"];
 }	
 
-- (void)handleError:(id)response forTask:(NSString *)task
+- (void)handleError:(NSError *)error withResult:(id)result forTask:(NSString *)task
 {
 	refreshing = NO;
 	
-	if ([delegate respondsToSelector:@selector(foursquareUpdater:failedWithResponse:whileUpdating:)])
-		[delegate foursquareUpdater:self failedWithResponse:response whileUpdating:task];
+	if ([delegate respondsToSelector:@selector(foursquareUpdater:failedWithError:result:whileUpdating:)])
+		[delegate foursquareUpdater:self failedWithError:error result:result whileUpdating:task];
 }
 
 - (void)finish

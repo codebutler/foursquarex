@@ -22,5 +22,5 @@
 
 
 @interface NSAlert (NSAlterAdditions)
-+ (NSAlert *)alertWithResponse:(id)response;
++ (NSAlert *)alertWithError:(NSError *)error result:(id)result;
 @end

@@ -72,14 +72,14 @@
 					tellFacebook:tellFacebook 
 						latitude:nil
 					   longitude:nil
-						callback:^(BOOL success, id response) {
+						callback:^(id result, NSError *error) {
 							[progressIndicator stopAnimation:self];
-							if (success) {
+							if (!error) {
 								[[self window] close];
 								FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
 								[appDelegate refreshEverything:self];								
 							} else {
-								NSAlert *alert = [NSAlert alertWithResponse:response];
+								NSAlert *alert = [NSAlert alertWithError:error result:result];
 								[alert beginSheetModalForWindow:[self window] 
 												  modalDelegate:nil
 												 didEndSelector:nil 

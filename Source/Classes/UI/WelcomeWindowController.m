@@ -61,40 +61,18 @@
 	// Perform authorization exchange to get access token.
 	NSString *username = [emailField stringValue];
 	NSString *password = [passwordField stringValue];
-	[Foursquare getOAuthAccessTokenForUsername:username password:password callback:^(BOOL success, id result) {
-		[indicator stopAnimation:self];
-		
-		if (success) {		
-			NSDictionary *dict = [result objectForKey:@"credentials"];
-			
-			NSString *token  = [dict objectForKey:@"oauth_token"];
-			NSString *secret = [dict objectForKey:@"oauth_token_secret"];
-			
-			NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-			[defaults setObject:token  forKey:@"access_token"];
-			[defaults setObject:secret forKey:@"access_secret"];
-			
-			[defaults removeObjectForKey:@"email"];
-			[defaults removeObjectForKey:@"password"];
-						
-			[Foursquare setOAuthAccessToken:token secret:secret];
-			
-			[self close];
-						
-			FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
-			[appDelegate finishLoading];
-
-			return;
-		}
-		
-		// Failed!
-		NSAlert *alert = [NSAlert alertWithResponse:result];
-		[alert beginSheetModalForWindow:[self window] 
-						  modalDelegate:self 
-						 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) 
-							contextInfo:nil];
-	}];
-	
+	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
+	[appDelegate changeUsername:username
+					   password:password
+			   alertParentWindow:[self window]
+				  alertDelegate:self
+					   callback:^(BOOL success) {
+						   [indicator stopAnimation:self];
+						   if (success) {
+							   [self close];
+							   [appDelegate finishLoading];
+						   }
+					   }];
 }
 
 - (void)alertDidEnd:(NSAlert *)alert 

@@ -21,12 +21,7 @@
 #import "AccountPreferences.h"
 #import "Foursquare.h"
 #import "FoursquareXAppDelegate.h"
-
-@interface FoursquareTester : Foursquare
-@end
-
-@implementation FoursquareTester
-@end
+#import "NSAlertAdditions.h"
 
 @implementation AccountPreferences
 
@@ -66,52 +61,26 @@
 	
 	[sender setEnabled:NO];
 	[accountIndicator startAnimation:self];
-	
-	[FoursquareTester getOAuthAccessTokenForUsername:[emailField stringValue]
-											password:[passwordField stringValue]
-											callback:^(BOOL success, id response) 
-	{
-		[accountIndicator stopAnimation:self];
-		
-		if (success) {
-			NSDictionary *dict = [response objectForKey:@"credentials"];
-			
-			NSString *token  = [dict objectForKey:@"oauth_token"];
-			NSString *secret = [dict objectForKey:@"oauth_token_secret"];
-			
-			NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-			[defaults setObject:token  forKey:@"access_token"];
-			[defaults setObject:secret forKey:@"access_secret"];
-			
-			[Foursquare setOAuthAccessToken:token secret:secret];			
-			
-			[self hideSheet:self];
-			
-			FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
-			[appDelegate refreshEverything:self];
-		} else {
-			NSAlert *alert = [[NSAlert alloc] init];
-			[alert addButtonWithTitle:@"OK"];
-			[alert setMessageText:@"Login Failed"];
-			[alert setAlertStyle:NSWarningAlertStyle];
-			
-			NSString *errorText = nil;
-			if ([response isKindOfClass:[NSError class]]) {
-				NSError *error = (NSError *)response;
-				errorText = [error localizedDescription];			
-				
-				[alert setInformativeText:errorText];
-			} 
-			
-			[alert beginSheetModalForWindow:sheetWindow
-							  modalDelegate:nil 
-							 didEndSelector:NULL
-								contextInfo:nil];
-		}
-		
-		[sender setEnabled:YES];
-	}];
+
+	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
+	[appDelegate changeUsername:[emailField stringValue]
+					   password:[passwordField stringValue]
+			   alertParentWindow:sheetWindow
+				  alertDelegate:self
+					   callback:^(BOOL success) {
+						   [accountIndicator stopAnimation:self];
+						   if (success) {
+							   [self hideSheet:self];
+							   [appDelegate refreshEverything:self];
+						   }
+						 }];
 }
 
+- (void)alertDidEnd:(NSAlert *)alert 
+		 returnCode:(NSInteger)returnCode
+		contextInfo:(void *)contextInfo 
+{
+	[changeButton setEnabled:YES];
+}
 
 @end

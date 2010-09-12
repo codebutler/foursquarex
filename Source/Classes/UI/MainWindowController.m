@@ -421,8 +421,8 @@
 						 longitude:lastKnownLocation.coordinate.longitude
 						  matching:query
 							 limit:nil 
-						  callback:^(BOOL success, id result) {
-							  if (success) {
+						  callback:^(id result, NSError *error) {
+							  if (!error) {
 								  [statusLabel setHidden:YES];
 								  [indicator stopAnimation:self];								  
 								  
@@ -434,7 +434,7 @@
 									  [self callJSMapMethod:@"zoomToAll" withArguments:nil];
 								  
 							  } else {
-								  NSLog(@"Error searching for venues: %@", result);
+								  NSLog(@"Error searching for venues: %@ %s", error, result);
 								  [statusLabel setStringValue:@"Error searching for venues."];
 								  [statusLabel setHidden:NO];
 								  [indicator stopAnimation:self];
