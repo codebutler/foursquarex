@@ -83,7 +83,7 @@
                 display = '<b>{0}</b> says &ldquo;{1}&rdquo;<br/>@ <b>{2}</b>'.format(escapeHTML(displayParts[0]), escapeHTML(checkin.shout), venueLink);
               else
                 display = '<b>{0} @ {1}</b>'.format(escapeHTML(displayParts[0]), venueLink);
-                
+            
               var infoWindowHTML = [
                 '<div class="infoWindow">',
                 display,
@@ -200,8 +200,11 @@
             if (marker.visible)
               bounds.extend(marker.getPosition());
           }
-          map.fitBounds(bounds);
-          return true;
+          if (!bounds.isEmpty()) {
+            map.fitBounds(bounds);
+            return true;
+          }
+          return false;
         },
 
         _updateMarkerLayer: function (layerName, newObjects, addMarkerFunc) {

@@ -236,7 +236,6 @@
 	NSDate *threeHoursAgo = [[NSDate date] dateByAddingTimeInterval:-10800];
 	
 	// Resize all the avatars.
-	// FIXME: Need a local cache of this.
 	NSMutableArray *newFriendCheckins = [NSMutableArray arrayWithCapacity:[friendCheckins count]];
 	for (NSDictionary *checkin in friendCheckins) {
 		NSMutableDictionary *newCheckin = [NSMutableDictionary dictionaryWithDictionary:checkin];
