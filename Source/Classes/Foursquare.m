@@ -109,8 +109,8 @@
 + (void)checkinAtVenueId:(NSString *)venueId 
 			   venueName:(NSString *)venueName 
 				   shout:(NSString *)shout 
-			 showFriends:(BOOL)showFriends 
-			   sendTweet:(BOOL)sendTweet
+			 tellFriends:(BOOL)tellFriends 
+			 tellTwitter:(BOOL)tellTwitter
 			tellFacebook:(BOOL)tellFacebook
 				latitude:(NSString *)geoLat
 			   longitude:(NSString *)geoLong
@@ -127,10 +127,10 @@
 	if (shout)
 		[params setObject:shout forKey:@"shout"];
 	
-	NSString *private = showFriends ? @"0" : @"1";
+	NSString *private = tellFriends ? @"0" : @"1";
 	[params setObject:private forKey:@"private"];
 	
-	NSString *twitter = sendTweet ? @"1" : @"0";
+	NSString *twitter = tellTwitter ? @"1" : @"0";
 	[params setObject:twitter forKey:@"twitter"];
 	
 	NSString *facebook = tellFacebook ? @"1" : @"0";

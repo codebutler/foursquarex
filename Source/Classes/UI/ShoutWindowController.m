@@ -55,9 +55,9 @@
 
 - (void)showWindow:(id)sender
 {	
-	[self enableDisableCheckboxes];
-	
+	[self enableDisableCheckboxes];	
 	[super showWindow:self];
+	[[self window] makeKeyAndOrderFront:self];
 }
 
 - (void)textDidChange:(NSNotification *)aNotification 
@@ -76,14 +76,14 @@
 	[indicator startAnimation:self];
 	
 	NSString *shout = [textField stringValue];
-	BOOL showTwitter = [twitterCheck state] == NSOnState;
+	BOOL tellTwitter = [twitterCheck state] == NSOnState;
 	BOOL tellFacebook = [facebookCheck state] == NSOnState;
 	
 	[Foursquare checkinAtVenueId:nil
 					   venueName:nil
 						   shout:shout
-					 showFriends:YES
-					   sendTweet:showTwitter
+					 tellFriends:YES
+					 tellTwitter:tellTwitter
 					tellFacebook:tellFacebook
 						latitude:nil
 					   longitude:nil
@@ -93,7 +93,15 @@
 							[textField setEnabled:YES];
 							[self enableDisableCheckboxes];
 							
-							if (!error) {
+							if (!error) {								
+								NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+								
+								if ([twitterCheck isEnabled])
+									[defaults setObject:[NSNumber numberWithBool:tellTwitter] forKey:@"tellTwitter"];
+								
+								if ([facebookCheck isEnabled])
+									[defaults setObject:[NSNumber numberWithBool:tellFacebook] forKey:@"tellFacebook"];								
+								
 								[[self window] close];
 								[textField setStringValue:@""];
 							} else {
@@ -114,9 +122,18 @@
 	[twitterCheck setEnabled:[appDelegate hasTwitter]];
 	[facebookCheck setEnabled:[appDelegate hasFacebook]];
 	
-	if (![appDelegate hasTwitter])
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	BOOL tellTwitter  = [[defaults objectForKey:@"tellTwitter"] boolValue];
+	BOOL tellFacebook = [[defaults objectForKey:@"tellFacebook"] boolValue];	
+	
+	if ([appDelegate hasTwitter])
+		[twitterCheck setState:((tellTwitter) ? NSOnState : NSOffState)];
+	else
 		[twitterCheck setState:NSOffState];
-	if (![appDelegate hasFacebook])
-		[facebookCheck setState:NSOffState];
+	
+	if ([appDelegate hasFacebook])
+		[facebookCheck setState:((tellFacebook) ? NSOnState : NSOffState)];
+	else
+		[facebookCheck setState:NSOffState];	
 }
 @end

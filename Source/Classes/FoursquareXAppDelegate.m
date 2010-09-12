@@ -52,6 +52,12 @@
 						  @"showReminders",
 						  [NSNumber numberWithBool:NO],
 						  @"showStrangers",
+						  [NSNumber numberWithBool:YES],
+						  @"tellFriends",
+						  [NSNumber numberWithBool:YES],
+						  @"tellTwitter",
+						  [NSNumber numberWithBool:YES],
+						  @"tellFacebook",
 						  nil];
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults registerDefaults:dict];
@@ -239,9 +245,7 @@
 
 - (IBAction)showQuickCheckinWindow:(id)sender
 {
-	[NSApp activateIgnoringOtherApps:YES];
 	[checkinWindowController showWindow:self];
-	[[checkinWindowController window] makeKeyAndOrderFront:self];	
 }
 
 - (IBAction)showShoutWindow:(id)sender 
@@ -256,10 +260,8 @@
 		[[shoutWindowController window] zoomOnFromRect:rect];
 	} else {
 		[NSApp activateIgnoringOtherApps:YES];
-		[shoutWindowController showWindow:self];
 	}
-	
-	[[shoutWindowController window] makeKeyAndOrderFront:self];
+	[shoutWindowController showWindow:self];
 }
 
 - (IBAction)showPreferences:(id)sender
@@ -684,9 +686,7 @@
 - (void)quickCheckinAction:(id)sender
 {
 	NSDictionary *venueDict = [sender representedObject];
-	[NSApp activateIgnoringOtherApps:YES];
 	[checkinWindowController showWindow:self withVenue:venueDict];
-	[[checkinWindowController window] makeKeyAndOrderFront:self];
 }
 
 - (void)gotAvatar:(NSString *)path

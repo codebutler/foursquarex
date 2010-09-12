@@ -35,5 +35,4 @@
 - (IBAction)closeWindow:(id)sender;
 - (IBAction)checkinClicked:(id)sender;
 - (void)setVenueId:(NSString *)aVenueId venueName:(NSString *)venueName;
-- (void)clearVenue;
 @end

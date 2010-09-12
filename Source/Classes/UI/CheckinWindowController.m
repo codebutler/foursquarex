@@ -22,14 +22,16 @@
 #import "FoursquareXAppDelegate.h"
 #import "NSAlertAdditions.h"
 
+@interface CheckinWindowController (PrivateAPI)
+- (void)clearVenue;
+- (void)updateCheckboxes;
+@end
+
 @implementation CheckinWindowController
 
 - (void)awakeFromNib 
 {
 	[super awakeFromNib];
-	
-	// FIXME: [venueView setIndentationPerLevel:0];
-	
 	[[[self window] standardWindowButton:NSWindowZoomButton] setEnabled:NO];
 }
 
@@ -54,8 +56,8 @@
 {
 	[progressIndicator startAnimation:self];
 	
-	BOOL showFriends = [friendsCheck state] == NSOnState;
-	BOOL showTwitter = [twitterCheck state] == NSOnState;
+	BOOL tellFriends = [friendsCheck state] == NSOnState;
+	BOOL tellTwitter = [twitterCheck state] == NSOnState;
 	BOOL tellFacebook = [facebookCheck state] == NSOnState;
 	
 	NSString *shout = [shoutField stringValue];
@@ -67,8 +69,8 @@
 	[Foursquare checkinAtVenueId:venueId
 					   venueName:venueName
 						   shout:shout
-					 showFriends:showFriends
-					   sendTweet:showTwitter
+					 tellFriends:tellFriends
+					 tellTwitter:tellTwitter
 					tellFacebook:tellFacebook 
 						latitude:nil
 					   longitude:nil
@@ -77,7 +79,18 @@
 							if (!error) {
 								[[self window] close];
 								FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
-								[appDelegate refreshEverything:self];								
+								[appDelegate refreshEverything:self];
+								
+								NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+								
+								if ([twitterCheck isEnabled])
+									[defaults setObject:[NSNumber numberWithBool:tellTwitter] forKey:@"tellTwitter"];
+								
+								if ([facebookCheck isEnabled])
+									[defaults setObject:[NSNumber numberWithBool:tellFacebook] forKey:@"tellFacebook"];
+								
+								[defaults setObject:[NSNumber numberWithBool:tellFriends] forKey:@"tellFriends"];
+								
 							} else {
 								NSAlert *alert = [NSAlert alertWithError:error result:result];
 								[alert beginSheetModalForWindow:[self window] 
@@ -90,36 +103,24 @@
 
 - (IBAction)showWindow:(id)sender
 {
-	[self closeWindow:self];
-	[self clearVenue];
-
-	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
-	[twitterCheck setEnabled:[appDelegate hasTwitter]];
-	[facebookCheck setEnabled:[appDelegate hasFacebook]];
-	if (![appDelegate hasTwitter])
-		[twitterCheck setState:NSOffState];
-	if (![appDelegate hasFacebook])
-		[facebookCheck setState:NSOffState];
-	
-	[super showWindow:sender];
+	[self showWindow:sender withVenue:nil];
 }
 
 - (IBAction)showWindow:(id)sender withVenue:(NSDictionary *)venueDict
 {
 	[self closeWindow:self];
-	
-	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
-	[twitterCheck setEnabled:[appDelegate hasTwitter]];
-	[facebookCheck setEnabled:[appDelegate hasFacebook]];
-	if (![appDelegate hasTwitter])
-		[twitterCheck setState:NSOffState];
-	if (![appDelegate hasFacebook])
-		[facebookCheck setState:NSOffState];
-	
-	[self setVenueId:[[venueDict objectForKey:@"id"] stringValue]
-		   venueName:[venueDict objectForKey:@"name"]];
 
+	if (venueDict) {
+		[self setVenueId:[[venueDict objectForKey:@"id"] stringValue]
+			   venueName:[venueDict objectForKey:@"name"]];
+	} else {
+		[self clearVenue];
+	}
+	
 	[super showWindow:sender];
+
+	[NSApp activateIgnoringOtherApps:YES];
+	[[self window] makeKeyAndOrderFront:self];	
 }
 
 - (void)setVenueId:(NSString *)aVenueId venueName:(NSString *)venueName
@@ -131,6 +132,8 @@
 	
 	[venueId release];
 	venueId = [aVenueId retain];	
+
+	[self updateCheckboxes];
 }
 
 - (void)clearVenue
@@ -140,6 +143,33 @@
 	
 	[venueField setStringValue:@""];	
 	[venueField setEnabled:YES];
+	
+	[self updateCheckboxes];
+}
+
+
+- (void)updateCheckboxes
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	BOOL tellFriends  = [[defaults objectForKey:@"tellFriends"] boolValue];
+	BOOL tellTwitter  = [[defaults objectForKey:@"tellTwitter"] boolValue];
+	BOOL tellFacebook = [[defaults objectForKey:@"tellFacebook"] boolValue];
+	
+	FoursquareXAppDelegate *appDelegate = (FoursquareXAppDelegate *)[NSApp delegate];
+	[twitterCheck setEnabled:[appDelegate hasTwitter]];
+	[facebookCheck setEnabled:[appDelegate hasFacebook]];
+	
+	if ([appDelegate hasTwitter])
+		[twitterCheck setState:((tellTwitter) ? NSOnState : NSOffState)];
+	else
+		[twitterCheck setState:NSOffState];
+	
+	if ([appDelegate hasFacebook])
+		[facebookCheck setState:((tellFacebook) ? NSOnState : NSOffState)];
+	else
+		[facebookCheck setState:NSOffState];
+	
+	[friendsCheck setState:((tellFriends) ? NSOnState : NSOffState)];
 }
 
 @end

@@ -47,8 +47,8 @@ typedef void(^FoursquareCallback)(id result, NSError *error);
 + (void)checkinAtVenueId:(NSString *)venueId 
 			   venueName:(NSString *)venueName 
 				   shout:(NSString *)shout 
-			 showFriends:(BOOL)showFriends 
-			   sendTweet:(BOOL)sendTweet
+			 tellFriends:(BOOL)showFriends 
+			 tellTwitter:(BOOL)sendTweet
 			tellFacebook:(BOOL)tellFacebook
 				latitude:(NSString *)geolat
 			   longitude:(NSString *)geolong
