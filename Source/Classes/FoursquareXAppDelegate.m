@@ -17,6 +17,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#import <CoreWLAN/CoreWLAN.h>
+
 #import "FoursquareXAppDelegate.h"
 #import "Foursquare.h"
 #import "FoursquareUpdater.h"
@@ -27,6 +29,7 @@
 #import "NSArray-Blocks.h"
 #import "DockIcon.h"
 #import "NSAlertAdditions.h"
+#import "PFMoveApplication.h"
 
 @interface FoursquareTester : Foursquare
 @end
@@ -72,10 +75,6 @@
 		
 		[GrowlApplicationBridge setGrowlDelegate:self];
 		
-		NSArray *regExes = [NSArray arrayWithObject:@"State:/Network/Interface/.*/AirPort"];
-		systemConfigNotificationManager = [IXSCNotificationManager new];
-        [systemConfigNotificationManager setObservedKeys:nil regExes:regExes];
-		
 		quickCheckinMenuItems = [[NSMutableArray alloc] init];
 		
 		hasTwitter = YES;
@@ -88,12 +87,12 @@
 {
 	[statusItem release];
 	[quickCheckinMenuItems release];
-	[systemConfigNotificationManager release];
 	[lastFriendUpdate release];
 	[lastVenueUpdate release];
 	[lastSuggestion release];
 	[myUserId release];
 	[currentCheckin release];
+	[wifiInterface release];
 	
 	[super dealloc];
 }
@@ -213,14 +212,7 @@
 
 - (void)airportChanged:(NSNotification *)notification 
 {
-	NSDictionary *dict = [notification userInfo];
-	
-	NSString *ssid  = [dict objectForKey:@"SSID_STR"];
-	NSData   *bssid = [dict objectForKey:@"BSSID"];
-	
-	NSLog(@"Airport Changed! %@ (%@)", ssid, [bssid stringWithHexBytes]);
-	
-	// We may have just woken up from sleep, so update checkin.
+	NSLog(@"Airport changed!");
 	[timer fire];
 }
 
@@ -579,11 +571,12 @@
 	[statusItem setAlternateImage:altImage];
 	
 	// Listen for WiFi events
-	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-	[center addObserver:self
-			   selector:@selector(airportChanged:) 
-				   name:@"State:/Network/Interface/en1/AirPort"	
-				 object:systemConfigNotificationManager];
+	// NOTE: Due to strange undocumented reasons, without a reference to an interface objects notifications don't work.
+	wifiInterface = [[CWInterface interface] retain];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(airportChanged:) name:kCWSSIDDidChangeNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(airportChanged:) name:kCWBSSIDDidChangeNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(airportChanged:) name:kCWLinkDidChangeNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(airportChanged:) name:kCWPowerDidChangeNotification object:nil];	
 	
 	// Start update timer
 	timer = [NSTimer scheduledTimerWithTimeInterval:300 

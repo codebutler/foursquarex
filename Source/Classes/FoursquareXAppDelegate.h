@@ -20,11 +20,11 @@
 #import <Cocoa/Cocoa.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <CoreLocation/CoreLocation.h>
+#import <CoreWLAN/CoreWLAN.h>
 
 #import <HTTPRiot/HTTPRiot.h> 
 #import <Growl/Growl.h>
 
-#import "IXSCNotificationManager.h"
 #import "NSArray-Blocks.h"
 
 #import "MainWindowController.h"
@@ -67,7 +67,6 @@ typedef void(^AuthCallback)(BOOL success);
 	
 	NSStatusItem *statusItem;
 	
-	IXSCNotificationManager *systemConfigNotificationManager;
 	NSTimer *timer;
 	NSDate *lastFriendUpdate;
 	NSDate *lastVenueUpdate;
@@ -79,6 +78,8 @@ typedef void(^AuthCallback)(BOOL success);
 	
 	BOOL hasTwitter;
 	BOOL hasFacebook;
+	
+	CWInterface *wifiInterface;
 }
 
 - (IBAction)showMainWindow:(id)sender;

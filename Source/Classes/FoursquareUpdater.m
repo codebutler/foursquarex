@@ -21,6 +21,7 @@
 #import "Foursquare.h"
 #import "NSDate+RFC2822.h"
 #import "NSArray-Blocks.h"
+#import <CoreWLAN/CoreWLAN.h>
 
 @interface FoursquareUpdater (PrivateAPI)
 - (void)updateLocation;
@@ -61,6 +62,25 @@
 		NSLog(@"Refresh already in progress.");
 		return;
 	}
+	
+	BOOL foundAirport = NO;
+	NSArray *ifaces = [CWInterface supportedInterfaces];
+	for (NSString *name in ifaces) {
+		CWInterface *iface = [CWInterface interfaceWithName:name];
+		if ([iface power] == 1) {
+			foundAirport = YES;
+			break;
+		}
+	}
+		
+	if (!foundAirport) {
+		NSString *errMsg = @"Your Airport must be turned on to use FoursquareX.";
+		NSDictionary *info = [NSDictionary dictionaryWithObject:errMsg forKey:NSLocalizedDescriptionKey];
+		NSError *error = [NSError errorWithDomain:@"FoursquareX" code:1 userInfo:info];
+		[self handleError:error withResult:nil forTask:nil];
+		return;
+	}
+		
 	
 	refreshing = YES;
 	
