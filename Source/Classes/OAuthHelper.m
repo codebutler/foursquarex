@@ -104,23 +104,28 @@
 	NSString *signature = [self createSignature:baseString consumerSecret:secret];
 	[dict setObject:signature forKey:@"oauth_signature"];
 	
-	return dict;
+	return [dict autorelease];
 }
 
 + (NSString *)generateTimestamp {
-	return [[NSString stringWithFormat:@"%d", time(NULL)] retain];
+	return [NSString stringWithFormat:@"%d", time(NULL)];
 }
 
 + (NSString *)generateNonce {
 	CFUUIDRef uuidObj = CFUUIDCreate(nil);
+	
 	NSString *uuidString = (NSString*)CFUUIDCreateString(nil, uuidObj);
 	CFRelease(uuidObj);
-	return [uuidString autorelease];	
+	
+	NSString *copy = [NSString stringWithString:uuidString];
+	CFRelease(uuidString);
+	
+	return copy;
 }
 
 + (NSString *)createParamString:(NSDictionary *)params
 {
-	NSMutableArray *paramArray = [NSMutableArray new];
+	NSMutableArray *paramArray = [[NSMutableArray new] autorelease];
 	for (id key in params) {
 		id val = [params objectForKey:key];
 		[paramArray addObject:[NSString stringWithFormat:@"%@=%@", [key URLEncodedString], [val URLEncodedString]]];
@@ -136,7 +141,7 @@
     unsigned char result[20];
 	CCHmac(kCCHmacAlgSHA1, [secretData bytes], [secretData length], [clearTextData bytes], [clearTextData length], result);
     
-	NSData *hmac = [[NSData alloc] initWithBytes:result length:sizeof(result)];
+	NSData *hmac = [[[NSData alloc] initWithBytes:result length:sizeof(result)] autorelease];
 		
 	return [hmac base64Encoding];
 }

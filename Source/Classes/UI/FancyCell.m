@@ -92,9 +92,9 @@
 		CGFloat width = cellFrame.size.width - x - badgeWidth - 6;
 		NSRect rect = NSMakeRect(x, cellFrame.origin.y, width, cellFrame.size.height);
 		if ([item isGroup]) {
-			NSMutableDictionary *groupTextAttributes = [primaryTextAttributes mutableCopy];
+			NSMutableDictionary *groupTextAttributes = [[primaryTextAttributes mutableCopy] autorelease];
 			[groupTextAttributes setValue:secondaryColor forKey:NSForegroundColorAttributeName];
-			NSShadow *textShadow = [NSShadow alloc];
+			NSShadow *textShadow = [[NSShadow alloc] autorelease];
 			[textShadow setShadowOffset:NSMakeSize(0,-1)];
 			[textShadow setShadowBlurRadius:1.0];
 			[textShadow setShadowColor:[NSColor colorWithDeviceWhite:1 alpha:1.0]];			
@@ -198,7 +198,7 @@ static int BADGE_TEXT_SMALL = 20;
 		
         [[NSColor colorWithCalibratedRed:.53 green:.60 blue:.74 alpha:1.0] set];
         [badgePath fill];
-        NSDictionary *dict = [[NSMutableDictionary alloc] init];
+        NSDictionary *dict = [[[NSMutableDictionary alloc] init] autorelease];
         [dict setValue:[NSFont boldSystemFontOfSize:11] forKey:NSFontAttributeName];
         [dict setValue:[NSNumber numberWithFloat:-.25] forKey:NSKernAttributeName];
         [dict setValue:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
@@ -209,7 +209,7 @@ static int BADGE_TEXT_SMALL = 20;
         // The row is selected and the window is in focus.
         [[NSColor whiteColor] set];
         [badgePath fill];
-        NSDictionary *dict = [[NSMutableDictionary alloc] init];
+        NSDictionary *dict = [[[NSMutableDictionary alloc] init] autorelease];
         [dict setValue:[NSFont boldSystemFontOfSize:11] forKey:NSFontAttributeName];
         [dict setValue:[NSNumber numberWithFloat:-.25] forKey:NSKernAttributeName];
         [dict setValue:[NSColor alternateSelectedControlColor] forKey:NSForegroundColorAttributeName];
@@ -220,7 +220,7 @@ static int BADGE_TEXT_SMALL = 20;
         // The row is not selected and the window is not in focus.
         [[NSColor disabledControlTextColor] set];
         [badgePath fill];
-        NSDictionary *dict = [[NSMutableDictionary alloc] init];
+        NSDictionary *dict = [[[NSMutableDictionary alloc] init] autorelease];
         [dict setValue:[NSFont boldSystemFontOfSize:11] forKey:NSFontAttributeName];
         [dict setValue:[NSNumber numberWithFloat:-.25] forKey:NSKernAttributeName];
         [dict setValue:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
@@ -231,7 +231,7 @@ static int BADGE_TEXT_SMALL = 20;
         // The row is selected and the window is not in focus.
         [[NSColor whiteColor] set];
         [badgePath fill];
-        NSDictionary *dict = [[NSMutableDictionary alloc] init];
+        NSDictionary *dict = [[[NSMutableDictionary alloc] init] autorelease];
         [dict setValue:[NSFont boldSystemFontOfSize:11] forKey:NSFontAttributeName];
         [dict setValue:[NSNumber numberWithFloat:-.25] forKey:NSKernAttributeName];
         [dict setValue:[NSColor disabledControlTextColor] forKey:NSForegroundColorAttributeName];
